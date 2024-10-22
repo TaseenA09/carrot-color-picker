@@ -3,11 +3,7 @@
 import os
 import json
 
-outputFile = "../cachedData.json"
-
-os.chdir("/")
-
-print(os.listdir("../"))
+outputFile = "./cachedData.json"
 
 def checkFiles(fileToCheck):
     filesGotten = []

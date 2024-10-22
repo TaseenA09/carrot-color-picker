@@ -1,14 +1,14 @@
 {
     "name": "Carrot Color Picker",
     "short_name": "CrtClrPkr",
-    "start_url": "/index.html",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#2C343B",
     "theme_color": "#101010",
-    "id": "/index.html",
+    "id": "./index.html",
     "icons": [
     {
-      "src": "/icons/icon.png",
+      "src": "./icons/icon.png",
       "type": "image/png",
       "sizes": "270x270"
     }
