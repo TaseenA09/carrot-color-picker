@@ -1,4 +1,4 @@
-importScripts('/third_party/workbox/workbox-v7.1.0/workbox-sw.js');
+importScripts('./third_party/workbox/workbox-v7.1.0/workbox-sw.js');
 
 // import {build, files} from '$service-worker';
 

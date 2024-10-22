@@ -1,5 +1,5 @@
-import Color from '/color.js-main/color.js';
-import { clamp } from '/color.js-main/src/util.js';
+import Color from './color.js-main/color.js';
+import { clamp } from './color.js-main/src/util.js';
 
 var CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value
 
