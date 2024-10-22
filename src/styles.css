@@ -1,0 +1,426 @@
+body {
+    background-color: #2C343B;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 275px;
+    min-width: 300px;
+    overflow: hidden;
+    transition: background 200ms;
+}
+
+@font-face {
+    font-family: 'jetbrains';
+    src: url('/fonts/JetBrainsMono[wght].ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: 'jetbrains', sans-serif;
+    color: #718292;
+}
+
+.centered {
+    text-align: center;
+}
+
+.small-font {
+    font-size: 0.75em;
+}
+
+#titleBar {
+    -webkit-app-region: drag;
+    -webkit-user-select: none;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 3px;
+    background: #101010;
+    font-weight: bolder;
+}
+
+.contentBox {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box; 
+     
+    width: 100%; 
+    height: calc(45% - 30px); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+
+    gap: 6px;
+    z-index: 15;
+}
+
+.optionsTop {
+    box-sizing: border-box; 
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.sliders {
+    width: 100%; 
+    height: 55%; 
+    display: flex;
+    justify-content:center;
+    flex-grow: 1;
+    align-content: center;
+    z-index: 1;
+}
+
+.sliderContainer {
+    height: 25%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 6px;
+    justify-content: space-between;
+    box-sizing: border-box; 
+}
+
+.slider {
+    -webkit-user-select: none;
+    user-select: none;
+    height: 25px;
+    width: 100%;
+    -webkit-appearance: none; 
+    appearance: none;
+    background: #000;
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    outline: #00000050 solid 2px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 32px;
+    width: 10px;
+    border-radius: 3px;
+    border: #ffffff50 solid 1.5px;
+    cursor: pointer;
+    outline: #00000050 solid 2px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: height 100ms,  border-radius 100ms;
+}
+
+.slider::-webkit-slider-runnable-track {
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 0;
+}
+
+.hueSlider::-webkit-slider-thumb {
+    background: var(--hue-color);
+}
+
+
+.satSlider::-webkit-slider-thumb {
+    background: var(--sat-color);
+}
+
+.vorlSlider::-webkit-slider-thumb {
+    background: var(--vorl-color);
+}
+
+
+input[type="number"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4em;
+    box-sizing: border-box;
+    border:#232A30 solid 1px;
+    background: #232A30;
+    outline: #232A30 solid 0px;
+    border-radius: 2px 0 0 2px;
+    z-index: 2;
+    transition: outline 50ms;
+}
+
+input[type="number"]:focus {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: #2C9CEF solid 2px;
+    
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+    -webkit-appearance: none;
+    background: #2C343B;
+    opacity: 1;
+    margin: 0;
+}
+
+.numberInputUnit {
+    display: flex;
+    flex-direction: row;
+}
+
+.valueControlUnit {
+    display: flex; 
+    flex-direction: column;
+}
+
+.valueControl {
+    -webkit-appearance: none;
+    appearance: none;
+    height: calc(50%);
+    width: 2em;
+    border: none;
+    background: #3F4A53;
+    border-left: #232A30 solid 1px;
+    font-size:  50%;
+    padding: 0;
+     /* font-family: Arial, Helvetica, sans-serif; */
+    font-weight: bold;
+    margin: 0;
+    
+    text-overflow: clip;
+}
+
+.valueControlUp {
+    border-bottom: #232A30 solid 1px;
+    border-radius: 0 3px 0 0;
+}
+
+.valueControl:hover {
+    background: #5D6B78;
+    transition: 15ms;
+}
+
+.valueControl:active {
+    background: #323b43;
+}
+
+.valueControlDown {
+    border-radius: 0 0 3px 0;
+    border-top: #232A30 solid 1px;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    height: 36px;
+    border-radius: 3px;
+    transition: 50ms cubic-bezier(0,1,0.5,1);
+}
+
+.optionsBox {
+    flex-direction: row; 
+    display: flex; 
+    gap: 6px;
+    padding-left: 3px;
+}
+
+.option {
+    justify-content: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    background: #3F4A53;
+    outline: #232A30 solid 1px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #90A6BA;
+    transition: background-color 100ms,color 50ms, border 200ms;
+    padding: 3px;
+}
+
+.option:hover {
+    background: #5D6B78;
+}
+
+.option:active{
+    background-color: #161B1F;
+    outline: #0E1115 solid 1px;
+}
+
+.option input {
+    display: none;
+}
+
+.option:has(input:checked) {
+    background-color: #232A30;
+    outline: #3F4A53 solid 1px;
+    color: #C7E4FF;
+    display: block;
+}
+
+.colorButton {
+    justify-content: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    background: #3F4A53;
+    outline: #232A30 solid 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    height: calc(100% - 9px);
+    width: 1.75em;
+    color: #90A6BA;
+    transition: background-color 50ms,color 25ms, border 100ms;
+    padding: 3px;
+}
+
+.colorButton:hover {
+    background: #5D6B78;
+}
+
+.colorButton:active{
+    background-color: #161B1F;
+    outline: #0E1115 solid 1px;
+}
+
+
+.colorButton svg {
+    height: 100%;
+    transition: margin 100ms;
+}
+
+.colorButton .locked {
+    display: none;
+}
+
+.colorButton:has(input:checked) {
+    background-color: #232A30;
+    outline: #3F4A53 solid 1px;
+    color: #C7E4FF;
+}
+
+.colorButton:has(input:checked) .unlocked {
+    display: none;
+}
+
+.colorButton:has(input:checked) .locked {
+    display: inline;
+}
+
+
+.colorButton:has(input:checked):hover{
+    background-color: #161B1F;
+    outline: #0E1115 solid 1px;
+}
+
+
+.colorButton:has(input:checked):active{
+    background: #5D6B78;
+}
+
+
+
+.colorButton input[type=checkbox] {
+    display: none;
+}
+
+.colorButton input[type=button] {
+    display: none;
+}
+
+.colorBox {
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 2px;
+}
+
+.hexInput {
+    align-self: flex-end;
+    text-align: end;
+    background: #00000060;
+    height: 1.1em;
+    width: 4.2em;
+    font-size: xx-large;
+    color: #fff;
+    border-radius: 0.2em 0px 0px 0px;
+    transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
+    border: none;
+    border-left: 0px solid #2C9CEF; 
+    border-top: 0px solid #2C9CEF;  
+}
+
+.hexInput:focus {
+    -webkit-appearance: none;
+    appearance: none;
+    border-top: 3px solid #2C9CEF;  
+    border-radius: calc(0.2em + 3px) 0px 0px 0px;
+    transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
+    border-left: 3px solid #2C9CEF; 
+    outline: none;
+}
+
+.sliderBox {
+    max-height: 250px;
+    max-width: 600px;
+    outline: #2C343B solid 10px;
+    border-radius: 15px;
+    box-sizing: border-box; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+    margin: auto;
+    background-color: #2C343B;
+}
+
+@media (min-width: calc(600px + 80px)) and (min-height: calc(45vh + 250px + 80px)) {
+    body {
+        background-color: #232A30;
+    }
+}
+
+.copyButton {
+    justify-content: center;
+    box-sizing: border-box;
+    display: flex;
+    height: 25px;
+    width: 25px;
+    margin-right: calc(11px + 4.2em); 
+    background: #00000060;
+    outline: none;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    padding: 3;
+    cursor: pointer;
+    font-size: xx-large;
+    transition: background-color 50ms,color 25ms, outline 100ms;
+    position: absolute;
+    outline: #2C9CEF solid 0px;
+}
+
+.copyButton:hover {
+    background: #00000050;
+    transition: background-color 50ms,color 25ms, outline 50ms;
+    outline: #2C9CEF solid 3px;
+}
+
+.copyButton svg {
+    height: 100%;
+}
+
+.copyButton:active{
+    transition: background-color 50ms,color 25ms, outline 50ms;
+    background: #000000a0;
+}
+
+.copyButton input[type=button] {
+    display: none;
+}

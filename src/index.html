@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrot Color Picker</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/x-icon" href="icons/icon.png">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="titleBar" style="height:30px; box-sizing: border-box;  padding: 6px;;"><svg
+            xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#718292">
+            <path
+                d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z" />
+        </svg> Carrot Picker</div>
+
+    <div class="contentBox">
+        <div class="optionsTop" style="z-index: 1;">
+            <div class="colorBox" id="colorOutput">
+                <label for="copyButton" class="copyButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px"
+                        fill="#fff">
+                        <path
+                            d="M364.62-280q-27.62 0-46.12-18.5Q300-317 300-344.62v-430.76q0-27.62 18.5-46.12Q337-840 364.62-840h310.76q27.62 0 46.12 18.5Q740-803 740-775.38v430.76q0 27.62-18.5 46.12Q703-280 675.38-280H364.62Zm0-40h310.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H364.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v430.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69Zm-120 160q-27.62 0-46.12-18.5Q180-197 180-224.61v-450.77q0-8.54 5.73-14.27t14.27-5.73q8.54 0 14.27 5.73t5.73 14.27v450.77q0 9.23 7.69 16.92 7.69 7.69 16.93 7.69h330.76q8.54 0 14.27 5.73t5.73 14.27q0 8.54-5.73 14.27T575.38-160H244.62ZM340-320v-480 480Z" />
+                    </svg>
+
+                    <input name="copyButton" type="button" id="copyButton" />
+                </label>
+                <input maxlength="7" minlength="6" type="text" id="hexOutput" class="hexInput" />
+            </div>
+        </div>
+    </div>
+
+    <div class="sliders">
+        <div class="sliderBox">
+            <div class="sliderContainer">
+                <div class="optionsBox">
+                    <label class="option" for="okhsl"> <input checked type="radio" id="okhsl" name="colorOption"
+                            value="okhsl"> OKHSL</label>
+                    <label class="option" for="okhsv"> <input type="radio" id="okhsv" name="colorOption" value="okhsv">
+                        OKHSV</label>
+                    <label class="option" for="hsv"> <input type="radio" id="hsv" name="colorOption" value="hsv">
+                        HSV</label>
+                    <label class="option" for="hsl"> <input type="radio" id="hsl" name="colorOption" value="hsl">
+                        HSL</label>
+                </div>
+
+                <div style="display: flex; flex-direction: row; gap: 6px;">
+                    <label for="randomButton" class="colorButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px"
+                            fill="#90A6BA">
+                            <path
+                                d="M482.04-187.27q-122.9 0-208.22-85.15T188.5-479.94q0-122.37 85.32-207.58 85.32-85.21 208.22-85.21 69.65 0 131.46 31.04t102.23 88.19v-91.35q0-11.44 8.13-19.66t19.77-8.22q11.64 0 19.85 8.22t8.21 19.66v173.62q0 14.25-9.99 24.24-9.99 9.99-24.24 9.99H563.85q-11.64 0-19.76-8.23-8.13-8.22-8.13-19.86 0-11.45 8.13-19.66 8.12-8.21 19.76-8.21h126.07q-31.3-57.62-86.82-90.71-55.52-33.1-121.06-33.1-98.89 0-168.23 69.04-69.35 69.04-69.35 167.73 0 98.69 69.35 167.73 69.34 69.04 168.23 69.04 68.92 0 126.21-36.37 57.29-36.36 86.33-97.13 5.07-10.42 15.46-14.37 10.38-3.94 21.35-.28 11.42 4.03 15.99 14.73 4.58 10.69-.5 21.11-35.84 76.58-107.02 122.42-71.17 45.85-157.82 45.85Z" />
+                        </svg>
+
+                        <input name="randomButton" type="button" id="randomButton" />
+                    </label>
+
+                    <label for="colorLockToggle" class="colorButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="locked" height="50px" viewBox="0 -960 960 960"
+                            width="50px" fill="#C7E4FF">
+                            <path
+                                d="M264.62-120q-26.85 0-45.74-18.88Q200-157.77 200-184.62v-350.76q0-26.85 18.88-45.74Q237.77-600 264.62-600H320v-80q0-66.85 46.58-113.42Q413.15-840 480-840t113.42 46.58Q640-746.85 640-680v80h55.38q26.85 0 45.74 18.88Q760-562.23 760-535.38v350.76q0 26.85-18.88 45.74Q722.23-120 695.38-120H264.62Zm0-40h430.76q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-350.76q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H264.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v350.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92ZM480-300q25.31 0 42.65-17.35Q540-334.69 540-360t-17.35-42.65Q505.31-420 480-420t-42.65 17.35Q420-385.31 420-360t17.35 42.65Q454.69-300 480-300ZM360-600h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" />
+                        </svg>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="unlocked" height="50px" viewBox="0 -960 960 960"
+                            width="50px" fill="#90A6BA">
+                            <path
+                                d="M267.08-163.08h425.84q10.77 0 17.7-6.92 6.92-6.92 6.92-17.69v-347.08q0-10.77-6.92-17.69-6.93-6.92-17.7-6.92H267.08q-10.77 0-17.7 6.92-6.92 6.92-6.92 17.69v347.08q0 10.77 6.92 17.69 6.93 6.92 17.7 6.92Zm212.86-140q24.51 0 41.36-16.78 16.85-16.79 16.85-41.31 0-24.52-16.78-41.37-16.79-16.84-41.31-16.84-24.51 0-41.36 16.78-16.85 16.79-16.85 41.3 0 24.52 16.78 41.37 16.79 16.85 41.31 16.85Zm-237.48 140v-396.3 396.3Zm24.62 36.93q-25.58 0-43.56-17.98-17.98-17.99-17.98-43.56v-347.08q0-25.58 17.98-43.56 17.98-17.98 43.56-17.98h294.77v-78.54q0-65.34 45.28-110.63 45.29-45.29 110.41-45.29 65.11 0 110.4 45.29 45.29 45.29 45.29 110.4h-36.92q0-49.48-34.62-84.13-34.62-34.64-84.08-34.64t-84.15 34.69q-34.69 34.69-34.69 84.24v78.61h94.15q25.58 0 43.56 17.98 17.98 17.98 17.98 43.56v347.08q0 25.57-17.98 43.56-17.98 17.98-43.56 17.98H267.08Z" />
+                        </svg>
+
+                        <input name="colorLockToggle" type="checkbox" id="colorLockToggle" />
+                    </label>
+                </div>
+            </div>
+            <div class="sliderContainer">
+                <input step="0.01" type="range" max="360" id="range1" class="slider hueSlider">
+                <div class="numberInputUnit">
+                    <input name="hueOutput" type="number" min="0" max="360" id="hueOutput">
+                    <div class="valueControlUnit"">
+                        <input type="button" onclick="hueOutput.stepUp(); hueOutput.value = parseFloat(hueOutput.value).toFixed(2); hueOutput.dispatchEvent(new Event('input'))" value="▲" class="valueControl valueControlUp">
+                        <input type="button" onclick="hueOutput.stepDown(); hueOutput.value = parseFloat(hueOutput.value).toFixed(2); hueOutput.dispatchEvent(new Event('input'))" value="▼" class="valueControl valueControlDown">
+                    </div>
+                </div>
+            </div>
+            <div class="sliderContainer">
+                <input step="0.01" type="range" max="100" id="range2" class="slider satSlider">
+                <div class="numberInputUnit">
+                    <input name="satOutput" type="number" min="0" max="100" id="satOutput">
+                    <div class="valueControlUnit"">
+                        <input type="button" onclick="satOutput.stepUp(); satOutput.value = parseFloat(satOutput.value).toFixed(1); satOutput.dispatchEvent(new Event('input'))" value="▲" class="valueControl valueControlUp">
+                        <input type="button" onclick="satOutput.stepDown(); satOutput.value = parseFloat(satOutput.value).toFixed(1); satOutput.dispatchEvent(new Event('input'))" value="▼" class="valueControl valueControlDown">
+                    </div>
+                </div>
+            </div>
+            <div class="sliderContainer">
+                <input step="0.01" type="range" max="100" id="range3" class="slider vorlSlider">
+                <div class="numberInputUnit">
+                    <input name="vorlOutput" type="number" min="0" max="100" id="vorlOutput">
+                    <div class="valueControlUnit"">
+                        <input type="button" onclick="vorlOutput.stepUp(); vorlOutput.value = parseFloat(vorlOutput.value).toFixed(1); vorlOutput.dispatchEvent(new Event('input'))" value="▲" class="valueControl valueControlUp">
+                        <input type="button" onclick="vorlOutput.stepDown(); vorlOutput.value = parseFloat(vorlOutput.value).toFixed(1); vorlOutput.dispatchEvent(new Event('input'))" value="▼" class="valueControl valueControlDown">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+        }
+    </script>
+
+     
+
+    <script type="module" src="script.js" defer></script>
+</body>
+
+</html>
