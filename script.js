@@ -1,14 +1,21 @@
 import Color from './third_party/color.js-main/color.js';
 import { clamp } from './third_party/color.js-main/src/util.js';
 
+var satVorlSwitch = 1
+
 var CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value
+
+if (CurrentColorSpace == "hsv" || CurrentColorSpace == "hsl") {
+    satVorlSwitch = 100
+} else {
+    satVorlSwitch = 1
+}
 
 var hue = Math.floor(Math.random() * 361);
 var sat = Math.floor(Math.random() * 100)/100;
 var vorl = Math.floor(Math.random() * 100)/100;
 
 var locked = false
-var satVorlSwitch = 1
 
 var colorOutput = document.getElementById("colorOutput")
 
@@ -242,6 +249,8 @@ randomButton.onclick = function() {
     updateEveryThing()
 }
 
+updateEveryThing()
+
 document.addEventListener('DOMContentLoaded', updateEveryThing);
 
 const copyButton = document.getElementById('copyButton');
@@ -251,3 +260,5 @@ copyButton.onclick = function() {
 }
 
 window.onresize = () => {updateSatSliderBackground(); updateHueSliderBackground(); updateVorLSliderBackground();}
+
+CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value
