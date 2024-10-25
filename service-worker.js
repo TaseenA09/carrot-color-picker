@@ -188,9 +188,6 @@ const precache_list = [
 }));
   
 workbox.precaching.precacheAndRoute(precache_list,
-    {
-        directoryIndex: null,
-      }
 );
 
 

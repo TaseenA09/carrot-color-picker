@@ -14,24 +14,24 @@
 </head>
 
 <body>
-    <div id="titleBar" style="height:30px; box-sizing: border-box;  padding: 6px;;"><svg
-            xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#718292">
-            <path
-                d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z" />
-        </svg> Carrot Picker</div>
+    <div id="titleBar">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#647b85">
+            <path d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z" />
+        </svg> Carrot Picker
+    </div>
 
     <div class="contentBox">
         <div class="optionsTop" style="z-index: 1;">
             <div class="colorBox" id="colorOutput">
                 <label for="copyButton" class="copyButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px"
-                        fill="#fff">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" style="fill: #fff;">
                         <path
                             d="M364.62-280q-27.62 0-46.12-18.5Q300-317 300-344.62v-430.76q0-27.62 18.5-46.12Q337-840 364.62-840h310.76q27.62 0 46.12 18.5Q740-803 740-775.38v430.76q0 27.62-18.5 46.12Q703-280 675.38-280H364.62Zm0-40h310.76q9.24 0 16.93-7.69 7.69-7.69 7.69-16.93v-430.76q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H364.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v430.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69Zm-120 160q-27.62 0-46.12-18.5Q180-197 180-224.61v-450.77q0-8.54 5.73-14.27t14.27-5.73q8.54 0 14.27 5.73t5.73 14.27v450.77q0 9.23 7.69 16.92 7.69 7.69 16.93 7.69h330.76q8.54 0 14.27 5.73t5.73 14.27q0 8.54-5.73 14.27T575.38-160H244.62ZM340-320v-480 480Z" />
                     </svg>
 
                     <input name="copyButton" type="button" id="copyButton" />
                 </label>
+                
                 <input maxlength="7" minlength="6" type="text" id="hexOutput" class="hexInput" />
             </div>
         </div>

@@ -1,14 +1,21 @@
 import Color from './third_party/color.js-main/color.js';
-import { clamp } from './third_party/color.js-main/src/util.js';
+import { clamp, isNone } from './third_party/color.js-main/src/util.js';
+
+var satVorlSwitch = 1
 
 var CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value
+
+if (CurrentColorSpace == "hsv" || CurrentColorSpace == "hsl") {
+    satVorlSwitch = 100
+} else {
+    satVorlSwitch = 1
+}
 
 var hue = Math.floor(Math.random() * 361);
 var sat = Math.floor(Math.random() * 100)/100;
 var vorl = Math.floor(Math.random() * 100)/100;
 
 var locked = false
-var satVorlSwitch = 1
 
 var colorOutput = document.getElementById("colorOutput")
 
@@ -126,14 +133,6 @@ function updateSlidersFromValues() {
     slider3.value = vorl*(100)
 }
 
-function updateOutputNumber() {
-    updateHueSliderBackground();
-    updateSatSliderBackground();
-    updateVorLSliderBackground();
-    updateColor();
-    updateThumbColors();
-}
-
 function updateEveryThing() {
     updateOutputNumber();
     updateSlider3();
@@ -191,6 +190,18 @@ function handleChange() {
     updateEveryThing()
 }
 
+function updateOutputNumber() {
+    hue = (output.value/slider.max)*360;
+    sat = output2.value/slider2.max;
+    vorl = output3.value/slider3.max;
+
+    updateHueSliderBackground();
+    updateSatSliderBackground();
+    updateVorLSliderBackground();
+    updateColor();
+    updateThumbColors();
+}
+
 output.oninput = function() {
     slider.value = output.value
     updateOutputNumber()
@@ -242,6 +253,8 @@ randomButton.onclick = function() {
     updateEveryThing()
 }
 
+updateEveryThing()
+
 document.addEventListener('DOMContentLoaded', updateEveryThing);
 
 const copyButton = document.getElementById('copyButton');
@@ -251,3 +264,5 @@ copyButton.onclick = function() {
 }
 
 window.onresize = () => {updateSatSliderBackground(); updateHueSliderBackground(); updateVorLSliderBackground();}
+
+CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value
