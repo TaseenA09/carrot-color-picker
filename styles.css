@@ -205,16 +205,20 @@ body {
 
 input[type="number"] {
     appearance: none;
-    width: calc(var(--font-size-reg) +1px);
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+
     font-size: var(--font-size-reg);
     box-sizing: border-box;
-    border:#232A30 solid 1px;
+    width: calc((var(--font-size-reg) * 4) + 6px);
+    border:#232A30 solid 2px;
     background: #232A30;
     outline: #232A30 solid 0px;
     border-radius: 2px 0 0 2px;
+    padding: 2px;
     z-index: 2;
     transition: outline 50ms , border 100ms;
-    -webkit-appearance: none;
 }
 
 
@@ -222,8 +226,9 @@ input[type="number"]:focus {
     -webkit-appearance: none;
     appearance: none;
     -moz-appearance: textfield;
+
     outline: #2C9CEF solid 2px;
-    border: #91919150 solid 1.5px;
+    border: #91919150 solid 2px;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -426,22 +431,62 @@ input[type=number]::-webkit-outer-spin-button {
     background: #00000060;
     font-size: var(--font-size-large);
     width: 4.15em;
+    height: var(--font-size-large);
     color: #fff;
-    border-radius: 0.2em 0px 0px 0px;
+    border-radius: calc(0.2em + 3px) 0px 0px 0px;
     transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
     border: none;
-    border-left: 0px solid #2C9CEF; 
-    border-top: 0px solid #2C9CEF;  
+    padding: none;
+    border-left: 3px solid #2C9CEF00; 
+    border-top: 3px solid #2C9CEF00;  
 }
 
 .hexInput:focus {
     -webkit-appearance: none;
     appearance: none;
     border-top: 3px solid #2C9CEF;  
-    border-radius: calc(0.2em + 3px) 0px 0px 0px;
     transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
     border-left: 3px solid #2C9CEF; 
     outline: none;
+}
+
+.copyButton {
+    justify-content: center;
+    box-sizing: border-box;
+    display: flex;
+    height: calc(var(--font-size-reg) * 2);
+    width: calc(var(--font-size-reg) * 2);
+
+    background: #00000060;
+    outline: none;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    padding: 3;
+    cursor: pointer;
+
+    transition: background-color 50ms,color 25ms, outline 100ms;
+
+    margin-right: 8px;
+    outline: #2C9CEF solid 0px;
+}
+
+.copyButton:hover {
+    background: #00000050;
+    transition: background-color 50ms,color 25ms, outline 50ms;
+    outline: #2C9CEF solid 3px;
+}
+
+.copyButton svg {
+    height: 100%;
+}
+
+.copyButton:active{
+    transition: background-color 50ms,color 25ms, outline 50ms;
+    background: #000000a0;
+}
+
+.copyButton input[type=button] {
+    display: none;
 }
 
 .sliderBox {
@@ -466,42 +511,4 @@ input[type=number]::-webkit-outer-spin-button {
     body {
         background-color: var(--background);
     }
-}
-
-.copyButton {
-    justify-content: center;
-    box-sizing: border-box;
-    display: flex;
-    height: 25px;
-    width: 25px;
-    margin-right: calc(11px + (var(--font-size-large) * 4.15)); 
-    background: #00000060;
-    outline: none;
-    margin-bottom: 4px;
-    border-radius: 8px;
-    padding: 3;
-    cursor: pointer;
-    font-size: xx-large;
-    transition: background-color 50ms,color 25ms, outline 100ms;
-    position: absolute;
-    outline: #2C9CEF solid 0px;
-}
-
-.copyButton:hover {
-    background: #00000050;
-    transition: background-color 50ms,color 25ms, outline 50ms;
-    outline: #2C9CEF solid 3px;
-}
-
-.copyButton svg {
-    height: 100%;
-}
-
-.copyButton:active{
-    transition: background-color 50ms,color 25ms, outline 50ms;
-    background: #000000a0;
-}
-
-.copyButton input[type=button] {
-    display: none;
 }
