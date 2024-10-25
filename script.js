@@ -1,5 +1,5 @@
 import Color from './third_party/color.js-main/color.js';
-import { clamp } from './third_party/color.js-main/src/util.js';
+import { clamp, isNone } from './third_party/color.js-main/src/util.js';
 
 var satVorlSwitch = 1
 
@@ -133,14 +133,6 @@ function updateSlidersFromValues() {
     slider3.value = vorl*(100)
 }
 
-function updateOutputNumber() {
-    updateHueSliderBackground();
-    updateSatSliderBackground();
-    updateVorLSliderBackground();
-    updateColor();
-    updateThumbColors();
-}
-
 function updateEveryThing() {
     updateOutputNumber();
     updateSlider3();
@@ -196,6 +188,18 @@ function handleChange() {
 
     updateSlidersFromValues()
     updateEveryThing()
+}
+
+function updateOutputNumber() {
+    hue = (output.value/slider.max)*360;
+    sat = output2.value/slider2.max;
+    vorl = output3.value/slider3.max;
+
+    updateHueSliderBackground();
+    updateSatSliderBackground();
+    updateVorLSliderBackground();
+    updateColor();
+    updateThumbColors();
 }
 
 output.oninput = function() {
