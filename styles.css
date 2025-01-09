@@ -8,7 +8,7 @@
 
     --titlebar: #1d272b;
     --titlebar-size: 32px;
-    
+
     --text-normal: #647b85;
     --font-size-reg: 12px;
     --font-size-large: 36px;
@@ -58,19 +58,19 @@ body {
     height: var(--titlebar-size);
     background: var(--titlebar);
     font-weight: bolder;
-    box-sizing: border-box;  
+    box-sizing: border-box;
     padding: 6px;
 }
 
 .contentBox {
     -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;    
-    box-sizing: border-box; 
-     
-    width: 100%; 
-    height: calc(45% - 30px); 
-    display: flex; 
-    justify-content: center; 
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: calc(45% - 30px);
+    display: flex;
+    justify-content: center;
     align-items: center;
 
     gap: 6px;
@@ -78,17 +78,17 @@ body {
 }
 
 .optionsTop {
-    box-sizing: border-box; 
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
     z-index: 2;
 }
 
 .sliders {
-    width: 100%; 
-    height: 55%; 
+    width: 100%;
+    height: 55%;
     display: flex;
-    justify-content:center;
+    justify-content: center;
     flex-grow: 1;
     align-content: center;
     z-index: 1;
@@ -102,105 +102,7 @@ body {
     flex-direction: row;
     gap: 6px;
     justify-content: space-between;
-    box-sizing: border-box; 
-}
-
-.slider {
-    z-index: 0;
-    user-select: none;
-    height: 25px;
-    width: 100%;
-    -webkit-user-select: none;
-    -webkit-appearance: none; 
-    appearance: none;
-    background: #000;
-    outline: none;
-    cursor: pointer;
-    border-radius: 6px;
-    outline: #00000050 solid 2px;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 32px;
-    width: 10px;
-    border-radius: 3px;
-    border: #ffffff50 solid 1.5px;
-    cursor: pointer;
-    outline: #00000050 solid 2px;
-    z-index: 3;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: height 100ms,  border-radius 100ms;
-}
-
-.slider::-moz-range-thumb {
-    z-index: 3;
-    appearance: none;
-    height: 32px;
-    width: 10px;
-    border-radius: 3px;
-    border: #ffffff50 solid 1.5px;
-    cursor: pointer;
-    outline: #00000050 solid 2px;
-    -webkit-user-select: none;
-    user-select: none;
-    transition: height 100ms,  border-radius 100ms;
-}
-
-.slider::-webkit-slider-runnable-track {
-    z-index: 0;
-    -moz-user-select: none;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-.slider::-moz-range-track {
-    z-index: 0;
-    -moz-user-select: none;
-    user-select: none;
-    -webkit-user-select: none;
-    outline: #00000050 solid 2px;
-    height: 100%;
-    border-radius: 5px;
-}
-
-.slider:hover::-webkit-slider-thumb {
-    height: 36px;
-    border-radius: 3px;
-    transition: 50ms cubic-bezier(0,1,0.5,1);
-}
-
-.slider:hover::-moz-range-thumb {
-    height: 36px;
-    border-radius: 3px;
-    transition: 50ms cubic-bezier(0,1,0.5,1);
-}
-
-.hueSlider::-webkit-slider-thumb {
-    background: var(--hue-color);
-}
-
-.hueSlider::-moz-range-thumb {
-    background: var(--hue-color);
-}
-
-
-.satSlider::-webkit-slider-thumb {
-    background: var(--sat-color);
-}
-
-.satSlider::-moz-range-thumb   {
-    background: var(--sat-color);
-}
-
-.vorlSlider::-webkit-slider-thumb {
-    background: var(--vorl-color);
-}
-
-.vorlSlider::-moz-range-thumb {
-    background: var(--vorl-color);
+    box-sizing: border-box;
 }
 
 input[type="number"] {
@@ -212,13 +114,13 @@ input[type="number"] {
     font-size: var(--font-size-reg);
     box-sizing: border-box;
     width: calc((var(--font-size-reg) * 4) + 6px);
-    border:#232A30 solid 2px;
+    border: #232A30 solid 2px;
     background: #232A30;
     outline: #232A30 solid 0px;
     border-radius: 2px 0 0 2px;
     padding: 2px;
     z-index: 2;
-    transition: outline 50ms , border 100ms;
+    transition: outline 50ms, border 100ms;
 }
 
 
@@ -231,8 +133,8 @@ input[type="number"]:focus {
     border: #91919150 solid 2px;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     background: #2C343B;
     opacity: 1;
@@ -240,10 +142,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 @-moz-document url-prefix() {
-    .slider {
-        outline: #00000050 solid 0px;
-    }
-
     input[type="number"] {
         appearance: none;
         -moz-appearance: textfield;
@@ -254,11 +152,10 @@ input[type=number]::-webkit-outer-spin-button {
         appearance: none;
         -webkit-appearance: none;
         background: #2C343B;
-           opacity: 1;
-            margin: 0;
-        }
+        opacity: 1;
+        margin: 0;
+    }
 }
-
 
 .numberInputUnit {
     display: flex;
@@ -266,7 +163,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .valueControlUnit {
-    display: flex; 
+    display: flex;
     flex-direction: column;
 }
 
@@ -278,12 +175,12 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
     background: #3F4A53;
     border-left: #232A30 solid 1px;
-    font-size:  50%;
+    font-size: 50%;
     padding: 0;
-     /* font-family: Arial, Helvetica, sans-serif; */
+    /* font-family: Arial, Helvetica, sans-serif; */
     font-weight: bold;
     margin: 0;
-    
+
     text-overflow: clip;
 }
 
@@ -307,31 +204,38 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .optionsBox {
-    flex-direction: row; 
-    display: flex; 
+    flex-direction: row;
+    display: flex;
     gap: 6px;
     padding-left: 3px;
+    padding: 6px;
+    border-radius: 3px;
+    margin: 6px;
+    background: #3F4A53;
+    border: 1px solid #ffffff20;
 }
 
 .option {
+    min-width: 60px;
     justify-content: center;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     background: #3F4A53;
     outline: #232A30 solid 1px;
-    border-radius: 6px;
+    border-radius: 3px;
     cursor: pointer;
     color: #90A6BA;
-    transition: background-color 100ms,color 50ms, border 200ms;
+    transition: background-color 100ms, color 50ms, border 200ms;
     padding: 3px;
+    border: 1px solid #ffffff20;
 }
 
 .option:hover {
     background: #5D6B78;
 }
 
-.option:active{
+.option:active {
     background-color: #161B1F;
     outline: #0E1115 solid 1px;
 }
@@ -342,9 +246,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .option:has(input:checked) {
     background-color: #232A30;
-    outline: #3F4A53 solid 1px;
+    outline: #00000020 solid 1px;
     color: #C7E4FF;
-    display: block;
+    border: 1px solid #00000020;
 }
 
 .colorButton {
@@ -354,12 +258,12 @@ input[type=number]::-webkit-outer-spin-button {
     flex-direction: row;
     background: #3F4A53;
     outline: #232A30 solid 1px;
-    border-radius: 8px;
+    border-radius: 16px;
     cursor: pointer;
     height: calc(100% - 9px);
     width: calc(var(--font-size-reg) * 2.25);
     color: #90A6BA;
-    transition: background-color 50ms,color 25ms, border 100ms;
+    transition: background-color 50ms, color 25ms, border 100ms;
     padding: 3px;
 }
 
@@ -367,7 +271,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: #5D6B78;
 }
 
-.colorButton:active{
+.colorButton:active {
     background-color: #161B1F;
     outline: #0E1115 solid 1px;
 }
@@ -397,13 +301,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-.colorButton:has(input:checked):hover{
+.colorButton:has(input:checked):hover {
     background-color: #161B1F;
     outline: #0E1115 solid 1px;
 }
 
 
-.colorButton:has(input:checked):active{
+.colorButton:has(input:checked):active {
     background: #5D6B78;
 }
 
@@ -433,20 +337,19 @@ input[type=number]::-webkit-outer-spin-button {
     width: 4.15em;
     height: var(--font-size-large);
     color: #fff;
-    border-radius: calc(0.2em + 3px) 0px 0px 0px;
-    transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
+    transition: background-color 25ms, color 15ms, border 50ms, border-radius 50ms;
     border: none;
     padding: none;
-    border-left: 3px solid #2C9CEF00; 
-    border-top: 3px solid #2C9CEF00;  
+    border-left: 3px solid #2C9CEF00;
+    border-top: 3px solid #2C9CEF00;
 }
 
 .hexInput:focus {
     -webkit-appearance: none;
     appearance: none;
-    border-top: 3px solid #2C9CEF;  
-    transition: background-color 25ms,color 15ms, border 50ms, border-radius 50ms;
-    border-left: 3px solid #2C9CEF; 
+    border-top: 3px solid #2C9CEF;
+    transition: background-color 25ms, color 15ms, border 50ms, border-radius 50ms;
+    border-left: 3px solid #2C9CEF;
     outline: none;
 }
 
@@ -460,11 +363,11 @@ input[type=number]::-webkit-outer-spin-button {
     background: #00000060;
     outline: none;
     margin-bottom: 4px;
-    border-radius: 8px;
+    border-radius: 3px;
     padding: 3;
     cursor: pointer;
 
-    transition: background-color 50ms,color 25ms, outline 100ms;
+    transition: background-color 50ms, color 25ms, outline 100ms;
 
     margin-right: 8px;
     outline: #2C9CEF solid 0px;
@@ -472,7 +375,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .copyButton:hover {
     background: #00000050;
-    transition: background-color 50ms,color 25ms, outline 50ms;
+    transition: background-color 50ms, color 25ms, outline 50ms;
     outline: #2C9CEF solid 3px;
 }
 
@@ -480,8 +383,8 @@ input[type=number]::-webkit-outer-spin-button {
     height: 100%;
 }
 
-.copyButton:active{
-    transition: background-color 50ms,color 25ms, outline 50ms;
+.copyButton:active {
+    transition: background-color 50ms, color 25ms, outline 50ms;
     background: #000000a0;
 }
 
@@ -490,15 +393,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .sliderBox {
-    max-height: 250px;
+    border: 1px solid #ffffff20;
+    outline: none;
+    max-height: 400px;
     max-width: 600px;
-    outline: var(--foreground) solid 10px;
-    border-radius: 15px;
-    box-sizing: border-box; 
-    width: 100%; 
-    height: 100%; 
-    display: flex; 
-    justify-content: center; 
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 6px;
@@ -510,5 +413,9 @@ input[type=number]::-webkit-outer-spin-button {
 @media (min-width: calc(600px + 80px)) and (min-height: calc(45vh + 250px + 80px)) {
     body {
         background-color: var(--background);
+    }
+
+    .sliderBox {
+        outline: #232A30 solid 1px;
     }
 }
