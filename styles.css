@@ -453,14 +453,16 @@ input[type=number]::-webkit-outer-spin-button {
 
 .hexHoverEffect::before {
     content: "copied";
+    opacity: 0;
     position: absolute;
-}
-
-.hexEntryCSS:active>.hexHoverEffect::before {
-    opacity: 1;
 }
 
 .hexEntryCSS:active>.hexHoverEffect {
     font-size: 0.95rem;
-    opacity: 0.6;
+    opacity: 0;
+}
+
+
+.hexEntryCSS:active>.hexHoverEffect::before {
+    opacity: 1 !important;
 }
