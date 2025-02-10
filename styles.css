@@ -43,6 +43,7 @@ body {
     user-select: none;
     font-family: 'jetbrains', sans-serif;
     color: var(--text-normal);
+    -webkit-tap-highlight-color: transparent;
 }
 
 #titleBar {
@@ -95,7 +96,7 @@ body {
 }
 
 .sliderContainer {
-    height: 25%;
+    height: 8%;
     width: 100%;
     display: flex;
     align-items: center;
@@ -113,7 +114,8 @@ input[type="number"] {
 
     font-size: var(--font-size-reg);
     box-sizing: border-box;
-    width: calc((var(--font-size-reg) * 4) + 6px);
+    width: fit-content;
+    max-width: 360px;
     border: #232A30 solid 2px;
     background: #232A30;
     outline: #232A30 solid 0px;
@@ -206,13 +208,9 @@ input[type=number]::-webkit-outer-spin-button {
 .optionsBox {
     flex-direction: row;
     display: flex;
-    gap: 6px;
-    padding-left: 3px;
-    padding: 6px;
-    border-radius: 3px;
-    margin: 6px;
-    background: #3F4A53;
-    border: 1px solid #ffffff20;
+    gap: 1px;
+    margin: 16px;
+    padding: 0px;
 }
 
 .option {
@@ -221,14 +219,22 @@ input[type=number]::-webkit-outer-spin-button {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    background: #3F4A53;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), #3F4A53;
     outline: #232A30 solid 1px;
-    border-radius: 3px;
+    border-radius: 0px;
     cursor: pointer;
     color: #90A6BA;
     transition: background-color 100ms, color 50ms, border 200ms;
     padding: 3px;
     border: 1px solid #ffffff20;
+}
+
+.option:last-of-type {
+    border-radius: 0px 3px 3px 0px;
+}
+
+.option:first-of-type {
+    border-radius: 3px 0px 0px 3px;
 }
 
 .option:hover {
@@ -395,8 +401,8 @@ input[type=number]::-webkit-outer-spin-button {
 .sliderBox {
     border: 1px solid #ffffff20;
     outline: none;
-    max-height: 400px;
-    max-width: 600px;
+    max-height: 600px;
+    max-width: 1000px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -418,4 +424,43 @@ input[type=number]::-webkit-outer-spin-button {
     .sliderBox {
         outline: #232A30 solid 1px;
     }
+}
+
+@media (hover: none) {
+    * {
+        pointer-events: auto;
+    }
+}
+
+.hexEntryCSS {
+    height: 1.25rem;
+    width: 5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hexHoverEffect {
+    transition: 50ms;
+    margin: auto;
+}
+
+.hexEntryCSS:hover>.hexHoverEffect {
+    margin: auto;
+    font-size: 0.85rem;
+}
+
+.hexHoverEffect::before {
+    content: "copied";
+    position: absolute;
+}
+
+.hexEntryCSS:active>.hexHoverEffect::before {
+    opacity: 1;
+}
+
+.hexEntryCSS:active>.hexHoverEffect {
+    font-size: 0.95rem;
+    opacity: 0.6;
 }

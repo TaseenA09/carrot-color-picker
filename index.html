@@ -18,7 +18,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#647b85">
             <path
                 d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z" />
-        </svg> Carrot Picker
+        </svg> Carrot Color Picker
     </div>
 
     <div class="contentBox">
@@ -82,8 +82,110 @@
                 </div>
             </div>
 
-            <canvas id="colorwheel" width="200" height="200">
-            </canvas>
+
+            <div style="display: flex; align-items: center; flex-direction: row;  width: 100%;">
+
+                <div style="display: flex; align-items: start; align-self: flex-start; flex-direction: column;">
+                    <div width="200" height="200"
+                        style="height: 200px; width: 200px; display:inline-block; align-self:flex-start;">
+                        <canvas id="colorwheel" width="200" height="200"
+                            style="border-radius:100%; position: absolute; z-index: 1;">
+                        </canvas>
+
+
+                        <canvas width="200" height="200" id="colorwheelcursor"
+                            style="height: 200px; width: 200px; display:inline-block; position: absolute; pointer-events: none; z-index: 15;">
+                        </canvas>
+
+                        <div width="200" height="200" style=" position: absolute; z-index: 1; pointer-events: none; height: 200px; width: 200px; display: flex;
+  justify-content: center;
+  align-items: center;">
+                            <canvas width="200" height="200" id="modifierbox"
+                                style="z-index: 15; margin: auto; pointer-events: fill;">
+                            </canvas>
+                        </div>
+
+                        <div width="200" height="200" style=" position: absolute; z-index: 16; pointer-events: none; height: 200px; width: 200px; display: flex;
+  justify-content: center;
+  align-items: center;">
+                            <canvas width="200" height="200" id="modifierboxcursor"
+                                style="z-index: 21; margin: auto; pointer-events: fill; touch-action: manipulation;">
+                            </canvas>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%;">
+                        <div class="sliderContainer">
+                            <label for="hueOutput">Hue</label>
+                            <div class="numberInputUnit">
+                                <input name="hueOutput" type="number" min="0" max="360" id="hueOutput" />
+                                <div class="valueControlUnit">
+                                    <input type="button"
+                                        onclick="hueOutput.stepUp(); hueOutput.dispatchEvent(new Event('input'))"
+                                        value="▲" class="valueControl valueControlUp" />
+                                    <input type="button"
+                                        onclick="hueOutput.stepDown(); hueOutput.dispatchEvent(new Event('input'))"
+                                        value="▼" class="valueControl valueControlDown" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sliderContainer">
+                            <label for="satOutput">Saturation</label>
+                            <div class="numberInputUnit">
+                                <input name="satOutput" type="number" min="0" max="100" id="satOutput" />
+                                <div class="valueControlUnit">
+                                    <input type="button"
+                                        onclick="satOutput.stepUp(); satOutput.dispatchEvent(new Event('input'))"
+                                        value="▲" class="valueControl valueControlUp" />
+                                    <input type="button"
+                                        onclick="satOutput.stepDown(); satOutput.dispatchEvent(new Event('input'))"
+                                        value="▼" class="valueControl valueControlDown" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sliderContainer">
+                            <label for="vorlOutput">Value</label>
+                            <div class="numberInputUnit">
+                                <input name="vorlOutput" type="number" min="0" max="100" id="vorlOutput" />
+                                <div class="valueControlUnit">
+                                    <input type="button"
+                                        onclick="vorlOutput.stepUp(); vorlOutput.dispatchEvent(new Event('input'))"
+                                        value="▲" class="valueControl valueControlUp" />
+                                    <input type="button"
+                                        onclick="vorlOutput.stepDown();vorlOutput.dispatchEvent(new Event('input'))"
+                                        value="▼" class="valueControl valueControlDown" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div
+                    style="padding: 2px; width: 75%; height: 100%; display: flex; flex-direction: row; box-sizing: border-box;">
+                    <div style="height: 100%; width:25%; display: flex; flex-direction: column;">
+                        <div style="padding: 1px; height: calc(100% /3); width: 100%; box-sizing: border-box;">
+                            <label for="huePalette" style="height: 5%;">Hue</label>
+                            <input name="huePalette" id="huePalette" type="text"
+                                style="width: 100%; height: 60%; box-sizing: border-box;">
+                        </div>
+
+                        <div style="padding: 1px; height: calc(100% /3); width: 100%; box-sizing: border-box;">
+                            <input name="satPalette" id="satPalette" type="text"
+                                style="width: 100%; height: 100%; box-sizing: border-box;">
+                        </div>
+
+                        <div style="padding: 1px; height: calc(100% /3); width: 100%; box-sizing: border-box;">
+                            <input type="text" id="vlPalette"
+                                style="width: 100%; height: 100%; box-sizing: border-box;">
+                        </div>
+                    </div>
+
+                    <div id="colorPalette"
+                        style="width: 75%; height: 100%; display: flex; gap: 3px; flex-direction: row;  overflow-y: auto; flex-wrap: wrap; max-height: 300px; align-content: flex-start; align-self: flex-start; align-items: flex-start;">
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
