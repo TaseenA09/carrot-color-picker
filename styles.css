@@ -444,25 +444,45 @@ input[type=number]::-webkit-outer-spin-button {
 .hexHoverEffect {
     transition: 50ms;
     margin: auto;
+    width: 100%;
+    height: 100%;
 }
 
 .hexEntryCSS:hover>.hexHoverEffect {
     margin: auto;
     font-size: 0.85rem;
-}
-
-.hexHoverEffect::before {
-    content: "copied";
     opacity: 0;
-    position: absolute;
 }
 
 .hexEntryCSS:active>.hexHoverEffect {
     font-size: 0.95rem;
-    opacity: 0;
 }
 
+.hexHoverEffectCopy {
+    color: white;
+    transition: 50ms;
+    opacity: 0;
+    width: 100%;
+    margin: auto;
+    height: 100%;
+    position: relative;
+    margin-left: -100%;
+}
 
-.hexEntryCSS:active>.hexHoverEffect::before {
-    opacity: 1 !important;
+.hexEntryCSS:hover>.hexHoverEffectCopy {
+    opacity: 1;
+}
+
+.hexEntryCSS:active>.hexHoverEffectCopy {
+    color: blue;
+}
+
+.paletteInput {
+    box-sizing: border-box;
+    resize: none;
+    background: #313131;
+    color: white;
+    border: none;
+    outline: black 1px solid;
+    border-radius: 1px;
 }

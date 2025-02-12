@@ -370,11 +370,6 @@ onmousemove = function(event) {
 
 document.addEventListener("touchmove", onmousemove)
 
-
-
-
-
-
 const huePaletteInput = document.getElementById("huePalette");
 const satPaletteInput = document.getElementById("satPalette");
 const vlPaletteInput = document.getElementById("vlPalette");
@@ -393,13 +388,22 @@ function createColorEntry(h, s, vl) {
 
   entryText.classList.add("hexHoverEffect");
 
-  entry.appendChild(entryText);
-  entry.style.backgroundColor = requiredColor;
-  entry.style.padding = "2px";
+  let entryCopyIcon = document.createElement("p");
+  entryCopyIcon.innerHTML = "";
+  entryCopyIcon.style.padding = "2";
+  entryCopyIcon.style.zIndex = "2";
 
+  entryCopyIcon.style.textShadow = entryText.style.textShadow;
+
+  entryCopyIcon.classList.add("hexHoverEffectCopy");
   entryText.style.margin = "0";
 
   entry.classList.add("hexEntryCSS");
+
+  entry.appendChild(entryText);
+  entry.appendChild(entryCopyIcon);
+  entry.style.backgroundColor = requiredColor;
+  entry.style.padding = "2px";
 
   return entry;
 }
@@ -410,10 +414,6 @@ function GetPalette() {
   let xOutput = (vlPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
 
   colorPalette.innerHTML = '';
-
-  if (hueOutput.length <= 0 || yOutput.length <= 0 || xOutput.length <= 0) {
-    return
-  };
 
   for (let h = 0; h < hueOutput.length; h++) {
     let hueBox = document.createElement("div");
@@ -444,14 +444,30 @@ huePaletteInput.oninput = GetPalette;
 satPaletteInput.oninput = GetPalette;
 vlPaletteInput.oninput = GetPalette;
 
+document.getElementById("randomButton").addEventListener("click", function() {
+  HueAngle = Math.random() * 360;
+  Saturation = Math.random();
+  ValueOrLightness = Math.random();
+
+  DrawColorWheel();
+  DrawModifierBox();
+  UpdateColorOutput();
+
+  DrawCursor();
+  DrawModifierBoxCursor();
+
+  GetPalette();
+})
 
 document.querySelectorAll('input[name="colorOption"]').forEach(option => {
   option.addEventListener('change', (event) => {
     const convertedColorSpace = color.convertColorSpace(CurrentColorSpace, HueAngle, Saturation, ValueOrLightness, event.target.value);
 
-    HueAngle = convertedColorSpace[0] * 360;
-    Saturation = convertedColorSpace[1];
-    ValueOrLightness = convertedColorSpace[2];
+    if (document.getElementById("colorLockToggle").checked == false) {
+      HueAngle = convertedColorSpace[0] * 360;
+      Saturation = convertedColorSpace[1];
+      ValueOrLightness = convertedColorSpace[2];
+    }
 
     CurrentColorSpace = event.target.value;
 
