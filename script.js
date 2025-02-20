@@ -1,4 +1,4 @@
-import { color, arrayTohex, clamp } from "./colorFunctions/main.js";
+import { color, arrayTohex, clamp, hexToArray } from "./colorFunctions/main.js";
 
 let CurrentColorSpace = document.querySelector('input[name="colorOption"]:checked').value;
 
@@ -17,6 +17,8 @@ const CursorCanvas = document.getElementById("colorwheelcursor");
 const CursorWidth = 10;
 
 const ColorOutput = document.getElementById("colorOutput");
+
+const HexOutput = document.getElementById("hexOutput");
 
 var HueAngle = Math.random() * 360;
 var HueAngleCache = -1;
@@ -191,7 +193,9 @@ function DrawModifierBoxCursor() {
 }
 
 function UpdateColorOutput() {
-  ColorOutput.style.backgroundColor = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, Saturation, ValueOrLightness));
+  const requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, Saturation, ValueOrLightness));
+  ColorOutput.style.backgroundColor = requiredColor;
+  HexOutput.value = requiredColor;
 }
 
 function Update() {
@@ -260,59 +264,15 @@ hueTextOutput.oninput = function() {
   HueAngle = clamp(hueTextOutput.value, 0, 360);
   Update();
 }
-
-hueTextOutput.addEventListener("blur", (event) => {
-  HueAngle = clamp(hueTextOutput.value, 0, 360);
-  hueTextOutput.value = Math.round(HueAngle);
-  Update();
-});
-
-hueTextOutput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    HueAngle = clamp(hueTextOutput.value, 0, 360);
-    hueTextOutput.value = Math.round(HueAngle);
-    Update();
-  }
-});
-
 vorlTextOutput.oninput = function() {
   ValueOrLightness = clamp(vorlTextOutput.value, 0, 100) / 100;
   Update();
 }
-
-vorlTextOutput.addEventListener("blur", (event) => {
-  ValueOrLightness = clamp(vorlTextOutput.value, 0, 100) / 100;
-  vorlTextOutput.value = Math.round(ValueOrLightness * 100);
-  Update();
-});
-
-vorlTextOutput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    ValueOrLightness = clamp(vorlTextOutput.value, 0, 100) / 100;
-    vorlTextOutput.value = Math.round(ValueOrLightness);
-    Update();
-  }
-});
-
-
 satTextOutput.oninput = function() {
   Saturation = clamp(satTextOutput.value, 0, 100) / 100;
   Update();
 }
 
-satTextOutput.addEventListener("blur", (event) => {
-  Saturation = clamp(satTextOutput.value, 0, 100) / 100;
-  satTextOutput.value = Math.round(Saturation * 100);
-  Update();
-});
-
-satTextOutput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    Saturation = clamp(satTextOutput.value, 0, 100) / 100;
-    satTextOutput.value = Math.round(Saturation);
-    Update();
-  }
-});
 
 var MouseDownBox = false;
 
@@ -376,9 +336,12 @@ const vlPaletteInput = document.getElementById("vlPalette");
 
 const colorPalette = document.getElementById("colorPalette");
 
-function createColorEntry(h, s, vl) {
+function createColorEntry(h, s, vl, c, r) {
   let entry = document.createElement("div");
   let entryText = document.createElement("p");
+
+  var c = c == undefined ? '' : c.toString();
+  var r = r == undefined ? '' : r.toString();
 
   let requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](h, s / 100, vl / 100));
 
@@ -389,7 +352,9 @@ function createColorEntry(h, s, vl) {
   entryText.classList.add("hexHoverEffect");
 
   let entryCopyIcon = document.createElement("p");
-  entryCopyIcon.innerHTML = "";
+  entryCopyIcon.innerHTML = c.length + r.length <= 3 ? "Copy" + " " + c + "|" + r : c + "|" + r;
+
+
   entryCopyIcon.style.padding = "2";
   entryCopyIcon.style.zIndex = "2";
 
@@ -404,6 +369,10 @@ function createColorEntry(h, s, vl) {
   entry.appendChild(entryCopyIcon);
   entry.style.backgroundColor = requiredColor;
   entry.style.padding = "2px";
+
+  entry.onclick = function() {
+    navigator.clipboard.writeText(requiredColor);
+  }
 
   return entry;
 }
@@ -424,17 +393,17 @@ function GetPalette() {
 
     hueBox.style.border = "1px solid #fff";
 
-    hueBox.appendChild(createColorEntry(hueOutput[h], 100, 100));
+    hueBox.appendChild(createColorEntry(hueOutput[h], 100, 100, 0, 0));
 
     for (let x = 0; x < xOutput.length; x++) {
-      hueBox.appendChild(createColorEntry(hueOutput[h], 100, xOutput[x]));
+      hueBox.appendChild(createColorEntry(hueOutput[h], 100, xOutput[x], 0, x + 1));
     }
 
     for (let y = 0; y < yOutput.length; y++) {
-      hueBox.appendChild(createColorEntry(hueOutput[h], yOutput[y], 100));
+      hueBox.appendChild(createColorEntry(hueOutput[h], yOutput[y], 100, y + 1, 0));
 
       for (let x = 0; x < xOutput.length; x++) {
-        hueBox.appendChild(createColorEntry(hueOutput[h], yOutput[y], xOutput[x]));
+        hueBox.appendChild(createColorEntry(hueOutput[h], yOutput[y], xOutput[x], y + 1, x + 1));
       }
     }
   }
@@ -459,6 +428,16 @@ document.getElementById("randomButton").addEventListener("click", function() {
   GetPalette();
 })
 
+HexOutput.addEventListener("change", function() {
+  let requiredColor = color.toFunctions[CurrentColorSpace](...hexToArray(HexOutput.value));
+
+  HueAngle = requiredColor[0] * 360;
+  Saturation = requiredColor[1];
+  ValueOrLightness = requiredColor[2];
+
+  Update();
+})
+
 document.querySelectorAll('input[name="colorOption"]').forEach(option => {
   option.addEventListener('change', (event) => {
     const convertedColorSpace = color.convertColorSpace(CurrentColorSpace, HueAngle, Saturation, ValueOrLightness, event.target.value);
@@ -478,13 +457,16 @@ document.querySelectorAll('input[name="colorOption"]').forEach(option => {
     DrawColorWheel();
     DrawModifierBox();
     UpdateColorOutput();
-
     DrawCursor();
     DrawModifierBoxCursor();
 
     GetPalette();
   })
 })
+
+document.getElementById("copyButton").onclick = function() {
+  navigator.clipboard.writeText(HexOutput.value);
+}
 
 Update();
 

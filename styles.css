@@ -462,6 +462,7 @@ input[type=number]::-webkit-outer-spin-button {
     color: white;
     transition: 50ms;
     opacity: 0;
+    font-size: 0.9rem;
     width: 100%;
     margin: auto;
     height: 100%;
