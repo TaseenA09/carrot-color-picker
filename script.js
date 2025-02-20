@@ -343,15 +343,7 @@ function createColorEntry(h, s, vl, c, r) {
   var c = c == undefined ? '' : c.toString();
   var r = r == undefined ? '' : r.toString();
 
-  const isOs = [
-    'iPad Simulator',
-    'iPhone Simulator',
-    'iPod Simulator',
-    'iPad',
-    'iPhone',
-    'iPod'
-  ].includes(navigator.platform)
-    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  const isOs = ("ontouchend" in document)
 
   let requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](h, s / 100, vl / 100));
 
