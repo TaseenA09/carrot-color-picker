@@ -343,36 +343,54 @@ function createColorEntry(h, s, vl, c, r) {
   var c = c == undefined ? '' : c.toString();
   var r = r == undefined ? '' : r.toString();
 
+  const isOs = [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+
   let requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](h, s / 100, vl / 100));
 
   entryText.innerHTML = requiredColor;
   entryText.style.color = "white";
   entryText.style.textShadow = "0 0 2px black, 1px 1px 0 black,-1px -1px black,-1px 1px black,1px -1px black ";
 
-  entryText.classList.add("hexHoverEffect");
+  let entryCopyIcon;
+  if (!isOs) {
+    entryCopyIcon = document.createElement("p");
+    entryCopyIcon.innerHTML = c.length + r.length <= 3 ? "Copy" + " " + c + "|" + r : c + "|" + r;
 
-  let entryCopyIcon = document.createElement("p");
-  entryCopyIcon.innerHTML = c.length + r.length <= 3 ? "Copy" + " " + c + "|" + r : c + "|" + r;
+    entryCopyIcon.style.padding = "2";
+    entryCopyIcon.style.zIndex = "2";
 
+    entryCopyIcon.style.textShadow = entryText.style.textShadow;
 
-  entryCopyIcon.style.padding = "2";
-  entryCopyIcon.style.zIndex = "2";
+    entryCopyIcon.classList.add("hexHoverEffectCopy");
+    entryText.classList.add("hexHoverEffect");
+  } else {
+    entryText.style.margin = "auto";
+    entryText.style.width = "100%";
+    entryText.style.height = "100%";
+    entryText.style.userSelect = "all";
+    entryText.style.webkitUserSelect = "all";
+  }
 
-  entryCopyIcon.style.textShadow = entryText.style.textShadow;
-
-  entryCopyIcon.classList.add("hexHoverEffectCopy");
   entryText.style.margin = "0";
-
   entry.classList.add("hexEntryCSS");
-
   entry.appendChild(entryText);
-  entry.appendChild(entryCopyIcon);
+
+  if (!isOs) {
+    entry.appendChild(entryCopyIcon);
+  }
+
   entry.style.backgroundColor = requiredColor;
   entry.style.padding = "2px";
 
-  entry.onclick = function() {
-    navigator.clipboard.writeText(requiredColor);
-  }
+  entry.onclick = () => navigator.clipboard.writeText(requiredColor);
 
   return entry;
 }
