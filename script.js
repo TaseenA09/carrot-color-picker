@@ -460,7 +460,7 @@ function createColorEntry(h, s, vl, c, r) {
 function GetPalette() {
   let hueOutput = (huePaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 360));
   let yOutput = (satPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
-  let xOutput = (VLPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
+  let xOutput = (VLPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100))
 
   colorPalette.innerHTML = '';
 
@@ -570,3 +570,152 @@ onresize = () => {
 };
 onload = Update;
 addEventListener("DOMContentLoaded", Update);
+
+const DownloadButton = document.getElementById("downloadButton");
+const IndexOrValueMode = document.getElementById("indexButton");
+
+function CreatePaletteJSON() {
+  const hueOutput = (huePaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 360));
+  const yOutput = (satPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
+  const xOutput = (VLPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100))
+
+  function getRequiredColor(h, s, vl) {
+    return arrayTohex(color.fromFunctions[CurrentColorSpace](h, s / 100, vl / 100));
+  }
+
+  const indexMode = IndexOrValueMode.checked;
+
+  let data = {
+    type: CurrentColorSpace,
+    formatting: indexMode ? "index" : "value"
+  };
+
+
+  for (let h = 0; h < hueOutput.length; h++) {
+    data[hueOutput[h]] = {}
+
+    if (indexMode == true) {
+      data[hueOutput[h]][0] = {}
+      data[hueOutput[h]][0][0] = getRequiredColor(hueOutput[h], 100, 100);
+    } else {
+      data[hueOutput[h]][100] = {}
+      data[hueOutput[h]][100][100] = getRequiredColor(hueOutput[h], 100, 100);
+    }
+    for (let x = 0; x < xOutput.length; x++) {
+      if (indexMode == true) {
+        data[hueOutput[h]][0][x + 1] = getRequiredColor(hueOutput[h], 100, xOutput[x]);
+      } else {
+        data[hueOutput[h]][100][xOutput[x]] = getRequiredColor(hueOutput[h], 100, xOutput[x]);
+      }
+    }
+
+    for (let y = 0; y < yOutput.length; y++) {
+      if (indexMode == true) {
+        data[hueOutput[h]][y + 1] = {}
+        data[hueOutput[h]][y + 1][0] = getRequiredColor(hueOutput[h], yOutput[y], 100);
+      } else {
+        data[hueOutput[h]][yOutput[y]] = {}
+        data[hueOutput[h]][yOutput[y]][100] = getRequiredColor(hueOutput[h], yOutput[y], 100);
+      }
+
+      for (let x = 0; x < xOutput.length; x++) {
+        if (indexMode == true) {
+          data[hueOutput[h]][y + 1][x + 1] = getRequiredColor(hueOutput[h], yOutput[y], xOutput[x]);
+        } else {
+          data[hueOutput[h]][yOutput[y]][xOutput[x]] = getRequiredColor(hueOutput[h], yOutput[y], xOutput[x]);
+        }
+      }
+    }
+  }
+
+  return data;
+}
+
+DownloadButton.addEventListener("click", function() {
+  const json = CreatePaletteJSON();
+  const blob = new Blob([JSON.stringify(json)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "colors.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// File Processing
+
+function ProcessFile(json) {
+  if (json["type"] == undefined) {
+    return
+  }
+
+  let hue = [];
+  let saturation = [];
+  let valueorlightness = [];
+
+  for (const h in json) {
+    if (isNaN(Number(h))) {
+      continue
+    }
+
+    hue.push(h);
+    if (json["formatting"] == "value") {
+      for (const s in json[h]) {
+        if (s == "100") {
+          continue
+        }
+        saturation.push(s);
+      }
+      for (const vl in json[h][saturation[0]]) {
+        if (vl == "100") {
+          continue
+        }
+        valueorlightness.push(vl);
+      }
+    }
+  }
+
+  if (json["formatting"] == "index") {
+    for (const s in json[hue[0]]) {
+      const requiredValue = Math.round(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][s][Object.keys(json[hue[0]][s])[0]]))[1] * 100);
+      if (requiredValue == 100) {
+        continue
+      }
+      saturation.push(requiredValue);
+    }
+
+    let firstSatKey = Object.keys(json[hue[0]])[0]
+
+    for (const vl in json[hue[0]][firstSatKey]) {
+      let requiredValue = Math.round(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][firstSatKey][vl]))[2] * 100);
+
+      if (requiredValue == 100) {
+        continue
+      }
+      valueorlightness.push(requiredValue);
+    }
+  }
+
+  huePaletteInput.value = hue.join(" ");
+  satPaletteInput.value = saturation.join(" ");
+  VLPaletteInput.value = valueorlightness.join(" ");
+
+  GetPalette();
+}
+
+const ImportButton = document.getElementById("importButton");
+
+ImportButton.addEventListener("change", input => {
+  const file = input.target.files[0];
+
+  if (file.type != "application/json") {
+    return
+  }
+
+  file.text().then(content => {
+    ProcessFile(JSON.parse(content));
+  });
+});
+

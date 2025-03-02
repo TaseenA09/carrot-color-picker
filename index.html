@@ -49,6 +49,42 @@
                     <input name="PaletteButton" type="checkbox" id="PaletteButton" />
                 </label>
 
+
+                <label for="importButton" class="ColorButton">
+                    <img src="icons/import.svg">
+                    <input name="importButton" type="file" id="importButton" />
+                </label>
+
+                <div class="exportWrapper">
+                    <label for="exportButton" class="ColorButton">
+                        <img src="icons/export.svg">
+                        <input name="exportButton" type="checkbox" id="exportButton" />
+                    </label>
+
+                    <div class="exportWindow">
+                        <div class="hexOption">
+                            Use Index
+
+                            <label for="indexButton" class="ColorButton ToggleButton">
+                                <div class="ToggleButtonHandle">
+                                </div>
+                                <input name="indexButton" type="checkbox" id="indexButton" />
+                            </label>
+
+
+                            <label for="infoButton" title="Importing index saves may not be accurate"
+                                class="ColorButton infoButton">
+                                <img src="icons/warn.svg">
+                                <input name="infoButton" type="button" id="infoButton" />
+                            </label>
+                        </div>
+
+                        <label for="downloadButton" class="ColorButton downloadButton">
+                            Export
+                            <input name="downloadButton" type="button" id="downloadButton" />
+                        </label>
+                    </div>
+                </div>
                 <label for="randomButton" class="ColorButton">
                     <img src="icons/shuffle.svg">
                     <input name="randomButton" type="button" id="randomButton" />

@@ -36,6 +36,8 @@
     --Timing-Normal: 150ms;
     --Timing-Short: 50ms;
     --Timing-Shorter: 25ms;
+
+    --Transition-Normal: cubic-bezier(0, 0.7, 0.3, 1);
 }
 
 @font-face {
@@ -60,7 +62,7 @@ html {
     width: 100vw;
 
     min-height: 360px;
-    min-width: 400px;
+    min-width: 480px;
 
     margin: 0;
     padding: 0;
@@ -93,7 +95,7 @@ html {
     color: var(--Normal-Text);
     padding: none;
     border: var(--Normal-Spacing) solid var(--Normal-Background);
-    transition: var(--Timing-Normal) cubic-bezier(0, 0.7, 0.3, 1) border;
+    transition: var(--Timing-Normal) var(--Transition-Normal) border;
 }
 
 .HexInput:focus {
@@ -115,7 +117,7 @@ html {
     padding: 3;
     cursor: pointer;
 
-    transition: background var(--Timing-Short) cubic-bezier(0, 0.7, 0.3, 1);
+    transition: background var(--Timing-Short) var(--Transition-Normal);
     outline: #2C9CEF solid 0px;
 }
 
@@ -178,7 +180,7 @@ main {
     height: 100%;
     align-self: center;
     margin: auto;
-    transition: var(--Timing-Short) cubic-bezier(0, 0.7, 0.3, 1);
+    transition: var(--Timing-Short) var(--Transition-Normal);
     align-items: center;
 }
 
@@ -214,7 +216,7 @@ main {
     height: 100%;
     width: calc(var(--Font-Size-Regular) * 2.25);
     color: var(--Normal-Accent);
-    transition: var(--Timing-Shorter) cubic-bezier(0, 0.7, 0.3, 1);
+    transition: var(--Timing-Shorter) var(--Transition-Normal);
 }
 
 .icon {
@@ -256,11 +258,7 @@ main {
     background: var(--Dark-Secondary);
 }
 
-.ColorButton input[type=checkbox] {
-    display: none;
-}
-
-.ColorButton input[type=button] {
+.ColorButton input {
     display: none;
 }
 
@@ -489,8 +487,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ColorPaletteOutput {
     width: calc(100% - min(var(--Color-Palette-Input-Size), 225px));
-    height: fit-content;
-    max-height: 100%;
+    height: 100%;
     background-color: var(--Dark-Background);
     padding: var(--Normal-Spacing);
     display: flex;
@@ -607,6 +604,109 @@ input[type=number]::-webkit-outer-spin-button {
         height: calc(100% - min(var(--Color-Palette-Input-Size) / 2, 225px));
         width: 100%;
     }
+}
+
+/* Download */
+.exportWrapper {
+    position: relative;
+    align-items: end;
+    display: flex;
+    flex-direction: column;
+}
+
+.exportWindow {
+    width: fit-content;
+    background-color: var(--Light-Background);
+    padding: var(--Normal-Spacing);
+    gap: var(--Normal-Spacing);
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + var(--Normal-Spacing));
+    z-index: 1000;
+}
+
+.hexOption {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+    gap: var(--Normal-Spacing);
+    line-height: var(--Font-Size-Regular);
+    font-size: var(--Font-Size-Regular);
+    height: var(--Font-Size-Regular);
+    width: 100%;
+}
+
+.ToggleButton {
+    margin-left: calc(var(--Normal-Spacing) * 6);
+    width: calc(var(--Font-Size-Regular) * 3);
+    height: 100%;
+    background-color: var(--Normal-Secondary);
+    display: block;
+}
+
+.ToggleButtonHandle {
+    height: 100%;
+    width: 50%;
+    background-color: white;
+
+    transition: margin var(--Timing-Normal);
+}
+
+.ToggleButton:hover {
+    background: var(--Light-Secondary);
+}
+
+.ToggleButton:active {
+    background-color: var(--Dark-Secondary);
+}
+
+.ToggleButton:has(input:checked) {
+    background-color: var(--Normal-Accent);
+}
+
+.ToggleButton:has(input:checked):hover {
+    background-color: var(--Light-Accent);
+}
+
+
+.ToggleButton:has(input:checked):active {
+    background: var(--Dark-Accent);
+}
+
+
+.ToggleButton:has(input:checked) .ToggleButtonHandle {
+    margin-left: 50%;
+}
+
+.infoButton {
+    height: var(--Font-Size-Regular);
+    width: var(--Font-Size-Regular);
+    background-color: #837100;
+}
+
+.infoButton:hover {
+    height: var(--Font-Size-Regular);
+    width: var(--Font-Size-Regular);
+    background-color: #837100;
+}
+
+.infoButton:active {
+    height: var(--Font-Size-Regular);
+    width: var(--Font-Size-Regular);
+    background-color: #837100;
+}
+
+.exportWrapper:has(#exportButton:checked) .exportWindow {
+    display: flex;
+}
+
+.downloadButton {
+    color: var(--Light-Background);
+    padding: var(--Normal-Spacing);
+    width: 100%;
 }
 
 /* Footer */
