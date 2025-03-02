@@ -1,33 +1,41 @@
+/* Global */
+
 :root {
-    --background: #253035;
+    --ColorDisplay-height: 15%;
+    --Footer-height: 20px;
 
-    --foreground: #2d3a3f;
+    /* Font Sizes */
+    --Font-Size-Large: 48px;
+    --Font-Size-Regular: 14px;
 
-    --outline: #000;
-    --outline-size: 3px;
+    /* Spacing */
+    --Normal-Spacing: 4px;
 
-    --titlebar: #1d272b;
-    --titlebar-size: 32px;
+    --Normal-Border: 1px;
 
-    --text-normal: #647b85;
-    --font-size-reg: 12px;
-    --font-size-large: 36px;
-    --font-size-small: 8px;
-}
+    /* Colors */
+    --Normal-Text: #a4bac7;
 
-svg {
-    fill: var(--text-normal);
-}
+    --Normal-Background: #0c1418;
+    --Light-Background: #1e2930;
+    --Dark-Background: #040709;
 
-body {
-    background-color: var(--foreground);
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
-    min-height: 275px;
-    min-width: 300px;
-    overflow: hidden;
-    transition: background 200ms;
+    --Normal-Foreground: #626f78;
+    --Light-Foreground: #a4bac7;
+    --Dark-Foreground: #4d585f;
+
+    --Normal-Accent: #0091c9;
+    --Light-Accent: #00b9ff;
+    --Dark-Accent: #004663;
+
+    --Normal-Secondary: #ca0020;
+    --Light-Secondary: #ff002b;
+    --Dark-Secondary: #67000b;
+
+    /* Timing */
+    --Timing-Normal: 150ms;
+    --Timing-Short: 50ms;
+    --Timing-Shorter: 25ms;
 }
 
 @font-face {
@@ -38,72 +46,297 @@ body {
 }
 
 * {
+    font-family: 'jetbrains', sans-serif;
+    color: var(--Normal-Text);
+
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-    font-family: 'jetbrains', sans-serif;
-    color: var(--text-normal);
-    -webkit-tap-highlight-color: transparent;
 }
 
-#titleBar {
-    -webkit-app-region: drag;
-    -webkit-user-select: none;
-    user-select: none;
-    position: sticky;
-    top: 0;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    gap: 3px;
-    height: var(--titlebar-size);
-    background: var(--titlebar);
-    font-weight: bolder;
-    box-sizing: border-box;
-    padding: 6px;
+body,
+html {
+    height: 100vh;
+    width: 100vw;
+
+    min-height: 360px;
+    min-width: 400px;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background-color: var(--Normal-Background);
+
+    touch-action: none;
 }
 
-.contentBox {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+/* Color Output */
 
+.ColorDisplay {
+    height: var(--ColorDisplay-height);
     width: 100%;
-    height: calc(45% - 30px);
+    background-color: #333;
     display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 6px;
-    z-index: 15;
+    align-items: end;
+    justify-content: flex-end;
 }
 
-.optionsTop {
+.HexInput {
+    align-self: flex-end;
+    text-align: end;
+    background: var(--Dark-Background);
+    font-size: var(--Font-Size-Large);
+    width: 4.25em;
+    height: var(--Font-Size-Large);
+    color: var(--Normal-Text);
+    padding: none;
+    border: var(--Normal-Spacing) solid var(--Normal-Background);
+    transition: var(--Timing-Normal) cubic-bezier(0, 0.7, 0.3, 1) border;
+}
+
+.HexInput:focus {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    border: var(--Normal-Spacing) solid;
+}
+
+.CopyButton {
+    justify-content: center;
     box-sizing: border-box;
+    display: flex;
+    height: calc(var(--Font-Size-Regular) * 2);
+    width: calc(var(--Font-Size-Regular) * 2);
+
+    background: var(--Normal-Background);
+    outline: none;
+    padding: 3;
+    cursor: pointer;
+
+    transition: background var(--Timing-Short) cubic-bezier(0, 0.7, 0.3, 1);
+    outline: #2C9CEF solid 0px;
+}
+
+.CopyButton svg {
+    height: 100%;
+    background: none;
+}
+
+.CopyButton input[type=button] {
+    display: none;
+}
+
+.CopyButton:hover {
+    background: var(--Light-Background);
+}
+
+.CopyButton:active {
+    background: var(--Dark-Background);
+}
+
+/* Options */
+
+main {
+    height: calc(100% - var(--ColorDisplay-height) - var(--Footer-height));
+
+    /* Values */
+    --Options-height: 40px;
+    --Selector-width: 35%;
+}
+
+.ColorOptions {
+    display: flex;
+    justify-content: space-between;
+
+    padding: calc(var(--Normal-Spacing) * 2);
+    box-sizing: border-box;
+    height: var(--Options-height);
+    background-color: var(--Normal-Background);
+}
+
+.ColorSpaces {
+    height: 100%;
+    display: flex;
+    width: fit-content;
+}
+
+.ColorOption input {
+    display: none;
+}
+
+.ColorOption {
+    box-sizing: border-box;
+
+    display: flex;
+    color: var(--Normal-Background);
+    padding-left: calc(var(--Normal-Spacing) * 2);
+    padding-right: calc(var(--Normal-Spacing) * 2);
+    font-size: calc(var(--Options-height) / 2);
+    background: var(--Normal-Accent);
+    height: 100%;
+    align-self: center;
+    margin: auto;
+    transition: var(--Timing-Short) cubic-bezier(0, 0.7, 0.3, 1);
+    align-items: center;
+}
+
+.ColorOption:hover {
+    background: var(--Light-Accent);
+}
+
+.ColorOption:active {
+    background-color: var(--Dark-Background);
+    color: var(--Dark-Accent);
+}
+
+.ColorOption:has(input:checked) {
+    background-color: var(--Light-Background);
+    color: var(--Normal-Text);
+}
+
+/* Modifiers */
+
+.OptionsBox {
+    display: flex;
+    flex-direction: row;
+    gap: var(--Normal-Spacing);
+}
+
+.ColorButton {
+    justify-content: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    background: var(--Normal-Accent);
+    cursor: pointer;
+    height: 100%;
+    width: calc(var(--Font-Size-Regular) * 2.25);
+    color: var(--Normal-Accent);
+    transition: var(--Timing-Shorter) cubic-bezier(0, 0.7, 0.3, 1);
+}
+
+.icon {
+    color: blue;
+}
+
+
+.ColorButton:hover {
+    background: var(--Light-Accent);
+}
+
+.ColorButton:active {
+    background-color: var(--Dark-Accent);
+}
+
+.ColorButton .locked {
+    display: none;
+}
+
+.ColorButton:has(input:checked) {
+    background-color: var(--Normal-Secondary);
+}
+
+.ColorButton:has(input:checked) .unlocked {
+    display: none;
+}
+
+.ColorButton:has(input:checked) .locked {
+    display: inline;
+}
+
+
+.ColorButton:has(input:checked):hover {
+    background-color: var(--Light-Secondary);
+}
+
+
+.ColorButton:has(input:checked):active {
+    background: var(--Dark-Secondary);
+}
+
+.ColorButton input[type=checkbox] {
+    display: none;
+}
+
+.ColorButton input[type=button] {
+    display: none;
+}
+
+/* Selector */
+
+.ColorControls {
+    height: calc(100% - var(--Options-height));
+    display: flex;
+}
+
+.ColorSelector {
+    height: 100%;
+    width: var(--Selector-width);
+
+    background-color: var(--Normal-Background);
+
+    display: flex;
+    align-items: start;
+    align-self: flex-start;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: var(--Normal-Spacing);
+}
+
+
+/* Selector Formatting */
+
+.CursorSelectorElementsBox {
+    display: grid;
+    padding: 5%;
+    box-sizing: border-box;
+    height: 80%;
+    width: 100%;
+    aspect-ratio: 1;
+    align-self: flex-start;
+}
+
+.ColorSelectorElement {
+    grid-area: 1/1;
     width: 100%;
     height: 100%;
-    z-index: 2;
-}
-
-.sliders {
-    width: 100%;
-    height: 55%;
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    align-content: center;
+    margin: auto;
+    aspect-ratio: 1;
     z-index: 1;
+
+    cursor: pointer;
 }
 
-.sliderContainer {
-    height: 8%;
+.ColorSelectorCircle {
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+/* Selector Inputs */
+.InputContainer {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
     width: 100%;
+}
+
+.InputUnit {
+    width: 100%;
+    max-width: 350px;
     display: flex;
     align-items: center;
     flex-direction: row;
-    gap: 6px;
+    --gap: 6px;
+    gap: var(--gap);
     justify-content: space-between;
     box-sizing: border-box;
+
+    max-height: calc((100% / 3) - var(--gap));
 }
 
 input[type="number"] {
@@ -111,18 +344,15 @@ input[type="number"] {
     -webkit-appearance: none;
     -moz-appearance: textfield;
 
-
-    font-size: var(--font-size-reg);
+    font-size: var(--Font-Size-Regular);
     box-sizing: border-box;
-    width: fit-content;
-    max-width: 360px;
-    border: #232A30 solid 2px;
-    background: #232A30;
-    outline: #232A30 solid 0px;
-    border-radius: 2px 0 0 2px;
+    width: calc(var(--Font-Size-Regular) * 3);
+    border: var(--Light-Background) solid 2px;
+    background: var(--Light-Background);
+    outline: none;
     padding: 2px;
     z-index: 2;
-    transition: outline 50ms, border 100ms;
+    transition: border var(--Timing-Normal);
 }
 
 
@@ -131,54 +361,39 @@ input[type="number"]:focus {
     appearance: none;
     -moz-appearance: textfield;
 
-    outline: #2C9CEF solid 2px;
-    border: #91919150 solid 2px;
+    border: var(--Normal-Text) solid 2px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
-    background: #2C343B;
     opacity: 1;
-    margin: 0;
 }
 
-@-moz-document url-prefix() {
-    input[type="number"] {
-        appearance: none;
-        -moz-appearance: textfield;
-    }
-
-    input[type=number]::-moz-outer-spin-button,
-    input[type=number]::-moz-inner-spin-button {
-        appearance: none;
-        -webkit-appearance: none;
-        background: #2C343B;
-        opacity: 1;
-        margin: 0;
-    }
-}
-
-.numberInputUnit {
+.NumberInputUnit {
     display: flex;
     flex-direction: row;
+
+    max-height: calc(var(--Font-Size-Regular) * 1.5);
+    height: 100%;
 }
 
-.valueControlUnit {
+.ValueControlUnit {
     display: flex;
     flex-direction: column;
 }
 
-.valueControl {
+.ValueControl {
     -webkit-appearance: none;
     appearance: none;
     height: calc(50%);
-    width: calc(var(--font-size-reg) * 1.5);
+    width: calc(var(--Font-Size-Regular) * 1.5);
     border: none;
-    background: #3F4A53;
-    border-left: #232A30 solid 1px;
-    font-size: 50%;
+    background: var(--Normal-Foreground);
+    border-left: var(--Dark-Foreground) solid 1px;
+    font-size: calc(50% - 2px);
     padding: 0;
+    color: var(--Normal-Text);
     /* font-family: Arial, Helvetica, sans-serif; */
     font-weight: bold;
     margin: 0;
@@ -186,251 +401,111 @@ input[type=number]::-webkit-outer-spin-button {
     text-overflow: clip;
 }
 
-.valueControlUp {
-    border-bottom: #232A30 solid 1px;
-    border-radius: 0 3px 0 0;
+.ValueControlUp {
+    border-bottom: var(--Dark-Foreground) solid 1px;
 }
 
-.valueControl:hover {
-    background: #5D6B78;
+.ValueControl:hover {
+    background: var(--Light-Foreground);
     transition: 15ms;
 }
 
-.valueControl:active {
-    background: #323b43;
+.ValueControl:active {
+    background: var(--Dark-Foreground);
 }
 
-.valueControlDown {
-    border-radius: 0 0 3px 0;
-    border-top: #232A30 solid 1px;
+.ValueControlDown {
+    border-top: var(--Dark-Foreground) solid 1px;
 }
 
-.optionsBox {
-    flex-direction: row;
+.ColorSelectorElementCursor {
+    pointer-events: none;
+}
+
+/* Palette Input */
+
+:root {
+    --Color-Palette-Input-Size: 45%;
+}
+
+.ColorPalette {
     display: flex;
-    gap: 1px;
-    margin: 16px;
-    padding: 0px;
-}
-
-.option {
-    min-width: 60px;
-    justify-content: center;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), #3F4A53;
-    outline: #232A30 solid 1px;
-    border-radius: 0px;
-    cursor: pointer;
-    color: #90A6BA;
-    transition: background-color 100ms, color 50ms, border 200ms;
-    padding: 3px;
-    border: 1px solid #ffffff20;
-}
-
-.option:last-of-type {
-    border-radius: 0px 3px 3px 0px;
-}
-
-.option:first-of-type {
-    border-radius: 3px 0px 0px 3px;
-}
-
-.option:hover {
-    background: #5D6B78;
-}
-
-.option:active {
-    background-color: #161B1F;
-    outline: #0E1115 solid 1px;
-}
-
-.option input {
-    display: none;
-}
-
-.option:has(input:checked) {
-    background-color: #232A30;
-    outline: #00000020 solid 1px;
-    color: #C7E4FF;
-    border: 1px solid #00000020;
-}
-
-.colorButton {
-    justify-content: center;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    background: #3F4A53;
-    outline: #232A30 solid 1px;
-    border-radius: 16px;
-    cursor: pointer;
-    height: calc(100% - 9px);
-    width: calc(var(--font-size-reg) * 2.25);
-    color: #90A6BA;
-    transition: background-color 50ms, color 25ms, border 100ms;
-    padding: 3px;
-}
-
-.colorButton:hover {
-    background: #5D6B78;
-}
-
-.colorButton:active {
-    background-color: #161B1F;
-    outline: #0E1115 solid 1px;
-}
-
-
-.colorButton svg {
     height: 100%;
-    transition: margin 100ms;
-}
-
-.colorButton .locked {
-    display: none;
-}
-
-.colorButton:has(input:checked) {
-    background-color: #232A30;
-    outline: #3F4A53 solid 1px;
-    color: #C7E4FF;
-}
-
-.colorButton:has(input:checked) .unlocked {
-    display: none;
-}
-
-.colorButton:has(input:checked) .locked {
-    display: inline;
-}
-
-
-.colorButton:has(input:checked):hover {
-    background-color: #161B1F;
-    outline: #0E1115 solid 1px;
-}
-
-
-.colorButton:has(input:checked):active {
-    background: #5D6B78;
-}
-
-.colorButton input[type=checkbox] {
-    display: none;
-}
-
-.colorButton input[type=button] {
-    display: none;
-}
-
-.colorBox {
     width: 100%;
-    height: 100%;
-    background: white;
-    display: flex;
-    justify-content: flex-end;
-    align-items: end;
-    gap: 2px;
-}
 
-.hexInput {
-    align-self: flex-end;
-    text-align: end;
-    background: #00000060;
-    font-size: var(--font-size-large);
-    width: 4.15em;
-    height: var(--font-size-large);
-    color: #fff;
-    transition: background-color 25ms, color 15ms, border 50ms, border-radius 50ms;
-    border: none;
-    padding: none;
-    border-left: 3px solid #2C9CEF00;
-    border-top: 3px solid #2C9CEF00;
-}
-
-.hexInput:focus {
-    -webkit-appearance: none;
-    appearance: none;
-    border-top: 3px solid #2C9CEF;
-    transition: background-color 25ms, color 15ms, border 50ms, border-radius 50ms;
-    border-left: 3px solid #2C9CEF;
-    outline: none;
-}
-
-.copyButton {
-    justify-content: center;
+    padding: calc(var(--Normal-Spacing) * 2);
+    flex-direction: row;
     box-sizing: border-box;
-    display: flex;
-    height: calc(var(--font-size-reg) * 2);
-    width: calc(var(--font-size-reg) * 2);
+    gap: var(--Normal-Spacing);
 
-    background: #00000060;
-    outline: none;
-    margin-bottom: 4px;
-    border-radius: 3px;
-    padding: 3;
-    cursor: pointer;
-
-    transition: background-color 50ms, color 25ms, outline 100ms;
-
-    margin-right: 8px;
-    outline: #2C9CEF solid 0px;
+    background-color: var(--Normal-Background);
 }
 
-.copyButton:hover {
-    background: #00000050;
-    transition: background-color 50ms, color 25ms, outline 50ms;
-    outline: #2C9CEF solid 3px;
-}
-
-.copyButton svg {
+.ColorPaletteWraper {
     height: 100%;
+    width: calc(100% - var(--Selector-width));
+
+    container-type: size;
+    container-name: ColorPaletteWraper;
 }
 
-.copyButton:active {
-    transition: background-color 50ms, color 25ms, outline 50ms;
-    background: #000000a0;
+
+.PaletteHeader {
+    font-size: var(--Font-Size-Regular);
+    line-height: 1;
+    display: block;
 }
 
-.copyButton input[type=button] {
-    display: none;
-}
-
-.sliderBox {
-    border: 1px solid #ffffff20;
-    outline: none;
-    max-height: 600px;
-    max-width: 1000px;
+.ColorPaletteInput {
+    height: 100%;
+    width: min(var(--Color-Palette-Input-Size), 225px);
+    display: flex;
+    gap: var(--Normal-Spacing);
     box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    gap: 6px;
-    padding: 6px;
-    margin: auto;
-    background-color: var(--foreground);
 }
 
-@media (min-width: calc(600px + 80px)) and (min-height: calc(45vh + 250px + 80px)) {
-    body {
-        background-color: var(--background);
-    }
-
-    .sliderBox {
-        outline: #232A30 solid 1px;
-    }
+.ColorPaletteInputUnit {
+    height: calc((100% / 3) - (var(--Normal-Spacing) * (2/3)));
+    width: 100%;
+    gap: none;
+    box-sizing: border-box;
 }
 
-@media (hover: none) {
-    * {
-        pointer-events: auto;
-    }
+.PaletteInput {
+    appearance: none;
+
+    resize: none;
+    background: var(--Light-Background);
+    border: none;
+
+    padding: 0;
+    outline: none;
+
+    width: 100%;
+    height: calc(100% - var(--Font-Size-Regular));
+    box-sizing: border-box;
 }
+
+.ColorPaletteOutput {
+    width: calc(100% - min(var(--Color-Palette-Input-Size), 225px));
+    height: fit-content;
+    max-height: 100%;
+    background-color: var(--Dark-Background);
+    padding: var(--Normal-Spacing);
+    display: flex;
+    gap: calc(var(--Normal-Spacing) * 2);
+    flex-direction: row;
+    overflow-y: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-self: flex-start;
+    align-items: flex-start;
+
+    box-sizing: border-box;
+}
+
+/* Palette Entries*/
 
 .hexEntryCSS {
     height: 1.25rem;
@@ -439,6 +514,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .hexHoverEffect {
@@ -446,6 +522,8 @@ input[type=number]::-webkit-outer-spin-button {
     margin: auto;
     width: 100%;
     height: 100%;
+    color: white;
+    text-shadow: 0 0 2px black, 1px 1px 0 black, -1px -1px black, -1px 1px black, 1px -1px black;
 }
 
 .hexEntryCSS:hover>.hexHoverEffect {
@@ -468,6 +546,8 @@ input[type=number]::-webkit-outer-spin-button {
     height: 100%;
     position: relative;
     margin-left: -100%;
+    color: white;
+    text-shadow: 0 0 2px black, 1px 1px 0 black, -1px -1px black, -1px 1px black, 1px -1px black;
 }
 
 .hexEntryCSS:hover>.hexHoverEffectCopy {
@@ -478,12 +558,61 @@ input[type=number]::-webkit-outer-spin-button {
     color: blue;
 }
 
-.paletteInput {
+.paletteHueBox {
+    background-color: var(--Normal-Background);
     box-sizing: border-box;
-    resize: none;
-    background: #313131;
-    color: white;
-    border: none;
-    outline: black 1px solid;
-    border-radius: 1px;
+    padding: var(--Normal-Spacing);
+    gap: var(--Normal-Spacing);
+}
+
+/* Sizing */
+
+.PaletteLabel {
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+    .ColorPaletteWraper {
+        width: 100%;
+    }
+
+    .ColorSelector {
+        width: 100%;
+    }
+
+    .PaletteLabel {
+        display: flex;
+    }
+}
+
+
+
+@container ColorPaletteWraper (max-aspect-ratio: 1/1) {
+    .ColorPalette {
+        flex-direction: column;
+    }
+
+    .ColorPaletteInput {
+        width: 100%;
+        height: min(var(--Color-Palette-Input-Size) / 2, 225px);
+        flex-direction: row;
+    }
+
+    .ColorPaletteInputUnit {
+        width: calc((100% / 3) - var(--Normal-Spacing * (2/3)));
+        height: 100%;
+    }
+
+    .ColorPaletteOutput {
+        height: calc(100% - min(var(--Color-Palette-Input-Size) / 2, 225px));
+        width: 100%;
+    }
+}
+
+/* Footer */
+
+footer {
+    height: var(--Footer-height);
+    background-color: var(--Light-Background);
+    padding-left: var(--Normal-Spacing);
 }
