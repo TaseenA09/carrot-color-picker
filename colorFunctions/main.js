@@ -68,16 +68,16 @@ export function hexToArray(hex) {
   let array
 
   if (input.length == 3) {
-    array = input.match(/[1-9a-fA-F]/g);
+    array = input.match(/[0-9a-fA-F]/g);
     array = array.map(x => x + x);
   } else if (input.length == 2) {
-    array = Array(3).fill(input.match(/[1-9a-fA-F]{1,2}/));
+    array = Array(3).fill(input.match(/[0-9a-fA-F]{1,2}/));
   } else if (input.length == 1) {
     array = Array(3).fill(input);
     array = array.map(x => x + x);
   }
   else {
-    array = input.match(/[1-9a-fA-F]{1,2}/g);
+    array = input.match(/[0-9a-fA-F]{1,2}/g);
   }
 
   if (!array) {

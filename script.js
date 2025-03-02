@@ -2,6 +2,9 @@ import { color, arrayTohex, clamp, hexToArray } from "./colorFunctions/main.js";
 
 let CurrentColorSpace = document.querySelector('input[name="ColorOption"]:checked').value;
 
+console.log(CurrentColorSpace);
+let startingValue = color.toFunctions[CurrentColorSpace](...hexToArray(window.location.hash));
+
 const ColorWheel = document.getElementById("ColorWheel");
 const ctxColorWheel = ColorWheel.getContext("2d");
 
@@ -24,11 +27,11 @@ const ColorPalette = document.getElementsByClassName("ColorPaletteWraper")[0];
 
 const HexOutput = document.getElementById("HexOutput");
 
-var HueAngle = Math.random() * 360;
+var HueAngle = startingValue[0] * 360 || Math.random() * 360;
 var HueAngleCache = -1;
 
-var Saturation = Math.random();
-var ValueOrLightness = Math.random();
+var Saturation = startingValue[1] || Math.random();
+var ValueOrLightness = startingValue[2] || Math.random();
 
 var SaturationCache = Saturation;
 var ValueOrLightnessCache = ValueOrLightness;
@@ -257,10 +260,28 @@ function DrawModifierBoxCursor() {
 const VLOutputLabel = document.querySelector('label[for="VLOutput"]');
 const VLPaletteLabel = document.querySelector('label[for="VLPalette"]');
 
+let outputTick = 0;
+let hashTimeout;
+
 function UpdateColorOutput() {
   const requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, Saturation, ValueOrLightness));
+
+  clearTimeout(hashTimeout);
+  hashTimeout = setTimeout(() => {
+    history.replaceState(null, null, `${requiredColor}`);
+    outputTick = 0;
+  }, 15);
+
+  outputTick += 1;
+
+  if (outputTick > 15) {
+    history.replaceState(null, null, `${requiredColor}`);
+    outputTick = 0;
+  }
+
   ColorOutput.style.backgroundColor = requiredColor;
   HexOutput.value = requiredColor;
+
 
   if (CurrentColorSpace == "hsl" || CurrentColorSpace == "okhsl") {
     VLOutputLabel.innerHTML = "Lightness";
@@ -325,7 +346,6 @@ function ColorWheelUpdate() {
     }
 
     HueAngleCache = HueAngle
-    // ColorDisplay.style.background = new Color(okhsv, [HueAngle, 1, 1]).toString({ format: "hex" });
     DrawCursor();
     DrawModifierBox();
     DrawModifierBoxCursor();
