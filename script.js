@@ -1,8 +1,15 @@
 import { color, arrayTohex, clamp, hexToArray } from "./colorFunctions/main.js";
 
-let CurrentColorSpace = document.querySelector('input[name="ColorOption"]:checked').value;
+let CurrentColorSpace = (document.querySelector('input[name="ColorOption"]:checked') || { value: "okhsv" }).value;
 
-console.log(CurrentColorSpace);
+function UpdateButtonsFromColorSpace() {
+  document.querySelectorAll('input[name="ColorOption"]').forEach(option => {
+    option.checked = option.value == CurrentColorSpace;
+  })
+}
+
+UpdateButtonsFromColorSpace();
+
 let startingValue = color.toFunctions[CurrentColorSpace](...hexToArray(window.location.hash));
 
 const ColorWheel = document.getElementById("ColorWheel");
@@ -433,6 +440,8 @@ function createColorEntry(h, s, vl, c, r) {
   let entry = document.createElement("div");
   let entryText = document.createElement("p");
 
+  entry.classList.add("interactable");
+
   var c = c == undefined ? '' : c.toString();
   var r = r == undefined ? '' : r.toString();
 
@@ -445,7 +454,7 @@ function createColorEntry(h, s, vl, c, r) {
   let entryCopyIcon;
   if (!isOs) {
     entryCopyIcon = document.createElement("p");
-    entryCopyIcon.innerHTML = c.length + r.length <= 3 ? "Copy" + " " + c + "|" + r : c + "|" + r;
+    entryCopyIcon.innerHTML = c.length + r.length <= 3 ? "Copy" + " " + c + ":" + r : c + ":" + r;
 
     entryCopyIcon.style.padding = "2";
     entryCopyIcon.style.zIndex = "2";
@@ -492,6 +501,7 @@ function GetPalette() {
     hueBox.style.gridTemplateColumns = `repeat(${xOutput.length + 1},auto)`;
 
     hueBox.classList.add("paletteHueBox");
+    hueBox.classList.add("outlined");
 
     hueBox.appendChild(createColorEntry(hueOutput[h], 100, 100, 0, 0));
 
@@ -596,8 +606,8 @@ const IndexOrValueMode = document.getElementById("indexButton");
 
 function CreatePaletteJSON() {
   const hueOutput = (huePaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 360));
-  const yOutput = (satPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
-  const xOutput = (VLPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100))
+  const yOutput = (satPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100));
+  const xOutput = (VLPaletteInput.value).trim().split(/\s+/).map(str => str === "" ? NaN : Number(str)).filter(num => !isNaN(num)).map(num => clamp(num, 0, 100))
 
   function getRequiredColor(h, s, vl) {
     return arrayTohex(color.fromFunctions[CurrentColorSpace](h, s / 100, vl / 100));
@@ -671,6 +681,10 @@ function ProcessFile(json) {
     return
   }
 
+  CurrentColorSpace = json["type"];
+
+  UpdateButtonsFromColorSpace();
+
   let hue = [];
   let saturation = [];
   let valueorlightness = [];
@@ -681,19 +695,21 @@ function ProcessFile(json) {
     }
 
     hue.push(h);
-    if (json["formatting"] == "value") {
-      for (const s in json[h]) {
-        if (s == "100") {
-          continue
-        }
-        saturation.push(s);
+  }
+
+
+  if (json["formatting"] == "value") {
+    for (const s in json[hue[0]]) {
+      if (s == "100") {
+        continue
       }
-      for (const vl in json[h][saturation[0]]) {
-        if (vl == "100") {
-          continue
-        }
-        valueorlightness.push(vl);
+      saturation.unshift(s);
+    }
+    for (const vl in json[hue[0]][saturation[0]]) {
+      if (vl == "100") {
+        continue
       }
+      valueorlightness.unshift(vl);
     }
   }
 
@@ -723,6 +739,7 @@ function ProcessFile(json) {
   VLPaletteInput.value = valueorlightness.join(" ");
 
   GetPalette();
+  Update();
 }
 
 const ImportButton = document.getElementById("importButton");

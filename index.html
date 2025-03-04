@@ -10,6 +10,11 @@
     <link rel="icon" type="image/x-icon" href="./icons/icon.svg">
 
     <link rel="manifest" href="./manifest.json">
+
+    <link rel="stylesheet" href="./colors.css">
+    <link rel="stylesheet" href="./theme.css">
+
+
     <link rel="stylesheet" href="./styles.css">
 </head>
 
@@ -30,7 +35,7 @@
 
     <main>
         <div class="ColorOptions">
-            <div class="ColorSpaces">
+            <div class="ColorSpaces interactable">
                 <label class="ColorOption" for="okhsl"> <input type="radio" id="okhsl" name="ColorOption" value="okhsl">
                     OKHSL</label>
                 <label class="ColorOption" for="okhsv"> <input checked type="radio" id="okhsv" name="ColorOption"
@@ -43,54 +48,57 @@
             </div>
 
             <div class="OptionsBox">
-                <label for="PaletteButton" class="PaletteLabel ColorButton">
+                <label for="PaletteButton" class="PaletteLabel ColorButton interactable">
                     <img src=" icons/palette.svg" class="locked">
                     <img src="icons/palette.svg" class="unlocked">
                     <input name="PaletteButton" type="checkbox" id="PaletteButton" />
                 </label>
 
 
-                <label for="importButton" class="ColorButton">
+                <label for="importButton" class="ColorButton interactable">
                     <img src="icons/import.svg">
                     <input name="importButton" type="file" id="importButton" />
                 </label>
 
                 <div class="exportWrapper">
-                    <label for="exportButton" class="ColorButton">
+                    <label for="exportButton" class="ColorButton interactable">
                         <img src="icons/export.svg">
                         <input name="exportButton" type="checkbox" id="exportButton" />
                     </label>
 
-                    <div class="exportWindow">
+                    <div class="exportWindow outlined">
                         <div class="hexOption">
                             Use Index
 
-                            <label for="indexButton" class="ColorButton ToggleButton">
+                            <label for="indexButton" class="ColorButton ToggleButton interactable">
                                 <div class="ToggleButtonHandle">
                                 </div>
                                 <input name="indexButton" type="checkbox" id="indexButton" />
                             </label>
 
 
-                            <label for="infoButton" title="Importing index saves may not be accurate"
-                                class="ColorButton infoButton">
+                            <label for="infoButton" class="ColorButton infoButton">
                                 <img src="icons/warn.svg">
                                 <input name="infoButton" type="button" id="infoButton" />
+                                <div class="infoWindow outlined">
+                                    <div class="Arrow"></div>
+                                    Importing index saves may not be accurate
+                                </div>
                             </label>
                         </div>
 
-                        <label for="downloadButton" class="ColorButton downloadButton">
+                        <label for="downloadButton" class="ColorButton downloadButton interactable">
                             Export
                             <input name="downloadButton" type="button" id="downloadButton" />
                         </label>
                     </div>
                 </div>
-                <label for="randomButton" class="ColorButton">
+                <label for="randomButton" class="ColorButton interactable">
                     <img src="icons/shuffle.svg">
                     <input name="randomButton" type="button" id="randomButton" />
                 </label>
 
-                <label for="colorLockToggle" class="ColorButton">
+                <label for="colorLockToggle" class="ColorButton interactable">
 
                     <img src="icons/locked.svg" class="locked">
                     <img src="icons/unlocked.svg" class="unlocked">
@@ -131,10 +139,10 @@
                             <input name="SaturationOutput" type="number" min="0" max="100" id="SaturationOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
-                                    onclick="satOutput.stepUp(); satOutput.dispatchEvent(new Event('input'))" value="▲"
-                                    class="ValueControl ValueControlUp" />
+                                    onclick="SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="satOutput.stepDown(); satOutput.dispatchEvent(new Event('input'))"
+                                    onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
                                     value="▼" class="ValueControl ValueControlDown" />
                             </div>
                         </div>
@@ -160,17 +168,19 @@
                     <div class="ColorPaletteInput">
                         <div class="ColorPaletteInputUnit">
                             <label for="huePalette" class="PaletteHeader">Hue</label>
-                            <textarea class="PaletteInput" name="huePalette" id="huePalette" type="text"></textarea>
+                            <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
+                                type="text"></textarea>
                         </div>
 
                         <div class="ColorPaletteInputUnit">
                             <label for="satPalette" class="PaletteHeader">Saturation</label>
-                            <textarea class="PaletteInput" name="satPalette" id="satPalette" type="text"></textarea>
+                            <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
+                                type="text"></textarea>
                         </div>
 
                         <div class="ColorPaletteInputUnit">
                             <label for="VLPalette" class="PaletteHeader">Value</label>
-                            <textarea class="PaletteInput" type="text" id="VLPalette"></textarea>
+                            <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
                         </div>
                     </div>
 

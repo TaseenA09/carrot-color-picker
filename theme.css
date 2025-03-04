@@ -1,0 +1,43 @@
+:root {
+    --ColorDisplay-height: 15%;
+    --Footer-height: 20px;
+
+    /* Font Sizes */
+    --Font-Size-Large: 48px;
+    --Font-Size-Regular: 14px;
+    --Font-Size-Small: 12px;
+
+    /* Spacing */
+    --Normal-Spacing: 4px;
+
+    --Normal-Border: 1px;
+
+    /* Timing */
+    --Timing-Normal: 150ms;
+    --Timing-Short: 50ms;
+    --Timing-Shorter: 25ms;
+
+    --Transition-Normal: cubic-bezier(0, 0.7, 0.3, 1);
+
+    /* Styling */
+    --border-color: #00000030;
+
+    --interactable-radius: 1px;
+}
+
+.outlined {
+    outline: 1px solid var(--border-color);
+}
+
+.interactable {
+    border-radius: var(--interactable-radius);
+    outline: 1px solid var(--border-color);
+}
+
+.ColorOption:first-of-type {
+    border-radius: var(--interactable-radius) 0 0 var(--interactable-radius);
+}
+
+.ColorOption:last-of-type {
+    border-radius: 0 var(--interactable-radius) var(--interactable-radius) 0;
+}

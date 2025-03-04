@@ -1,45 +1,4 @@
 /* Global */
-
-:root {
-    --ColorDisplay-height: 15%;
-    --Footer-height: 20px;
-
-    /* Font Sizes */
-    --Font-Size-Large: 48px;
-    --Font-Size-Regular: 14px;
-
-    /* Spacing */
-    --Normal-Spacing: 4px;
-
-    --Normal-Border: 1px;
-
-    /* Colors */
-    --Normal-Text: #a4bac7;
-
-    --Normal-Background: #0c1418;
-    --Light-Background: #1e2930;
-    --Dark-Background: #040709;
-
-    --Normal-Foreground: #626f78;
-    --Light-Foreground: #a4bac7;
-    --Dark-Foreground: #4d585f;
-
-    --Normal-Accent: #0091c9;
-    --Light-Accent: #00b9ff;
-    --Dark-Accent: #004663;
-
-    --Normal-Secondary: #ca0020;
-    --Light-Secondary: #ff002b;
-    --Dark-Secondary: #67000b;
-
-    /* Timing */
-    --Timing-Normal: 150ms;
-    --Timing-Short: 50ms;
-    --Timing-Shorter: 25ms;
-
-    --Transition-Normal: cubic-bezier(0, 0.7, 0.3, 1);
-}
-
 @font-face {
     font-family: 'jetbrains';
     src: url('./fonts/JetBrainsMono[wght].ttf') format('truetype');
@@ -54,6 +13,14 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+
+    scrollbar-width: var(--Normal-Spacing);
+    scrollbar-gutter: stable both-edges;
+    scrollbar-color: var(--Normal-Foreground) var(--Dark-Background);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
 }
 
 body,
@@ -61,8 +28,8 @@ html {
     height: 100vh;
     width: 100vw;
 
-    min-height: 360px;
-    min-width: 480px;
+    min-height: 520px;
+    min-width: 360px;
 
     margin: 0;
     padding: 0;
@@ -70,8 +37,6 @@ html {
     overflow: hidden;
 
     background-color: var(--Normal-Background);
-
-    touch-action: none;
 }
 
 /* Color Output */
@@ -89,6 +54,7 @@ html {
     align-self: flex-end;
     text-align: end;
     background: var(--Dark-Background);
+    line-height: var(--Font-Size-Large);
     font-size: var(--Font-Size-Large);
     width: 4.25em;
     height: var(--Font-Size-Large);
@@ -204,6 +170,8 @@ main {
     display: flex;
     flex-direction: row;
     gap: var(--Normal-Spacing);
+
+    transition: height var(--Timing-Normal) var(--Transition-Normal);
 }
 
 .ColorButton {
@@ -337,6 +305,10 @@ main {
     max-height: calc((100% / 3) - var(--gap));
 }
 
+.InputUnit label {
+    color: var(--Dark-Text);
+}
+
 input[type="number"] {
     appearance: none;
     -webkit-appearance: none;
@@ -351,6 +323,8 @@ input[type="number"] {
     padding: 2px;
     z-index: 2;
     transition: border var(--Timing-Normal);
+
+    border-radius: var(--interactable-radius) 0 0 var(--interactable-radius);
 }
 
 
@@ -400,6 +374,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .ValueControlUp {
+    border-radius: 0 var(--interactable-radius) 0 0;
     border-bottom: var(--Dark-Foreground) solid 1px;
 }
 
@@ -413,6 +388,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .ValueControlDown {
+    border-radius: 0 0 var(--interactable-radius) 0;
     border-top: var(--Dark-Foreground) solid 1px;
 }
 
@@ -449,6 +425,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 .PaletteHeader {
+    color: var(--Dark-Text);
     font-size: var(--Font-Size-Regular);
     line-height: 1;
     display: block;
@@ -466,7 +443,9 @@ input[type=number]::-webkit-outer-spin-button {
 .ColorPaletteInputUnit {
     height: calc((100% / 3) - (var(--Normal-Spacing) * (2/3)));
     width: 100%;
-    gap: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--Normal-Spacing);
     box-sizing: border-box;
 }
 
@@ -477,7 +456,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: var(--Light-Background);
     border: none;
 
-    padding: 0;
+    padding: var(--Normal-Spacing);
     outline: none;
 
     width: 100%;
@@ -489,7 +468,8 @@ input[type=number]::-webkit-outer-spin-button {
     width: calc(100% - min(var(--Color-Palette-Input-Size), 225px));
     height: 100%;
     background-color: var(--Dark-Background);
-    padding: var(--Normal-Spacing);
+    border: var(--Normal-Spacing) solid var(--Dark-Background);
+    padding: 1px;
     display: flex;
     gap: calc(var(--Normal-Spacing) * 2);
     flex-direction: row;
@@ -556,7 +536,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .paletteHueBox {
-    background-color: var(--Normal-Background);
     box-sizing: border-box;
     padding: var(--Normal-Spacing);
     gap: var(--Normal-Spacing);
@@ -580,11 +559,35 @@ input[type=number]::-webkit-outer-spin-button {
     .PaletteLabel {
         display: flex;
     }
+
+    main {
+        --Options-height: 80px;
+    }
+
+    .OptionsBox {
+        height: 50%;
+        align-self: flex-end;
+        transition: height var(--Timing-Normal) var(--Transition-Normal);
+    }
+
+    .ColorSpaces {
+        max-width: 100%;
+        height: 50%;
+    }
+
+    .ColorOption {
+        font-size: calc(var(--Options-height) /3);
+    }
+
+    .ColorOptions {
+        gap: var(--Normal-Spacing);
+        flex-direction: column-reverse;
+    }
 }
 
 
 
-@container ColorPaletteWraper (max-aspect-ratio: 1/1) {
+@container ColorPaletteWraper (max-aspect-ratio: 1/1) or (max-width: 110vh) {
     .ColorPalette {
         flex-direction: column;
     }
@@ -650,6 +653,7 @@ input[type=number]::-webkit-outer-spin-button {
 .ToggleButtonHandle {
     height: 100%;
     width: 50%;
+    border-radius: var(--interactable-radius);
     background-color: white;
 
     transition: margin var(--Timing-Normal);
@@ -682,21 +686,66 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .infoButton {
+    position: relative;
+    color: var(--Light-Yellow);
     height: var(--Font-Size-Regular);
     width: var(--Font-Size-Regular);
-    background-color: #837100;
+    background-color: var(--Dark-Yellow);
 }
 
 .infoButton:hover {
     height: var(--Font-Size-Regular);
     width: var(--Font-Size-Regular);
-    background-color: #837100;
+    background-color: var(--Dark-Yellow);
 }
 
 .infoButton:active {
     height: var(--Font-Size-Regular);
     width: var(--Font-Size-Regular);
-    background-color: #837100;
+    background-color: var(--Dark-Yellow);
+}
+
+.infoButton:active>.infoWindow {
+    display: block;
+}
+
+.infoButton:hover>.infoWindow {
+    display: block;
+}
+
+.infoWindow {
+    position: absolute;
+    top: calc(100% + var(--Normal-Spacing));
+    display: none;
+    min-width: calc(var(--Font-Size-Small) * 14);
+    width: fit-content;
+    padding: var(--Normal-Spacing);
+    font-size: var(--Font-Size-Small);
+    line-height: var(--Font-Size-Small);
+    background: var(--Dark-Yellow);
+    color: var(--Light-Yellow);
+    white-space: wrap;
+    box-sizing: border-box;
+}
+
+.infoWindow .Arrow {
+    background: var(--Normal-Background);
+}
+
+.Arrow {
+    position: absolute;
+    display: block;
+
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+
+    right: 50%;
+    transform: translate(50%, -100%);
+    top: 0;
+
+    width: calc(var(--Normal-Spacing) * 2);
+    height: calc(var(--Normal-Spacing) - 1px);
+
+    outline: 2px solid black;
 }
 
 .exportWrapper:has(#exportButton:checked) .exportWindow {

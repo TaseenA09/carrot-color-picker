@@ -1,0 +1,25 @@
+:root {
+    /* Colors */
+    --Normal-Text: #8da0ac;
+    --Dark-Text: #5c6d78;
+
+    --Normal-Background: #21282d;
+    --Light-Background: #354047;
+    --Dark-Background: #11171a;
+
+    --Normal-Foreground: #2e3e48;
+    --Light-Foreground: #506a79;
+    --Dark-Foreground: #1c272e;
+
+    --Normal-Accent: #3c637a;
+    --Light-Accent: #7ab4d6;
+    --Dark-Accent: #213b49;
+
+    --Normal-Secondary: #ca0020;
+    --Light-Secondary: #ff002b;
+    --Dark-Secondary: #67000b;
+
+    --Normal-Yellow: #aaac3e;
+    --Dark-Yellow: #767728;
+    --Light-Yellow: #fdff60;
+}
