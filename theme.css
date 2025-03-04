@@ -22,7 +22,7 @@
     /* Styling */
     --border-color: #00000030;
 
-    --interactable-radius: 1px;
+    --interactable-radius: 0px;
 }
 
 .outlined {

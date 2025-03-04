@@ -23,10 +23,9 @@
     border-radius: 0;
 }
 
-body,
-html {
-    height: 100vh;
-    width: 100vw;
+body {
+    height: 100dvh;
+    width: 100dvw;
 
     min-height: 520px;
     min-width: 360px;
@@ -36,7 +35,11 @@ html {
 
     overflow: hidden;
 
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--Normal-Background);
+    touch-action: none;
 }
 
 /* Color Output */
@@ -499,6 +502,9 @@ input[type=number]::-webkit-outer-spin-button {
     margin: auto;
     width: 100%;
     height: 100%;
+}
+
+.hexHoverEffectText {
     color: white;
     text-shadow: 0 0 2px black, 1px 1px 0 black, -1px -1px black, -1px 1px black, 1px -1px black;
 }

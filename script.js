@@ -463,7 +463,9 @@ function createColorEntry(h, s, vl, c, r) {
 
     entryCopyIcon.classList.add("hexHoverEffectCopy");
     entryText.classList.add("hexHoverEffect");
+    entryText.classList.add("hexHoverEffectText");
   } else {
+    entryText.classList.add("hexHoverEffectText");
     entryText.style.margin = "auto";
     entryText.style.width = "100%";
     entryText.style.height = "100%";
@@ -681,9 +683,11 @@ function ProcessFile(json) {
     return
   }
 
-  CurrentColorSpace = json["type"];
-
-  UpdateButtonsFromColorSpace();
+  if (document.getElementById("colorLockToggle").checked == false) {
+    console.log(json["type"]);
+    CurrentColorSpace = json["type"];
+    UpdateButtonsFromColorSpace();
+  }
 
   let hue = [];
   let saturation = [];
