@@ -24,14 +24,12 @@
 
 html,
 body {
-
-    min-height: 520px;
-    min-width: 360px;
-
     margin: 0;
     padding: 0;
 
     overflow: hidden;
+
+    transform-origin: 0 0;
 
     display: flex;
     flex-direction: column;
@@ -259,11 +257,15 @@ main {
 
 /* Selector Formatting */
 
+:root {
+    --Number-Inputs-Size: max(20%, 125px);
+}
+
 .CursorSelectorElementsBox {
     display: grid;
     padding: 5%;
     box-sizing: border-box;
-    height: 80%;
+    height: calc(100% - var(--Number-Inputs-Size));
     width: 100%;
     aspect-ratio: 1;
     align-self: flex-start;
@@ -288,7 +290,7 @@ main {
 
 /* Selector Inputs */
 .InputContainer {
-    height: 20%;
+    height: var(--Number-Inputs-Size);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -602,6 +604,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
+@media screen and (max-height: 560px) {
+    .InputContainer {
+        display: none;
+    }
+
+    :root {
+        --Number-Inputs-Size: 1%;
+    }
+}
 
 @container ColorPaletteWraper (max-aspect-ratio: 1/1) or (max-width: 110vh) {
     .ColorPalette {

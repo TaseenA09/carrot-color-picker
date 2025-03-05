@@ -647,10 +647,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 window.addEventListener("load", function() {
   Update(0);
-  this.requestAnimationFrame(Update);
-  setTimeout(Update, 150);
-  setTimeout(DrawModifierBoxCursor, 150);
-  setTimeout(DrawCursor, 150);
+  requestAnimationFrame(Update);
+  setTimeout(Update, 1000);
+  setTimeout(DrawModifierBoxCursor, 1000);
+  setTimeout(DrawCursor, 1000);
+  setTimeout(DrawModifierBoxCursor, 1000);
 });
 
 
