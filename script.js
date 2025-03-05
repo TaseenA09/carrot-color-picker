@@ -24,7 +24,6 @@ const ModifierBox = document.getElementById("ModifierBox");
 const ModifierBoxCursor = document.getElementById("ModifierBoxCursor");
 
 const CursorCanvas = document.getElementById("ColorWheelCursor");
-const CursorWidth = 0.05;
 
 const ColorOutput = document.getElementById("ColorDisplay");
 
@@ -45,67 +44,72 @@ var ValueOrLightnessCache = ValueOrLightness;
 
 const ColorWheelMaxSize = 500;
 
+const DrawTimeOut = 5;
+
 ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
 ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
 
 CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
 CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
 
-function DrawColorWheel() {
-  if (ColorSelector.style.display == "none") {
-    return
-  }
+function DrawColorWheel(timeoutTime) {
+  timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
+  DoTimeout("ColorWheel", () => {
+    if (ColorSelector.style.display == "none") {
+      return
+    }
 
-  ctxColorWheel.clearRect(0, 0, ColorWheel.width, ColorWheel.height);
+    ctxColorWheel.clearRect(0, 0, ColorWheel.width, ColorWheel.height);
 
-  const dpr = window.devicePixelRatio || 1;
+    const dpr = window.devicePixelRatio || 1;
 
-  const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
-  const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20;
+    const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
+    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20;
 
-  ColorWheel.height = colorWheelBoundingBox.height * dpr;
-  ColorWheel.width = colorWheelBoundingBox.width * dpr;
+    ColorWheel.height = colorWheelBoundingBox.height * dpr;
+    ColorWheel.width = colorWheelBoundingBox.width * dpr;
 
-  ctxColorWheel.scale(dpr, dpr);
+    ctxColorWheel.scale(dpr, dpr);
 
-  const colorWheelCenter = {
-    x: colorWheelBoundingBox.width / 2,
-    y: colorWheelBoundingBox.height / 2
-  };
+    const colorWheelCenter = {
+      x: colorWheelBoundingBox.width / 2,
+      y: colorWheelBoundingBox.height / 2
+    };
 
-  const colorWheelGradient = ctxColorWheel.createConicGradient(-Math.PI * 0.5, colorWheelCenter.x, colorWheelCenter.y);
+    const colorWheelGradient = ctxColorWheel.createConicGradient(-Math.PI * 0.5, colorWheelCenter.x, colorWheelCenter.y);
 
-  for (let angle = 0; angle <= 360; angle++) {
-    colorWheelGradient.addColorStop(angle / 360, arrayTohex(color.fromFunctions[CurrentColorSpace](angle, Saturation, ValueOrLightness)));
-  }
+    for (let angle = 0; angle <= 360; angle++) {
+      colorWheelGradient.addColorStop(angle / 360, arrayTohex(color.fromFunctions[CurrentColorSpace](angle, Saturation, ValueOrLightness)));
+    }
 
-  ctxColorWheel.beginPath();
-  ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize, 0, Math.PI * 2);
+    ctxColorWheel.beginPath();
+    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize, 0, Math.PI * 2);
 
-  const colorWidth = ColorWheelWidth * colorWheelBoundingBox.width;
+    const colorWidth = ColorWheelWidth * Math.min(colorWheelBoundingBox.height, colorWheelBoundingBox.width);
 
-  ctxColorWheel.strokeStyle = "#00000030";
-  ctxColorWheel.lineWidth = colorWidth + 3;
-  ctxColorWheel.stroke()
+    ctxColorWheel.strokeStyle = "#00000030";
+    ctxColorWheel.lineWidth = colorWidth + 3;
+    ctxColorWheel.stroke()
 
-  ctxColorWheel.strokeStyle = colorWheelGradient;
-  ctxColorWheel.lineWidth = colorWidth;
-  ctxColorWheel.stroke();
+    ctxColorWheel.strokeStyle = colorWheelGradient;
+    ctxColorWheel.lineWidth = colorWidth;
+    ctxColorWheel.stroke();
 
-  ctxColorWheel.beginPath();
-  ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), 0, Math.PI * 2);
-  ctxColorWheel.strokeStyle = "#ffffff30";
-  ctxColorWheel.lineWidth = 2;
-  ctxColorWheel.stroke();
+    ctxColorWheel.beginPath();
+    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), 0, Math.PI * 2);
+    ctxColorWheel.strokeStyle = "#ffffff30";
+    ctxColorWheel.lineWidth = 2;
+    ctxColorWheel.stroke();
 
-  ctxColorWheel.beginPath();
-  ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), 0, Math.PI * 2);
-  ctxColorWheel.strokeStyle = "#ffffff30";
-  ctxColorWheel.lineWidth = 2;
+    ctxColorWheel.beginPath();
+    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), 0, Math.PI * 2);
+    ctxColorWheel.strokeStyle = "#ffffff30";
+    ctxColorWheel.lineWidth = 2;
 
-  ctxColorWheel.stroke();
+    ctxColorWheel.stroke();
 
-  HueAngleCache = HueAngle
+    HueAngleCache = HueAngle;
+  }, timeoutTime);
 }
 
 function GetUnitFromAngle(angle) {
@@ -115,8 +119,8 @@ function GetUnitFromAngle(angle) {
   };
 }
 
-const WheelCursorSize = 2;
-const WheelCursorGap = 0.01;
+const WheelCursorSize = 0.1;
+const WheelCursorGap = 0.1;
 
 function DrawCursor() {
   if (ColorSelector.style.display == "none") {
@@ -142,90 +146,93 @@ function DrawCursor() {
 
   ctxCursor.scale(dpr, dpr);
 
-  const cursorWidth = CursorWidth * colorWheelBoundingBox.width;
-
-  const colorWidth = ColorWheelWidth * colorWheelBoundingBox.width;
+  const colorWidth = ColorWheelWidth * Math.min(colorWheelBoundingBox.height, colorWheelBoundingBox.width);
 
   let cursorUnit = GetUnitFromAngle(HueAngle);
 
 
-  ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize - WheelCursorGap * colorWheelSize)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize - WheelCursorGap * colorWheelSize)));
+  // ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize - WheelCursorGap * colorWidth)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize - WheelCursorGap * colorWidth)));
 
-  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 + WheelCursorSize)), ((Math.PI / 180) * (HueAngle - 90 - WheelCursorSize)), true)
+  const wheelSize = WheelCursorSize * colorWidth
 
-  //  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - WheelCursorSize)), ((Math.PI / 180) * (HueAngle - 90 + WheelCursorSize)), false)
+  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), true)
 
-  ctxCursor.closePath();
+  //  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
+
+  // ctxCursor.closePath();
 
   // ctxColorWheel.arc((colorWheelCenter.x) + (Math.sin(-(HueAngle + 180) * Math.PI / 180) * colorWheelSize), (colorWheelCenter.y) + (Math.cos((HueAngle + 180) * Math.PI / 180) * colorWheelSize), 15, 0, Math.PI * 2);
 
-  ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize + WheelCursorGap * colorWheelSize)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize + WheelCursorGap * colorWheelSize)));
-  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - WheelCursorSize)), ((Math.PI / 180) * (HueAngle - 90 + WheelCursorSize)), false)
+  //ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize + WheelCursorGap * colorWidth)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize + WheelCursorGap * colorWidth)));
+  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
   ctxCursor.closePath();
 
-  ctxCursor.lineWidth = 4 / dpr;
+  ctxCursor.lineWidth = 6 / dpr;
   ctxCursor.strokeStyle = "#000000a0";
 
   ctxCursor.stroke();
 
-  ctxCursor.fillStyle = "#ffffffa0";
+  ctxCursor.strokeStyle = "#ffffffa0";
+
+  ctxCursor.lineWidth = 3 / dpr;
+
+  ctxCursor.stroke();
+
+  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, 1, 1));
 
   ctxCursor.fill();
+
 }
 
 const ModifierBoxPadding = 8;
 const ModifierBoxBorder = 4;
 
-function DrawModifierBox() {
-  const dpr = window.devicePixelRatio || 1;
+function DrawModifierBox(timeoutTime) {
+  timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
+  DoTimeout("ModifierBox", () => {
+    const dpr = window.devicePixelRatio || 1;
 
-  const ctxModifierBox = ModifierBox.getContext("2d");
-  ctxModifierBox.clearRect(0, 0, ModifierBox.width, ModifierBox.height);
+    const ctxModifierBox = ModifierBox.getContext("2d");
+    ctxModifierBox.clearRect(0, 0, ModifierBox.width, ModifierBox.height);
 
-  const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
-  const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20 - (ColorWheelWidth * colorWheelBoundingBox.width / 2);
+    const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
+    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20 - (ColorWheelWidth * colorWheelBoundingBox.width / 2);
 
-  const largestSize = (colorWheelSize * Math.sqrt(2)) - ModifierBoxBorder;
+    const largestSize = (colorWheelSize * Math.sqrt(2)) - ModifierBoxBorder;
 
-  ModifierBox.height = (largestSize - ModifierBoxPadding);
-  ModifierBox.width = (largestSize - ModifierBoxPadding);
+    ModifierBox.height = (largestSize - ModifierBoxPadding);
+    ModifierBox.width = (largestSize - ModifierBoxPadding);
 
-  ModifierBox.style.height = ModifierBox.height + "px";
-  ModifierBox.style.width = ModifierBox.width + "px";
+    ModifierBox.style.height = ModifierBox.height + "px";
+    ModifierBox.style.width = ModifierBox.width + "px";
 
-  ModifierBoxCursor.height = ModifierBox.height;
-  ModifierBoxCursor.width = ModifierBox.width;
+    ctxModifierBox.scale(dpr, dpr);
 
-  ModifierBoxCursor.style.height = ModifierBox.height + "px";
-  ModifierBoxCursor.style.width = ModifierBox.width + "px";
+    ctxModifierBox.fillStyle = "#00000030";
+    ctxModifierBox.fillRect(0, 0, ModifierBox.height, ModifierBox.width);
 
-  ModifierBoxCursor.getContext("2d").scale(dpr, dpr);
-  ctxModifierBox.scale(dpr, dpr);
-
-  ctxModifierBox.fillStyle = "#00000030";
-  ctxModifierBox.fillRect(0, 0, ModifierBox.height, ModifierBox.width);
-
-  const colorArea = {
-    height: ModifierBox.height - ModifierBoxBorder,
-    width: ModifierBox.width - ModifierBoxBorder
-  }
-
-  const imageData = ctxModifierBox.createImageData(colorArea.width, colorArea.height);
-  const data = imageData.data;
-
-  for (let y = 0; y <= colorArea.height; y++) {
-    for (let x = 0; x < colorArea.width; x++) {
-      var colorRequired = color.fromFunctions[CurrentColorSpace](HueAngle, x / colorArea.width, 1 - y / colorArea.height);
-      var pixelIndex = ((y * colorArea.width) + x) * 4;
-
-      data[pixelIndex] = colorRequired[0];
-      data[pixelIndex + 1] = colorRequired[1];
-      data[pixelIndex + 2] = colorRequired[2];
-      data[pixelIndex + 3] = 255;
+    const colorArea = {
+      height: ModifierBox.height - ModifierBoxBorder,
+      width: ModifierBox.width - ModifierBoxBorder
     }
-  }
 
-  ctxModifierBox.putImageData(imageData, ModifierBoxBorder / 2, ModifierBoxBorder / 2);
+    const imageData = ctxModifierBox.createImageData(colorArea.width, colorArea.height);
+    const data = imageData.data;
+
+    for (let y = 0; y <= colorArea.height; y++) {
+      for (let x = 0; x < colorArea.width; x++) {
+        var colorRequired = color.fromFunctions[CurrentColorSpace](HueAngle, x / colorArea.width, 1 - y / colorArea.height);
+        var pixelIndex = ((y * colorArea.width) + x) * 4;
+
+        data[pixelIndex] = colorRequired[0];
+        data[pixelIndex + 1] = colorRequired[1];
+        data[pixelIndex + 2] = colorRequired[2];
+        data[pixelIndex + 3] = 255;
+      }
+    }
+
+    ctxModifierBox.putImageData(imageData, ModifierBoxBorder / 2, ModifierBoxBorder / 2);
+  }, timeoutTime);
 }
 
 const ModifierBoxCursorWidth = 0.1;
@@ -236,7 +243,15 @@ function DrawModifierBoxCursor() {
 
   const ctxCursorBox = ModifierBoxCursor.getContext("2d");
 
-  ctxCursorBox.clearRect(0, 0, ModifierBoxCursor.width, ModifierBoxCursor.height);
+  ModifierBoxCursor.height = ModifierBox.height;
+  ModifierBoxCursor.width = ModifierBox.width;
+
+  ModifierBoxCursor.style.height = ModifierBox.height + "px";
+  ModifierBoxCursor.style.width = ModifierBox.width + "px";
+
+  ModifierBoxCursor.getContext("2d").scale(dpr, dpr);
+
+  ctxCursorBox.clearRect(0, 0, ModifierBoxCursor.width / dpr, ModifierBoxCursor.height / dpr);
 
   ctxCursorBox.beginPath();
 
@@ -263,6 +278,27 @@ function DrawModifierBoxCursor() {
 
   ctxCursorBox.fill();
 }
+
+let TimeoutsArray = []
+let TimeoutOverflowArray = []
+
+const TimeoutOverflowMax = 15;
+
+function DoTimeout(TimeoutId, funtionToDo, timeToWait) {
+  TimeoutOverflowArray[TimeoutId] = isNaN(TimeoutOverflowArray[TimeoutId]) ? 0 : TimeoutOverflowArray[TimeoutId];
+
+  clearTimeout(TimeoutsArray[TimeoutId]);
+
+  if (TimeoutOverflowArray[TimeoutId] >= TimeoutOverflowMax) {
+    funtionToDo();
+    TimeoutOverflowArray[TimeoutId] = 0;
+  } else {
+    TimeoutsArray[TimeoutId] = setTimeout(() => { funtionToDo(); TimeoutOverflowArray[TimeoutId] = 0; }, timeToWait);
+  }
+
+  TimeoutOverflowArray[TimeoutId] += 1;
+}
+
 
 const VLOutputLabel = document.querySelector('label[for="VLOutput"]');
 const VLPaletteLabel = document.querySelector('label[for="VLPalette"]');
@@ -299,12 +335,16 @@ function UpdateColorOutput() {
   }
 }
 
-function Update() {
-  DrawColorWheel();
-  DrawCursor();
-  DrawModifierBox();
-  DrawModifierBoxCursor();
-  UpdateColorOutput();
+
+function Update(timeoutTime) {
+  timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
+  DoTimeout("UniversalUpdate", () => {
+    DrawColorWheel();
+    DrawCursor();
+    DrawModifierBox();
+    DrawModifierBoxCursor();
+    UpdateColorOutput();
+  }, timeoutTime);
 }
 
 var Mouse = { x: null, y: null }
@@ -387,7 +427,6 @@ function ModifierBoxUpdate() {
     ValueOrLightnessCache = ValueOrLightness;
 
     DrawColorWheel();
-    DrawModifierBox();
     DrawModifierBoxCursor();
     UpdateColorOutput();
   }
@@ -598,10 +637,11 @@ UpdatePaletteVisibilty();
 
 
 onresize = () => {
+  Update(0);
   UpdatePaletteVisibilty();
 };
-onload = Update;
-addEventListener("DOMContentLoaded", Update);
+onload = () => { Update(0) };
+addEventListener("DOMContentLoaded", onload);
 
 const DownloadButton = document.getElementById("downloadButton");
 const IndexOrValueMode = document.getElementById("indexButton");
@@ -760,3 +800,9 @@ ImportButton.addEventListener("change", input => {
   });
 });
 
+
+window.addEventListener("beforeunload", (event) => {
+  event.preventDefault();
+
+  event.returnValue = true;
+});

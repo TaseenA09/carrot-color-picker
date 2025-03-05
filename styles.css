@@ -15,7 +15,6 @@
     user-select: none;
 
     scrollbar-width: var(--Normal-Spacing);
-    scrollbar-gutter: stable both-edges;
     scrollbar-color: var(--Normal-Foreground) var(--Dark-Background);
 }
 
@@ -23,9 +22,8 @@
     border-radius: 0;
 }
 
+html,
 body {
-    height: 100dvh;
-    width: 100dvw;
 
     min-height: 520px;
     min-width: 360px;
@@ -40,6 +38,9 @@ body {
 
     background-color: var(--Normal-Background);
     touch-action: none;
+
+    height: 100dvh;
+    width: 100dvw;
 }
 
 /* Color Output */
@@ -141,7 +142,7 @@ main {
     box-sizing: border-box;
 
     display: flex;
-    color: var(--Normal-Background);
+    color: var(--Dark-Background);
     padding-left: calc(var(--Normal-Spacing) * 2);
     padding-right: calc(var(--Normal-Spacing) * 2);
     font-size: calc(var(--Options-height) / 2);
@@ -305,7 +306,15 @@ main {
     justify-content: space-between;
     box-sizing: border-box;
 
+    padding-bottom: var(--Normal-Spacing);
+
+    border-bottom: 1px solid var(--border-color);
+
     max-height: calc((100% / 3) - var(--gap));
+}
+
+.InputUnit:last-child {
+    border: none;
 }
 
 .InputUnit label {
@@ -396,6 +405,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .ColorSelectorElementCursor {
+    z-index: 15;
     pointer-events: none;
 }
 
@@ -460,7 +470,6 @@ input[type=number]::-webkit-outer-spin-button {
     border: none;
 
     padding: var(--Normal-Spacing);
-    outline: none;
 
     width: 100%;
     height: calc(100% - var(--Font-Size-Regular));
@@ -759,7 +768,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .downloadButton {
-    color: var(--Light-Background);
+    color: var(--Dark-Background);
     padding: var(--Normal-Spacing);
     width: 100%;
 }
@@ -767,7 +776,36 @@ input[type=number]::-webkit-outer-spin-button {
 /* Footer */
 
 footer {
+    font-size: calc(var(--Footer-height) - (var(--Normal-Spacing) * 2));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: var(--Footer-height);
     background-color: var(--Light-Background);
+    padding: 1px;
     padding-left: var(--Normal-Spacing);
+    padding-right: var(--Normal-Spacing);
+    box-sizing: border-box;
+}
+
+footer a {
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    color: #ffddd3;
+    padding: var(--Normal-Spacing);
+    align-items: center;
+    font-size: 12px;
+    gap: 4px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #ae553b;
+}
+
+footer a:hover {
+    background-color: #ad6a57;
+}
+
+footer a img {
+    height: 100%;
 }

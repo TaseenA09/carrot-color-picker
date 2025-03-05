@@ -14,8 +14,11 @@
     <link rel="stylesheet" href="./colors.css">
     <link rel="stylesheet" href="./theme.css">
 
-
     <link rel="stylesheet" href="./styles.css">
+    <meta name="application-name" content="Carrot Color Picker">
+
+    <meta name="description"
+        content="Pick color and create color palettes using HSL and HSV alongside OKHSL and OKHSV (from OKLAB)">
 </head>
 
 <body>
@@ -118,7 +121,7 @@
                 <div class="InputContainer">
                     <div class="InputUnit">
                         <label for="HueOutput">Hue</label>
-                        <div class="NumberInputUnit">
+                        <div class="NumberInputUnit interactable">
                             <input name="HueOutput" type="number" min="0" max="360" id="HueOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
@@ -132,7 +135,7 @@
                     </div>
                     <div class="InputUnit">
                         <label for="SaturationOutput">Saturation</label>
-                        <div class="NumberInputUnit">
+                        <div class="NumberInputUnit interactable">
                             <input name="SaturationOutput" type="number" min="0" max="100" id="SaturationOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
@@ -146,7 +149,7 @@
                     </div>
                     <div class="InputUnit">
                         <label for="VLOutput">Value</label>
-                        <div class="NumberInputUnit">
+                        <div class="NumberInputUnit interactable">
                             <input name="VLOutput" type="number" min="0" max="100" id="VLOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
@@ -189,6 +192,10 @@
 
     <footer>
         Carrot Color Picker
+        <a href="https://www.patreon.com/TaseenA09">
+            <img src="icons/patreon.svg" />
+            Patreon
+        </a>
     </footer>
 </body>
 
