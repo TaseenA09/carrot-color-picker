@@ -1,0 +1,16 @@
+{
+  "name": "Carrot Color Picker",
+  "short_name": "Color Picker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#2C343B",
+  "theme_color": "#101010",
+  "id": "./index.html",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "128x128"
+    }
+  ]
+}

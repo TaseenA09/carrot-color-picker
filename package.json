@@ -1,0 +1,26 @@
+{
+  "name": "carrot-color-picker",
+  "version": "1.0.0",
+  "description": "<div align=\"center\" style=\"margin-top: 20px;margin-bottom: 30px\"> <img style=\"height:256px;\" src=\"https://github.com/TaseenA09/carrot-color-picker/blob/main/icons/iconcolor.svg\"/> </div>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaseenA09/carrot-color-picker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TaseenA09/carrot-color-picker/issues"
+  },
+  "homepage": "https://github.com/TaseenA09/carrot-color-picker#readme",
+  "dependencies": {
+    "esbuild": "^0.25.0",
+    "gulp": "^5.0.0",
+    "gulp-html-minifier-terser": "^7.1.0"
+  }
+}

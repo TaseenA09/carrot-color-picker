@@ -7,7 +7,7 @@
 }
 
 * {
-    font-family: 'jetbrains', sans-serif;
+    font-family: 'jetbrains', monospace, system-ui;
     color: var(--Normal-Text);
 
     -webkit-user-select: none;

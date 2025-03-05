@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrot Color Picker</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+
+    <link rel="manifest" href="./manifest.json">
+
+    <link rel="stylesheet" href="./colors.css">
+    <link rel="stylesheet" href="./theme.css">
+
+    <link rel="stylesheet" href="./styles.css">
+    <meta name="application-name" content="Carrot Color Picker">
+
+    <meta name="description"
+        content="Pick color and create color palettes using HSL and HSV alongside OKHSL and OKHSV (from OKLAB)">
+</head>
+
+<body>
+    <div class="ColorDisplay" id="ColorDisplay">
+        <label for="CopyButton" class="CopyButton">
+            <img src="icons/copy.svg" class="locked">
+
+            <input name="CopyButton" type="button" id="CopyButton" />
+        </label>
+
+        <input onfocus="this.select()" maxlength="7" minlength="6" type="text" id="HexOutput" class="HexInput" />
+    </div>
+
+
+    <main>
+        <div class="ColorOptions">
+            <div class="ColorSpaces interactable">
+                <label class="ColorOption" for="okhsl"> <input type="radio" id="okhsl" name="ColorOption" value="okhsl">
+                    OKHSL</label>
+                <label class="ColorOption" for="okhsv"> <input checked type="radio" id="okhsv" name="ColorOption"
+                        value="okhsv">
+                    OKHSV</label>
+                <label class="ColorOption" for="hsv"> <input type="radio" id="hsv" name="ColorOption" value="hsv">
+                    HSV</label>
+                <label class="ColorOption" for="hsl"> <input type="radio" id="hsl" name="ColorOption" value="hsl">
+                    HSL</label>
+            </div>
+
+            <div class="OptionsBox">
+                <label for="PaletteButton" class="PaletteLabel ColorButton interactable">
+                    <img src="icons/palette.svg" class="locked">
+                    <img src="icons/palette.svg" class="unlocked">
+                    <input name="PaletteButton" type="checkbox" id="PaletteButton" />
+                </label>
+
+
+                <label for="importButton" class="ColorButton interactable">
+                    <img src="icons/import.svg">
+                    <input name="importButton" type="file" id="importButton" />
+                </label>
+
+                <div class="exportWrapper">
+                    <label for="exportButton" class="ColorButton interactable">
+                        <img src="icons/export.svg">
+                        <input name="exportButton" type="checkbox" id="exportButton" />
+                    </label>
+
+                    <div class="exportWindow outlined">
+                        <div class="hexOption">
+                            Use Index
+
+                            <label for="indexButton" class="ColorButton ToggleButton interactable">
+                                <div class="ToggleButtonHandle">
+                                </div>
+                                <input name="indexButton" type="checkbox" id="indexButton" />
+                            </label>
+
+
+                            <label for="infoButton" class="ColorButton infoButton">
+                                <img src="icons/warn.svg">
+                                <input name="infoButton" type="button" id="infoButton" />
+                                <div class="infoWindow outlined">
+                                    <div class="Arrow"></div>
+                                    Importing index saves may not be accurate
+                                </div>
+                            </label>
+                        </div>
+
+                        <label for="downloadButton" class="ColorButton downloadButton interactable">
+                            Export
+                            <input name="downloadButton" type="button" id="downloadButton" />
+                        </label>
+                    </div>
+                </div>
+                <label for="randomButton" class="ColorButton interactable">
+                    <img src="icons/shuffle.svg">
+                    <input name="randomButton" type="button" id="randomButton" />
+                </label>
+
+                <label for="colorLockToggle" class="ColorButton interactable">
+
+                    <img src="icons/locked.svg" class="locked">
+                    <img src="icons/unlocked.svg" class="unlocked">
+
+                    <input name="colorLockToggle" type="checkbox" id="colorLockToggle" />
+                </label>
+            </div>
+
+        </div>
+        <div class="ColorControls">
+            <div class="ColorSelector">
+                <div class="CursorSelectorElementsBox">
+                    <canvas id="ColorWheel" class="ColorSelectorElement ColorSelectorCircle"> </canvas>
+                    <canvas id="ColorWheelCursor"
+                        class="ColorSelectorElement ColorSelectorElementCursor ColorSelectorCircle"> </canvas>
+                    <canvas id="ModifierBox" class="ColorSelectorElement"> </canvas>
+                    <canvas id="ModifierBoxCursor" class="ColorSelectorElement ColorSelectorElementCursor"></canvas>
+                </div>
+
+                <div class="InputContainer">
+                    <div class="InputUnit">
+                        <label for="HueOutput">Hue</label>
+                        <div class="NumberInputUnit interactable">
+                            <input name="HueOutput" type="number" min="0" max="360" id="HueOutput" />
+                            <div class="ValueControlUnit">
+                                <input type="button"
+                                    onclick="HueOutput.stepUp(); HueOutput.dispatchEvent(new Event('input'))" value="▲"
+                                    class="ValueControl ValueControlUp" />
+                                <input type="button"
+                                    onclick="HueOutput.stepDown(); HueOutput.dispatchEvent(new Event('input'))"
+                                    value="▼" class="ValueControl ValueControlDown" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="InputUnit">
+                        <label for="SaturationOutput">Saturation</label>
+                        <div class="NumberInputUnit interactable">
+                            <input name="SaturationOutput" type="number" min="0" max="100" id="SaturationOutput" />
+                            <div class="ValueControlUnit">
+                                <input type="button"
+                                    onclick="SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    value="▲" class="ValueControl ValueControlUp" />
+                                <input type="button"
+                                    onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    value="▼" class="ValueControl ValueControlDown" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="InputUnit">
+                        <label for="VLOutput">Value</label>
+                        <div class="NumberInputUnit interactable">
+                            <input name="VLOutput" type="number" min="0" max="100" id="VLOutput" />
+                            <div class="ValueControlUnit">
+                                <input type="button"
+                                    onclick="VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))" value="▲"
+                                    class="ValueControl ValueControlUp" />
+                                <input type="button"
+                                    onclick="VLOutput.stepDown();VLOutput.dispatchEvent(new Event('input'))" value="▼"
+                                    class="ValueControl ValueControlDown" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ColorPaletteWraper">
+                <div class="ColorPalette">
+                    <div class="ColorPaletteInput">
+                        <div class="ColorPaletteInputUnit">
+                            <label for="huePalette" class="PaletteHeader">Hue</label>
+                            <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
+                                type="text"></textarea>
+                        </div>
+
+                        <div class="ColorPaletteInputUnit">
+                            <label for="satPalette" class="PaletteHeader">Saturation</label>
+                            <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
+                                type="text"></textarea>
+                        </div>
+
+                        <div class="ColorPaletteInputUnit">
+                            <label for="VLPalette" class="PaletteHeader">Value</label>
+                            <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="colorPalette" class="ColorPaletteOutput"> </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Carrot Color Picker
+        <a href="https://www.patreon.com/TaseenA09">
+            <img src="icons/patreon.svg" />
+            Patreon
+        </a>
+    </footer>
+</body>
+
+<script type="module" src="./script.js" defer></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("./sw.js");
+    }
+</script>
+
+</html>

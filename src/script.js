@@ -196,7 +196,7 @@ function DrawModifierBox(timeoutTime) {
     ctxModifierBox.clearRect(0, 0, ModifierBox.width, ModifierBox.height);
 
     const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
-    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20 - (ColorWheelWidth * colorWheelBoundingBox.width / 2);
+    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20 - (ColorWheelWidth * Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2);
 
     const largestSize = (colorWheelSize * Math.sqrt(2)) - ModifierBoxBorder;
 
@@ -289,7 +289,7 @@ function DoTimeout(TimeoutId, funtionToDo, timeToWait) {
 
   clearTimeout(TimeoutsArray[TimeoutId]);
 
-  if (TimeoutOverflowArray[TimeoutId] >= TimeoutOverflowMax) {
+  if (TimeoutOverflowArray[TimeoutId] >= TimeoutOverflowMax || timeToWait == 0) {
     funtionToDo();
     TimeoutOverflowArray[TimeoutId] = 0;
   } else {
@@ -610,8 +610,7 @@ document.getElementById("CopyButton").onclick = function() {
   navigator.clipboard.writeText(HexOutput.value);
 }
 
-Update();
-
+Update(0);
 GetPalette();
 
 
@@ -635,13 +634,21 @@ function UpdatePaletteVisibilty() {
 PaletteButton.addEventListener('change', UpdatePaletteVisibilty);
 UpdatePaletteVisibilty();
 
-
 onresize = () => {
   Update(0);
   UpdatePaletteVisibilty();
 };
+
+
 onload = () => { Update(0) };
-addEventListener("DOMContentLoaded", onload);
+
+onfocus = onload;
+addEventListener("DOMContentLoaded", () => onload);
+
+document.onload = onload;
+
+ModifierBox.onload = onload;
+ColorWheel.onload = onload;
 
 const DownloadButton = document.getElementById("downloadButton");
 const IndexOrValueMode = document.getElementById("indexButton");
