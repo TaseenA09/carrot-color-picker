@@ -46,11 +46,11 @@ const ColorWheelMaxSize = 500;
 
 const DrawTimeOut = 5;
 
-ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
-ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
+//ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
+//ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
 
-CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
-CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
+//CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
+//CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
 
 function DrawColorWheel(timeoutTime) {
   timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
@@ -134,7 +134,7 @@ function DrawCursor() {
 
   ctxCursor.beginPath();
 
-  const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
+  const colorWheelBoundingBox = CursorCanvas.getBoundingClientRect();
   const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20;
   const colorWheelCenter = {
     x: colorWheelBoundingBox.width / 2,
@@ -178,7 +178,7 @@ function DrawCursor() {
 
   ctxCursor.stroke();
 
-  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, 1, 1));
+  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace.slice(0, -1) + "v"](HueAngle, 1, 1));
 
   ctxCursor.fill();
 
@@ -640,15 +640,19 @@ onresize = () => {
 };
 
 
-onload = () => { Update(0) };
 
-onfocus = onload;
-addEventListener("DOMContentLoaded", () => onload);
+document.addEventListener("DOMContentLoaded", function() {
+  Update(0);
+});
 
-document.onload = onload;
+window.addEventListener("load", function() {
+  Update(0);
+  this.requestAnimationFrame(Update);
+  setTimeout(Update, 150);
+  setTimeout(DrawModifierBoxCursor, 150);
+  setTimeout(DrawCursor, 150);
+});
 
-ModifierBox.onload = onload;
-ColorWheel.onload = onload;
 
 const DownloadButton = document.getElementById("downloadButton");
 const IndexOrValueMode = document.getElementById("indexButton");
@@ -813,3 +817,5 @@ window.addEventListener("beforeunload", (event) => {
 
   event.returnValue = true;
 });
+
+Update(0);
