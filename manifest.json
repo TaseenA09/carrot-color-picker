@@ -3,8 +3,8 @@
   "short_name": "Color Picker",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#2C343B",
-  "theme_color": "#101010",
+  "background_color": "#21282d",
+  "theme_color": "#3c637a",
   "id": "./index.html",
   "icons": [
     {
