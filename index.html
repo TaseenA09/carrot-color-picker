@@ -70,14 +70,14 @@
                         <div class="hexOption">
                             Use Index
 
-                            <label for="indexButton" class="ColorButton ToggleButton interactable">
+                            <label for="indexButton" class="ColorButton ToggleButton interactable padded">
                                 <div class="ToggleButtonHandle">
                                 </div>
                                 <input name="indexButton" type="checkbox" id="indexButton" />
                             </label>
 
 
-                            <label for="infoButton" class="ColorButton infoButton">
+                            <label for="infoButton" class="ColorButton infoButton rounded padded">
                                 <img src="icons/warn.svg">
                                 <input name="infoButton" type="button" id="infoButton" />
                                 <div class="infoWindow outlined">
@@ -88,7 +88,7 @@
                         </div>
 
                         <label for="downloadButton" class="ColorButton downloadButton interactable">
-                            Export
+                            <img src="icons/export.svg"> Export
                             <input name="downloadButton" type="button" id="downloadButton" />
                         </label>
                     </div>
@@ -110,14 +110,15 @@
         </div>
         <div class="ColorControls">
             <div class="ColorSelector">
-                <div class="CursorSelectorElementsBox">
-                    <canvas id="ColorWheel" class="ColorSelectorElement ColorSelectorCircle"> </canvas>
-                    <canvas id="ColorWheelCursor"
-                        class="ColorSelectorElement ColorSelectorElementCursor ColorSelectorCircle"> </canvas>
-                    <canvas id="ModifierBox" class="ColorSelectorElement"> </canvas>
-                    <canvas id="ModifierBoxCursor" class="ColorSelectorElement ColorSelectorElementCursor"></canvas>
+                <div class="CursorSelectorElementsBoxWraper">
+                    <div class="CursorSelectorElementsBox">
+                        <canvas id="ColorWheel" class="ColorSelectorElement ColorSelectorCircle"> </canvas>
+                        <canvas id="ColorWheelCursor"
+                            class="ColorSelectorElement ColorSelectorElementCursor ColorSelectorCircle"> </canvas>
+                        <canvas id="ModifierBox" class="ColorSelectorElement"> </canvas>
+                        <canvas id="ModifierBoxCursor" class="ColorSelectorElement ColorSelectorElementCursor"></canvas>
+                    </div>
                 </div>
-
                 <div class="InputContainer">
                     <div class="InputUnit">
                         <label for="HueOutput">Hue</label>
@@ -184,7 +185,7 @@
                         </div>
                     </div>
 
-                    <div id="colorPalette" class="ColorPaletteOutput"> </div>
+                    <div id="colorPalette" class="ColorPaletteOutput rounded"> </div>
                 </div>
             </div>
         </div>
@@ -203,7 +204,7 @@
 
 <script>
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("./sw.js");
+        //        navigator.serviceWorker.register("./sw.js");
     }
 </script>
 

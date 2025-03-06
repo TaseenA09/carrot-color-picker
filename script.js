@@ -339,9 +339,9 @@ function UpdateColorOutput() {
 function Update(timeoutTime) {
   timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
   DoTimeout("UniversalUpdate", () => {
-    DrawColorWheel();
+    DrawColorWheel(timeoutTime);
     DrawCursor();
-    DrawModifierBox();
+    DrawModifierBox(timeoutTime);
     DrawModifierBoxCursor();
     UpdateColorOutput();
   }, timeoutTime);
@@ -610,7 +610,6 @@ document.getElementById("CopyButton").onclick = function() {
   navigator.clipboard.writeText(HexOutput.value);
 }
 
-Update(0);
 GetPalette();
 
 
@@ -648,10 +647,6 @@ document.addEventListener("DOMContentLoaded", function() {
 window.addEventListener("load", function() {
   Update(0);
   requestAnimationFrame(Update);
-  setTimeout(Update, 1000);
-  setTimeout(DrawModifierBoxCursor, 1000);
-  setTimeout(DrawCursor, 1000);
-  setTimeout(DrawModifierBoxCursor, 1000);
 });
 
 

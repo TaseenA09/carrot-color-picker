@@ -46,15 +46,14 @@ body {
 .ColorDisplay {
     height: var(--ColorDisplay-height);
     width: 100%;
-    padding: var(--Normal-Spacing);
     background-color: #333;
-    box-sizing: border-box;
     display: flex;
-    align-items: flex-end;
+    align-items: end;
     justify-content: flex-end;
 }
 
 .HexInput {
+    align-self: flex-end;
     text-align: end;
     background: var(--Dark-Background);
     line-height: var(--Font-Size-Large);
@@ -65,9 +64,6 @@ body {
     padding: none;
     border: var(--Normal-Spacing) solid var(--Normal-Background);
     transition: var(--Timing-Normal) var(--Transition-Normal) border;
-
-    --border-radius: calc(var(--interactable-radius) * 4);
-    border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
 }
 
 .HexInput:focus {
@@ -81,16 +77,13 @@ body {
     justify-content: center;
     box-sizing: border-box;
     display: flex;
-    height: calc(var(--Font-Size-Regular) * 2.5);
-    width: calc(var(--Font-Size-Regular) * 2.5);
+    height: calc(var(--Font-Size-Regular) * 2);
+    width: calc(var(--Font-Size-Regular) * 2);
 
     background: var(--Normal-Background);
     outline: none;
+    padding: 3;
     cursor: pointer;
-
-    --border-radius: calc(var(--interactable-radius) * 4);
-    padding: calc(var(--border-radius) / 4);
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
 
     transition: background var(--Timing-Short) var(--Transition-Normal);
     outline: #2C9CEF solid 0px;
@@ -265,23 +258,17 @@ main {
 /* Selector Formatting */
 
 :root {
-    --Number-Inputs-Size: max(20%, 125px);
+    --Number-Inputs-Size: max(20%, 200px);
 }
 
 .CursorSelectorElementsBox {
     display: grid;
     padding: 5%;
-    width: 100%;
-    aspect-ratio: 1/1;
-    max-height: 100%;
     box-sizing: border-box;
-}
-
-.CursorSelectorElementsBoxWraper {
-    align-content: center;
-    align-self: flex-start;
     height: calc(100% - var(--Number-Inputs-Size));
     width: 100%;
+    aspect-ratio: 1;
+    align-self: flex-start;
 }
 
 .ColorSelectorElement {
@@ -374,7 +361,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: row;
 
-    max-height: calc(var(--Font-Size-Regular) * 1.75);
+    max-height: calc(var(--Font-Size-Regular) * 1.5);
     height: 100%;
 }
 
@@ -484,7 +471,6 @@ input[type=number]::-webkit-outer-spin-button {
     resize: none;
     background: var(--Light-Background);
     border: none;
-    outline: none;
 
     padding: var(--Normal-Spacing);
 
@@ -685,17 +671,16 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ToggleButton {
     margin-left: calc(var(--Normal-Spacing) * 6);
-    width: calc(var(--Font-Size-Regular) * 2);
+    width: calc(var(--Font-Size-Regular) * 3);
     height: 100%;
     background-color: var(--Normal-Secondary);
-    border-radius: 100vh;
     display: block;
 }
 
 .ToggleButtonHandle {
     height: 100%;
     width: 50%;
-    border-radius: 100vh;
+    border-radius: var(--interactable-radius);
     background-color: white;
 
     transition: margin var(--Timing-Normal);
@@ -757,7 +742,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .infoWindow {
     position: absolute;
-    top: calc(100% + (var(--Normal-Spacing) * 2));
+    top: calc(100% + var(--Normal-Spacing));
     display: none;
     min-width: calc(var(--Font-Size-Small) * 14);
     width: fit-content;
@@ -771,7 +756,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .infoWindow .Arrow {
-    background: var(--Dark-Yellow);
+    background: var(--Normal-Background);
 }
 
 .Arrow {
@@ -784,8 +769,8 @@ input[type=number]::-webkit-outer-spin-button {
     transform: translate(50%, -100%);
     top: 0;
 
-    width: calc(var(--Normal-Spacing) * 3);
-    height: calc(var(--Normal-Spacing) * 2 - 1px);
+    width: calc(var(--Normal-Spacing) * 2);
+    height: calc(var(--Normal-Spacing) - 1px);
 
     outline: 2px solid black;
 }

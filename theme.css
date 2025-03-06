@@ -22,16 +22,26 @@
     /* Styling */
     --border-color: #00000030;
 
-    --interactable-radius: 0px;
+    --Normal-Padding: 2px;
+
+    --interactable-radius: 3px;
 }
 
 .outlined {
     outline: 1px solid var(--border-color);
+    border-radius: calc(var(--interactable-radius) + var(--Normal-Spacing));
+}
+
+.rounded {
+    border-radius: calc(var(--interactable-radius) / 2);
+}
+
+.padded {
+    padding: var(--Normal-Padding);
 }
 
 .interactable {
     border-radius: var(--interactable-radius);
-    outline: 1px solid var(--border-color);
 }
 
 .ColorOption:first-of-type {
