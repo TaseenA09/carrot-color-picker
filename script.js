@@ -46,11 +46,12 @@ const ColorWheelMaxSize = 500;
 
 const DrawTimeOut = 5;
 
-//ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
-//ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
+ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
+ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
 
-//CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
-//CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
+
+CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
+CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
 
 function DrawColorWheel(timeoutTime) {
   timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
@@ -112,15 +113,7 @@ function DrawColorWheel(timeoutTime) {
   }, timeoutTime);
 }
 
-function GetUnitFromAngle(angle) {
-  return {
-    x: Math.sin(-(angle + 180) * Math.PI / 180),
-    y: Math.cos((angle + 180) * Math.PI / 180)
-  };
-}
-
-const WheelCursorSize = 0.1;
-const WheelCursorGap = 0.1;
+const WheelCursorSize = 2;
 
 function DrawCursor() {
   if (ColorSelector.style.display == "none") {
@@ -147,23 +140,8 @@ function DrawCursor() {
   ctxCursor.scale(dpr, dpr);
 
   const colorWidth = ColorWheelWidth * Math.min(colorWheelBoundingBox.height, colorWheelBoundingBox.width);
-
-  let cursorUnit = GetUnitFromAngle(HueAngle);
-
-
-  // ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize - WheelCursorGap * colorWidth)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize - WheelCursorGap * colorWidth)));
-
-  const wheelSize = WheelCursorSize * colorWidth
-
+  const wheelSize = WheelCursorSize
   ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), true)
-
-  //  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
-
-  // ctxCursor.closePath();
-
-  // ctxColorWheel.arc((colorWheelCenter.x) + (Math.sin(-(HueAngle + 180) * Math.PI / 180) * colorWheelSize), (colorWheelCenter.y) + (Math.cos((HueAngle + 180) * Math.PI / 180) * colorWheelSize), 15, 0, Math.PI * 2);
-
-  //ctxCursor.moveTo((colorWheelCenter.x) + (cursorUnit.x * (colorWheelSize + WheelCursorGap * colorWidth)), (colorWheelCenter.y) + (cursorUnit.y * (colorWheelSize + WheelCursorGap * colorWidth)));
   ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
   ctxCursor.closePath();
 

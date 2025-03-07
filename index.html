@@ -129,8 +129,11 @@
                                     onclick="HueOutput.stepUp(); HueOutput.dispatchEvent(new Event('input'))" value="▲"
                                     class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="HueOutput.stepDown(); HueOutput.dispatchEvent(new Event('input'))"
-                                    value="▼" class="ValueControl ValueControlDown" />
+                                    onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
+                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▼"
+                                    class="ValueControl ValueControlDown" />
                             </div>
                         </div>
                     </div>
@@ -141,10 +144,16 @@
                             <div class="ValueControlUnit">
                                 <input type="button"
                                     onclick="SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))"
-                                    value="▲" class="ValueControl ValueControlUp" />
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
+                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▲"
+                                    class="ValueControl ValueControlUp" />
                                 <input type="button"
                                     onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
-                                    value="▼" class="ValueControl ValueControlDown" />
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
+                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▼"
+                                    class="ValueControl ValueControlDown" />
                             </div>
                         </div>
                     </div>
@@ -204,7 +213,7 @@
 
 <script>
     if ('serviceWorker' in navigator) {
-        //        navigator.serviceWorker.register("./sw.js");
+        navigator.serviceWorker.register("./sw.js");
     }
 </script>
 

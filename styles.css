@@ -90,6 +90,8 @@ body {
 
     --border-radius: calc(var(--interactable-radius) * 4);
     padding: calc(var(--border-radius) / 4);
+    padding-right: 0;
+    margin-right: calc(0px - var(--Normal-Spacing) / 2);
     border-radius: var(--border-radius) 0 0 var(--border-radius);
 
     transition: background var(--Timing-Short) var(--Transition-Normal);
