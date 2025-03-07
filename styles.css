@@ -37,6 +37,9 @@ body {
     background-color: var(--Normal-Background);
     touch-action: none;
 
+    min-height: 250px;
+    min-width: 250px;
+
     height: 100dvh;
     width: 100dvw;
 }
@@ -61,6 +64,7 @@ body {
     font-size: var(--Font-Size-Large);
     width: 4.25em;
     height: var(--Font-Size-Large);
+    max-height: calc(100% - var(--Normal-Spacing));
     color: var(--Normal-Text);
     padding: none;
     border: var(--Normal-Spacing) solid var(--Normal-Background);
@@ -69,6 +73,19 @@ body {
     --border-radius: calc(var(--interactable-radius) * 4);
     border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
 }
+
+@media (max-height: 425px) {
+    .ColorDisplay {
+        padding: 0;
+    }
+
+    .HexInput {
+        font-size: calc(var(--Font-Size-Large) /1.25);
+        height: calc(var(--Font-Size-Large) /1.25);
+        border-radius: var(--border-radius) 0 0 0;
+    }
+}
+
 
 .HexInput:focus {
     -webkit-appearance: none;
@@ -272,7 +289,7 @@ main {
 
 .CursorSelectorElementsBox {
     display: grid;
-    padding: 5%;
+    padding: var(--Normal-Spacing);
     width: 100%;
     aspect-ratio: 1/1;
     max-height: 100%;
@@ -310,6 +327,7 @@ main {
     flex-direction: column;
     align-items: center;
     gap: 6px;
+    padding: var(--Normal-Spacing);
     width: 100%;
 }
 
@@ -581,7 +599,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and ((max-width: 700px) or (max-height: 475px)) {
     .ColorPaletteWraper {
         width: 100%;
     }
@@ -620,17 +638,25 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
-@media screen and (max-height: 560px) {
+
+@media screen and (((max-height: 700px) and (max-width:700px)) or (max-height: 475px)) {
     .InputContainer {
-        display: none;
+        display: flex;
+        height: 100%;
+        width: 50%;
+        justify-content: center;
+    }
+
+    .ColorSelector {
+        flex-direction: row;
     }
 
     :root {
-        --Number-Inputs-Size: 1%;
+        --Number-Inputs-Size: 0px;
     }
 }
 
-@container ColorPaletteWraper (max-aspect-ratio: 1/1) or (max-width: 110vh) {
+@container ColorPaletteWraper (max-aspect-ratio: 1/1) or (max-width: 110vh) or (max-height: 400px) {
     .ColorPalette {
         flex-direction: column;
     }
