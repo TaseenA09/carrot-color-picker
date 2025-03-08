@@ -10,10 +10,7 @@ module.exports = {
 		/^fbclid$/
 	],
 	runtimeCaching: [{
-		urlPattern: /.*/,
-		handler: "NetworkFirst",
-		options: {
-			networkTimeoutSeconds: 30,
-		},
+		urlPattern: new RegExp('/.*/'),
+		handler: "NetworkOnly",
 	}]
 };
