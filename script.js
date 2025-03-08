@@ -592,7 +592,7 @@ GetPalette();
 
 
 function UpdatePaletteVisibilty() {
-  if (window.innerWidth <= 700 || window.innerHeight <= 475) {
+  if (window.innerWidth <= 700) {
     if (PaletteButton.checked) {
       ColorPalette.style.display = 'flex';
       ColorSelector.style.display = 'none';

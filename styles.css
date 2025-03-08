@@ -64,34 +64,14 @@ body {
     font-size: var(--Font-Size-Large);
     width: 4.25em;
     height: var(--Font-Size-Large);
-    max-height: calc(100% - var(--Normal-Spacing));
+    max-height: calc(100% - var(--Normal-Spacing) * 3);
     color: var(--Normal-Text);
-    padding: none;
+    padding: calc(var(--Normal-Spacing) / 2);
     border: var(--Normal-Spacing) solid var(--Normal-Background);
     transition: var(--Timing-Normal) var(--Transition-Normal) border;
 
     --border-radius: calc(var(--interactable-radius) * 4);
     border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
-}
-
-@media (max-height: 425px) {
-    .ColorDisplay {
-        padding: 0;
-    }
-
-    .HexInput {
-        font-size: calc(var(--Font-Size-Large) /1.25);
-        height: calc(var(--Font-Size-Large) /1.25);
-        border-radius: var(--border-radius) 0 0 0;
-    }
-}
-
-
-.HexInput:focus {
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
-    border: var(--Normal-Spacing) solid;
 }
 
 .CopyButton {
@@ -114,6 +94,34 @@ body {
     transition: background var(--Timing-Short) var(--Transition-Normal);
     outline: #2C9CEF solid 0px;
 }
+
+@media (max-height: 475px) {
+    .ColorDisplay {
+        padding: 0;
+    }
+
+    .HexInput {
+        font-size: calc(var(--Font-Size-Large) /1.25);
+        height: calc(var(--Font-Size-Large) /1.25);
+        border-radius: var(--border-radius) 0 0 0;
+    }
+
+    .CopyButton {
+        border-radius: 100vh;
+        margin: calc(var(--Normal-Spacing) / 2);
+        height: calc(var(--Font-Size-Regular) * 2);
+        width: calc(var(--Font-Size-Regular) * 2);
+    }
+}
+
+
+.HexInput:focus {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    border: var(--Normal-Spacing) solid;
+}
+
 
 .CopyButton svg {
     height: 100%;
@@ -639,7 +647,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 
-@media screen and (((max-height: 700px) and (max-width:700px)) or (max-height: 475px)) {
+@media screen and (((max-height: 475px) and (max-width:700px)) or (max-height: 475px)) {
     .InputContainer {
         display: flex;
         height: 100%;
