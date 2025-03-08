@@ -8,5 +8,12 @@ module.exports = {
 	ignoreURLParametersMatching: [
 		/^utm_/,
 		/^fbclid$/
-	]
+	],
+	runtimeCaching: [{
+		urlPattern: /.*/,
+		handler: "NetworkFirst",
+		options: {
+			networkTimeoutSeconds: 30,
+		},
+	}]
 };
