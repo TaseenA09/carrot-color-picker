@@ -4,7 +4,7 @@
   "description": "<div align=\"center\" style=\"margin-top: 20px;margin-bottom: 30px\"> <img style=\"height:256px;\" src=\"https://github.com/TaseenA09/carrot-color-picker/blob/main/icons/iconcolor.svg\"/> </div>",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./build/build.mjs && npx workbox-cli generateSW ./build/workbox/workbox-config.js"
   },
   "repository": {
     "type": "git",

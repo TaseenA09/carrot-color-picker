@@ -1,7 +1,7 @@
 module.exports = {
-	globDirectory: './',
 	globPatterns: [
-		'**/*.{js,css,ttf,svg,html,json}'
+		'./*.{js,css,svg,html}',
+		'./icons/*.{svg}'
 	],
 	maximumFileSizeToCacheInBytes: 4194000,
 	swDest: 'sw.js',
@@ -10,7 +10,11 @@ module.exports = {
 		/^fbclid$/
 	],
 	runtimeCaching: [{
-		urlPattern: new RegExp('/.*/'),
-		handler: "NetworkOnly",
+		urlPattern: new RegExp('.*'),
+		handler: "NetworkFirst",
+		options: {
+			cacheName: "carrotcolorpickerswcache",
+			networkTimeoutSeconds: 3,
+		}
 	}]
 };

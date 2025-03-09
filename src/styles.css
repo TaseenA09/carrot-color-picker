@@ -325,6 +325,7 @@ main {
 .InputContainer {
     height: var(--Number-Inputs-Size);
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
     gap: 6px;
