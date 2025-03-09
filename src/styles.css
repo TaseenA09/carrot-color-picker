@@ -1,13 +1,6 @@
 /* Global */
-@font-face {
-    font-family: 'jetbrains';
-    src: url('./fonts/JetBrainsMono[wght].ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 * {
-    font-family: 'jetbrains', monospace, system-ui;
+    font-family: monospace, system-ui;
     color: var(--Normal-Text);
 
     -webkit-user-select: none;
