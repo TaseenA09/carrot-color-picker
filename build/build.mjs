@@ -5,6 +5,7 @@ import fs from 'fs';
 let result = await esbuild.build({
     entryPoints: ['src/*.js', 'src/*.css'],
     outdir: './',
+    bundle: true,
     treeShaking: true,
     minify: true,
 })
