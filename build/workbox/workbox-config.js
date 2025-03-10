@@ -1,7 +1,8 @@
 module.exports = {
+	globDirectory: './dist',
 	globPatterns: [
-		'./dist/*.{js,css,ttf,svg,html,json}',
-		'./dist/icons/*.{svg}'
+		'*.{js,css,ttf,svg,html,json}',
+		'./icons/*.svg'
 	],
 	maximumFileSizeToCacheInBytes: 4194000,
 	swDest: './dist/sw.js',
@@ -11,6 +12,6 @@ module.exports = {
 	],
 	runtimeCaching: [{
 		urlPattern: new RegExp('/.*/'),
-		handler: "NetworkOnly",
+		handler: "NetworkFirst",
 	}]
 };
