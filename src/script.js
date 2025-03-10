@@ -145,6 +145,10 @@ function DrawCursor() {
   ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
   ctxCursor.closePath();
 
+  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace.slice(0, -1) + "v"](HueAngle, 1, 1));
+
+  ctxCursor.fill();
+
   ctxCursor.lineWidth = 6 / dpr;
   ctxCursor.strokeStyle = "#000000a0";
 
@@ -155,11 +159,6 @@ function DrawCursor() {
   ctxCursor.lineWidth = 3 / dpr;
 
   ctxCursor.stroke();
-
-  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace.slice(0, -1) + "v"](HueAngle, 1, 1));
-
-  ctxCursor.fill();
-
 }
 
 const ModifierBoxPadding = 8;

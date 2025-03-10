@@ -4,7 +4,8 @@ import fs from 'fs';
 
 let result = await esbuild.build({
     entryPoints: ['src/*.js', 'src/*.css'],
-    outdir: './',
+    outdir: './dist',
+    bundle: true,
     treeShaking: true,
     minify: true,
 })
@@ -12,7 +13,7 @@ let result = await esbuild.build({
 console.log(result)
 
 const inputFile = "./src/index.html";
-const outputFile = "index.html";
+const outputFile = "./dist/index.html";
 
 const html = fs.readFileSync(inputFile, "utf8");
 
@@ -28,3 +29,5 @@ const minifiedHtml = await minify(html, {
 });
 
 fs.writeFileSync(outputFile, minifiedHtml);
+
+fs.cpSync("./icons/", "./dist/icons/", { recursive: true })

@@ -1,3 +1,6 @@
+# ignore local builds
+dist
+
 # Logs
 logs
 *.log

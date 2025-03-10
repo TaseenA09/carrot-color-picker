@@ -1,10 +1,10 @@
 module.exports = {
-	globDirectory: './',
 	globPatterns: [
-		'**/*.{js,css,ttf,svg,html,json}'
+		'./dist/*.{js,css,ttf,svg,html,json}',
+		'./dist/icons/*.{svg}'
 	],
 	maximumFileSizeToCacheInBytes: 4194000,
-	swDest: 'sw.js',
+	swDest: './dist/sw.js',
 	ignoreURLParametersMatching: [
 		/^utm_/,
 		/^fbclid$/
