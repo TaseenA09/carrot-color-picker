@@ -30,4 +30,5 @@ const minifiedHtml = await minify(html, {
 
 fs.writeFileSync(outputFile, minifiedHtml);
 
-fs.cpSync("./icons/", "./dist/icons/", { recursive: true })
+fs.copyFileSync("./src/manifest.json", "./dist/manifest.json");
+fs.cpSync("./icons/", "./dist/icons/", { recursive: true });
