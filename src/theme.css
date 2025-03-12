@@ -24,12 +24,12 @@
 
     --Normal-Padding: 2px;
 
-    --interactable-radius: 3px;
+    --interactable-radius: 0px;
 }
 
 .outlined {
     outline: 1px solid var(--border-color);
-    border-radius: calc(var(--interactable-radius) + var(--Normal-Spacing));
+
 }
 
 .rounded {
