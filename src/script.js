@@ -559,7 +559,14 @@ HexOutput.addEventListener("change", function() {
   ValueOrLightness = requiredColor[2];
 
   Update();
+  UpdateTextOutputs();
 })
+
+function UpdateTextOutputs() {
+  hueTextOutput.value = Math.round(HueAngle);
+  vlTextOutput.value = Math.round(ValueOrLightness * 100);
+  satTextOutput.value = Math.round(Saturation * 100);
+}
 
 document.querySelectorAll('input[name="ColorOption"]').forEach(option => {
   option.addEventListener('change', (event) => {
@@ -573,9 +580,7 @@ document.querySelectorAll('input[name="ColorOption"]').forEach(option => {
 
     CurrentColorSpace = event.target.value;
 
-    hueTextOutput.value = Math.round(HueAngle);
-    vlTextOutput.value = Math.round(ValueOrLightness * 100);
-    satTextOutput.value = Math.round(Saturation * 100);
+    UpdateTextOutputs();
 
     Update();
 
