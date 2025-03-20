@@ -138,7 +138,7 @@ main {
     height: calc(100% - var(--ColorDisplay-height) - var(--Footer-height));
 
     /* Values */
-    --Options-height: 40px;
+    --Options-height: 46px;
     --Selector-width: 35%;
 }
 
@@ -156,6 +156,11 @@ main {
     height: 100%;
     display: flex;
     width: fit-content;
+
+
+    box-sizing: border-box;
+    padding: calc(var(--Normal-Spacing)/2);
+    border: 2px solid var(--Light-Background);
 }
 
 .ColorOption input {
@@ -166,20 +171,19 @@ main {
     box-sizing: border-box;
 
     display: flex;
-    color: var(--Dark-Background);
+    color: var(--Dark-Text);
     padding-left: calc(var(--Normal-Spacing) * 2);
     padding-right: calc(var(--Normal-Spacing) * 2);
-    font-size: calc(var(--Options-height) / 2);
-    background: var(--Normal-Accent);
+    font-size: calc(var(--Options-height) / 2 - (var(--Normal-Spacing)/2) - 2px);
     height: 100%;
     align-self: center;
     margin: auto;
-    transition: var(--Timing-Short) var(--Transition-Normal);
     align-items: center;
 }
 
 .ColorOption:hover {
-    background: var(--Light-Accent);
+    background: var(--Dark-Foreground);
+    color: var(--Normal-Text);
 }
 
 .ColorOption:active {
@@ -197,9 +201,12 @@ main {
 .OptionsBox {
     display: flex;
     flex-direction: row;
-    gap: var(--Normal-Spacing);
 
+    gap: calc(var(--Normal-Spacing)/2);
     transition: height var(--Timing-Normal) var(--Transition-Normal);
+
+    padding: calc(var(--Normal-Spacing)/2);
+    border: 2px solid var(--Light-Background);
 }
 
 .ColorButton {
@@ -207,11 +214,10 @@ main {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    background: var(--Normal-Accent);
     cursor: pointer;
     height: 100%;
     width: calc(var(--Font-Size-Regular) * 2.25);
-    color: var(--Normal-Accent);
+    color: var(--Normal-Text);
     transition: var(--Timing-Shorter) var(--Transition-Normal);
 }
 
@@ -221,11 +227,11 @@ main {
 
 
 .ColorButton:hover {
-    background: var(--Light-Accent);
+    background: var(--Light-Background);
 }
 
 .ColorButton:active {
-    background-color: var(--Dark-Accent);
+    background-color: var(--Dark-Background);
 }
 
 .ColorButton .locked {
@@ -233,7 +239,7 @@ main {
 }
 
 .ColorButton:has(input:checked) {
-    background-color: var(--Normal-Secondary);
+    background-color: var(--Normal-Accent);
 }
 
 .ColorButton:has(input:checked) .unlocked {
@@ -245,13 +251,8 @@ main {
 }
 
 
-.ColorButton:has(input:checked):hover {
-    background-color: var(--Light-Secondary);
-}
-
-
 .ColorButton:has(input:checked):active {
-    background: var(--Dark-Secondary);
+    background: var(--Dark-Accent);
 }
 
 .ColorButton input {
@@ -476,8 +477,16 @@ input[type=number]::-webkit-outer-spin-button {
 .PaletteHeader {
     color: var(--Dark-Text);
     font-size: var(--Font-Size-Regular);
+    background: var(--Normal-Background);
+    width: fit-content;
+    margin-bottom: calc(0px - (var(--Normal-Spacing) * 2));
+    margin-left: calc(var(--Normal-Spacing) * 2);
+    outline: var(--Normal-Spacing) solid var(--Normal-Background);
+    padding: calc(var(--Normal-Spacing) / 2);
     line-height: 1;
+    z-index: 1;
     display: block;
+    border: 2px solid var(--Light-Background);
 }
 
 .ColorPaletteInput {
@@ -492,9 +501,9 @@ input[type=number]::-webkit-outer-spin-button {
 .ColorPaletteInputUnit {
     height: calc((100% / 3) - (var(--Normal-Spacing) * (2/3)));
     width: 100%;
+    gap: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--Normal-Spacing);
     box-sizing: border-box;
 }
 
@@ -502,12 +511,15 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
 
     resize: none;
-    background: var(--Light-Background);
-    border: none;
+    border: 2px solid var(--Light-Background);
+
+    background: none;
     outline: none;
 
     padding: var(--Normal-Spacing);
+    padding-top: calc(var(--Normal-Spacing) * 2.5);
 
+    margin-top: 0;
     width: 100%;
     height: calc(100% - var(--Font-Size-Regular));
     box-sizing: border-box;
@@ -628,7 +640,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .ColorOption {
-        font-size: calc(var(--Options-height) /3);
+        font-size: calc(var(--Options-height) /3 - (var(--Normal-Spacing)/2) - 2px);
     }
 
     .ColorOptions {

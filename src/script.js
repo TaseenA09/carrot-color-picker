@@ -554,8 +554,8 @@ HexOutput.addEventListener("change", function() {
   let requiredColor = color.toFunctions[CurrentColorSpace](...hexToArray(HexOutput.value));
 
   HueAngle = requiredColor[0] * 360;
-  Saturation = requiredColor[1];
-  ValueOrLightness = requiredColor[2];
+  Saturation = isNaN(requiredColor[1]) ? 0 : requiredColor[1];
+  ValueOrLightness = isNaN(requiredColor[2]) ? 0 : requiredColor[2];
 
   Update();
   UpdateTextOutputs();
@@ -711,7 +711,6 @@ function ProcessFile(json) {
   }
 
   if (document.getElementById("colorLockToggle").checked == false) {
-    console.log(json["type"]);
     CurrentColorSpace = json["type"];
     UpdateButtonsFromColorSpace();
   }

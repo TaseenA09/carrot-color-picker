@@ -37,8 +37,19 @@ export let color = {
   toFunctions: {
     hsv: hsv.rgb_to_hsv,
     hsl: hsl.rgb_to_hsl,
-    okhsl: okhsl.rgb_to_okhsl,
-    okhsv: okhsv.rgb_to_okhsv,
+    okhsl: (r, g, b) => {
+      let requiredColor = okhsl.rgb_to_okhsl(r, g, b);
+      requiredColor = requiredColor.map((x) => isNaN(x) ? 0 : x);
+
+      return requiredColor
+    },
+    okhsv: (r, g, b) => {
+      let requiredColor = okhsv.rgb_to_okhsv(r, g, b);
+      requiredColor = requiredColor.map((x) => isNaN(x) ? 0 : x);
+
+      return requiredColor
+    },
+
   },
 
 
@@ -61,7 +72,8 @@ export function arrayTohex(array) {
 
 export function hexToArray(hex) {
   let input = hex;
-  if (hex[0] == "#" || hex.length > 6 || hex.match(/[^0-9a-fA-F]{1,1}/)) {
+
+  if (hex[0] == "#" || hex.length > 6 || (hex.match(/[^0-9a-fA-F]{1,1}/))) {
     input = input.slice(1);
   }
 
