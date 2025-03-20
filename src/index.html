@@ -126,14 +126,17 @@
                             <input name="HueOutput" type="number" min="0" max="360" id="HueOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
-                                    onclick="HueOutput.stepUp(); HueOutput.dispatchEvent(new Event('input'))" value="▲"
-                                    class="ValueControl ValueControlUp" />
+                                    onclick="HueOutput.value = Number(HueOutput.value) + 1; HueOutput.value = HueOutput.value >= 360 ? Number(HueOutput.value) - 360 : HueOutput.value ; HueOutput.dispatchEvent(new Event('input'))"
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => {HueOutput.value = Number(HueOutput.value) + 1; HueOutput.value = HueOutput.value >= 360 ? Number(HueOutput.value) - 360 : HueOutput.value ; HueOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
-                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
-                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
-                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▼"
-                                    class="ValueControl ValueControlDown" />
+                                    onclick="HueOutput.value -= 1; HueOutput.value = HueOutput.value < 0 ? Number(HueOutput.value) + 360 : HueOutput.value ; HueOutput.dispatchEvent(new Event('input'))"
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { HueOutput.value -= 1; HueOutput.value = HueOutput.value < 0 ? Number(HueOutput.value) + 360 : HueOutput.value ; HueOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▼" class="ValueControl ValueControlDown" />
                             </div>
                         </div>
                     </div>
@@ -145,15 +148,15 @@
                                 <input type="button"
                                     onclick="SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
-                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
-                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▲"
-                                    class="ValueControl ValueControlUp" />
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
                                     onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
-                                    onmouseup="clearTimeout(holdTimeout); clearInterval(hold);"
-                                    onmouseleave="clearInterval(hold); clearTimeout(holdTimeout);" value="▼"
-                                    class="ValueControl ValueControlDown" />
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▼" class="ValueControl ValueControlDown" />
                             </div>
                         </div>
                     </div>

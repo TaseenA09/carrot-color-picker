@@ -49,7 +49,6 @@ const DrawTimeOut = 5;
 ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
 ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
 
-
 CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
 CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
 
@@ -290,11 +289,11 @@ function UpdateColorOutput() {
   hashTimeout = setTimeout(() => {
     history.replaceState(null, null, `${requiredColor}`);
     outputTick = 0;
-  }, 15);
+  }, 20);
 
   outputTick += 1;
 
-  if (outputTick > 15) {
+  if (outputTick > 15000) {
     history.replaceState(null, null, `${requiredColor}`);
     outputTick = 0;
   }
@@ -593,7 +592,6 @@ document.getElementById("CopyButton").onclick = function() {
 }
 
 GetPalette();
-
 
 function UpdatePaletteVisibilty() {
   if (window.innerWidth <= 700) {

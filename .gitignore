@@ -1,6 +1,9 @@
 # ignore local builds
 dist
 
+# ignore testing icons
+src/icons
+
 # Logs
 logs
 *.log
