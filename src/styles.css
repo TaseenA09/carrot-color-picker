@@ -1,6 +1,6 @@
 /* Global */
 * {
-    font-family: 'Fira Mono', 'JetBrains Mono', monospace, system-ui;
+    font-family: 'JetBrains Mono', 'Fira Mono', monospace, system-ui;
     color: var(--Normal-Text);
 
     -webkit-user-select: none;
@@ -492,12 +492,13 @@ input[type=number]::-webkit-outer-spin-button {
     width: fit-content;
     margin-bottom: calc(0px - (var(--Normal-Spacing) * 2));
     margin-left: calc(var(--Normal-Spacing) * 2);
-    outline: var(--Normal-Spacing) solid var(--Normal-Background);
     padding: calc(var(--Normal-Spacing) / 2);
     line-height: 1;
     z-index: 1;
     display: block;
-    border: 2px solid var(--Light-Background);
+    border: var(--Normal-Spacing) solid var(--Normal-Background);
+    border-bottom: none;
+    border-top: none;
     border-radius: var(--interactable-radius);
 }
 
@@ -533,6 +534,7 @@ input[type=number]::-webkit-outer-spin-button {
 
     margin-top: 0;
     width: 100%;
+
     height: calc(100% - var(--Font-Size-Regular));
     box-sizing: border-box;
 }
