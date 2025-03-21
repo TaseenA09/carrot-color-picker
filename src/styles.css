@@ -1,6 +1,6 @@
 /* Global */
 * {
-    font-family: 'JetBrains Mono', 'Fira Mono', monospace, system-ui;
+    font-family: 'Jetbrains Mono', 'Fira Mono', monospace, system-ui;
     color: var(--Normal-Text);
 
     -webkit-user-select: none;
