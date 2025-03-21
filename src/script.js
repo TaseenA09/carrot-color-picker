@@ -146,7 +146,6 @@ function DrawCursor() {
 
   ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace.slice(0, -1) + "v"](HueAngle, 1, 1));
 
-  ctxCursor.fill();
 
   ctxCursor.lineWidth = 6 / dpr;
   ctxCursor.strokeStyle = "#000000a0";
@@ -155,9 +154,13 @@ function DrawCursor() {
 
   ctxCursor.strokeStyle = "#ffffffa0";
 
-  ctxCursor.lineWidth = 3 / dpr;
+  ctxCursor.lineWidth = 4 / dpr;
 
   ctxCursor.stroke();
+
+  ctxCursor.fill();
+
+
 }
 
 const ModifierBoxPadding = 8;
@@ -519,6 +522,7 @@ function GetPalette() {
 
     hueBox.classList.add("paletteHueBox");
     hueBox.classList.add("outlined");
+    hueBox.classList.add("rounded");
 
     hueBox.appendChild(createColorEntry(hueOutput[h], 100, 100, 0, 0));
 
@@ -608,6 +612,7 @@ function UpdatePaletteVisibilty() {
   }
 
   Update();
+  DoTimeout("resize1", Update, 1);
 }
 
 PaletteButton.addEventListener('change', UpdatePaletteVisibilty);

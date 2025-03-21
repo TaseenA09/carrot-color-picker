@@ -66,7 +66,7 @@
                         <input name="exportButton" type="checkbox" id="exportButton" />
                     </label>
 
-                    <div class="exportWindow outlined">
+                    <div class="exportWindow">
                         <div class="hexOption">
                             Use Index
 
@@ -166,11 +166,17 @@
                             <input name="VLOutput" type="number" min="0" max="100" id="VLOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
-                                    onclick="VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))" value="▲"
-                                    class="ValueControl ValueControlUp" />
+                                    onclick="VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))"
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="VLOutput.stepDown();VLOutput.dispatchEvent(new Event('input'))" value="▼"
-                                    class="ValueControl ValueControlDown" />
+                                    onclick="VLOutput.stepDown(); VLOutput.dispatchEvent(new Event('input'))"
+                                    onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { VLOutput.stepDown(); VLOutput.dispatchEvent(new Event('input'))},50)}, 200);"
+                                    onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
+                                    value="▼" class="ValueControl ValueControlDown" />
                             </div>
                         </div>
                     </div>

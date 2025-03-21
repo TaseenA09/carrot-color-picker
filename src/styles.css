@@ -1,6 +1,6 @@
 /* Global */
 * {
-    font-family: monospace, system-ui;
+    font-family: 'Fira Mono', 'JetBrains Mono', monospace, system-ui;
     color: var(--Normal-Text);
 
     -webkit-user-select: none;
@@ -13,6 +13,10 @@
 
 ::-webkit-scrollbar-thumb {
     border-radius: 0;
+}
+
+::-webkit-scrollbar {
+    width: 4px !important;
 }
 
 html,
@@ -31,7 +35,7 @@ body {
     touch-action: none;
 
     min-height: 250px;
-    min-width: 250px;
+    min-width: 300px;
 
     height: 100dvh;
     width: 100dvw;
@@ -161,6 +165,8 @@ main {
     box-sizing: border-box;
     padding: calc(var(--Normal-Spacing)/2);
     border: 2px solid var(--Light-Background);
+
+    border-radius: calc(var(--interactable-radius));
 }
 
 .ColorOption input {
@@ -188,7 +194,7 @@ main {
 
 .ColorOption:active {
     background-color: var(--Dark-Background);
-    color: var(--Dark-Accent);
+    color: var(--Light-Background);
 }
 
 .ColorOption:has(input:checked) {
@@ -207,6 +213,8 @@ main {
 
     padding: calc(var(--Normal-Spacing)/2);
     border: 2px solid var(--Light-Background);
+
+    border-radius: calc(var(--interactable-radius));
 }
 
 .ColorButton {
@@ -218,7 +226,6 @@ main {
     height: 100%;
     width: calc(var(--Font-Size-Regular) * 2.25);
     color: var(--Normal-Text);
-    transition: var(--Timing-Shorter) var(--Transition-Normal);
 }
 
 .icon {
@@ -325,6 +332,7 @@ main {
 .InputContainer {
     height: var(--Number-Inputs-Size);
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
     gap: 6px;
@@ -366,8 +374,8 @@ input[type="number"] {
     font-size: var(--Font-Size-Regular);
     box-sizing: border-box;
     width: calc(var(--Font-Size-Regular) * 2.5);
-    border: var(--Light-Background) solid 2px;
-    background: var(--Light-Background);
+    border: var(--Normal-Background) solid 2px;
+    background: none;
     outline: none;
     padding: var(--Normal-Padding);
     z-index: 2;
@@ -397,6 +405,9 @@ input[type=number]::-webkit-outer-spin-button {
 
     max-height: calc(var(--Font-Size-Regular) * 1.75);
     height: 100%;
+
+    border: 2px solid var(--Light-Background);
+    border-radius: calc(var(--interactable-radius));
 }
 
 .ValueControlUnit {
@@ -410,8 +421,8 @@ input[type=number]::-webkit-outer-spin-button {
     height: calc(50%);
     width: calc(var(--Font-Size-Regular) * 1.5);
     border: none;
-    background: var(--Normal-Foreground);
-    border-left: var(--Dark-Foreground) solid 1px;
+    background: var(--Light-Background);
+    border-left: var(--Light-Background) solid 2px;
     font-size: calc(50% - 2px);
     padding: 0;
     color: var(--Normal-Text);
@@ -424,21 +435,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ValueControlUp {
     border-radius: 0 var(--interactable-radius) 0 0;
-    border-bottom: var(--Dark-Foreground) solid 1px;
+    border-bottom: var(--Light-Background) solid 1px;
 }
 
 .ValueControl:hover {
-    background: var(--Light-Foreground);
+    background: var(--Dark-Foreground);
     transition: 15ms;
 }
 
 .ValueControl:active {
-    background: var(--Dark-Foreground);
+    background: var(--Normal-Background);
 }
 
 .ValueControlDown {
     border-radius: 0 0 var(--interactable-radius) 0;
-    border-top: var(--Dark-Foreground) solid 1px;
+    border-top: var(--Light-Background) solid 1px;
 }
 
 .ColorSelectorElementCursor {
@@ -487,6 +498,7 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 1;
     display: block;
     border: 2px solid var(--Light-Background);
+    border-radius: var(--interactable-radius);
 }
 
 .ColorPaletteInput {
@@ -529,8 +541,6 @@ input[type=number]::-webkit-outer-spin-button {
     width: calc(100% - min(var(--Color-Palette-Input-Size), 225px));
     height: 100%;
     background-color: var(--Dark-Background);
-    border: var(--Normal-Spacing) solid var(--Dark-Background);
-    padding: 1px;
     display: flex;
     gap: calc(var(--Normal-Spacing) * 2);
     flex-direction: row;
@@ -541,6 +551,8 @@ input[type=number]::-webkit-outer-spin-button {
     align-items: flex-start;
 
     box-sizing: border-box;
+    padding: calc(var(--Normal-Spacing));
+    border: 2px solid var(--Light-Background);
 }
 
 /* Palette Entries*/
@@ -700,14 +712,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 .exportWindow {
     width: fit-content;
-    background-color: var(--Light-Background);
+    background-color: var(--Normal-Background);
     padding: var(--Normal-Spacing);
     gap: var(--Normal-Spacing);
     display: none;
     flex-direction: column;
     position: absolute;
-    top: calc(100% + var(--Normal-Spacing));
+    top: calc(100% + var(--Normal-Spacing) + 2px);
     z-index: 1000;
+    padding: calc(var(--Normal-Spacing)/2);
+    border: 2px solid var(--Light-Background);
+
+    border-radius: calc(var(--interactable-radius));
 }
 
 .hexOption {
@@ -719,7 +735,10 @@ input[type=number]::-webkit-outer-spin-button {
     gap: var(--Normal-Spacing);
     line-height: var(--Font-Size-Regular);
     font-size: var(--Font-Size-Regular);
-    height: var(--Font-Size-Regular);
+    height: calc(var(--Font-Size-Regular) * 1.5);
+    padding: calc(var(--Normal-Spacing) / 2);
+
+    align-items: center;
     width: 100%;
 }
 
@@ -737,6 +756,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 50%;
     background-color: white;
 
+    border-radius: var(--interactable-radius);
     transition: margin var(--Timing-Normal);
 }
 
@@ -769,20 +789,12 @@ input[type=number]::-webkit-outer-spin-button {
 .infoButton {
     position: relative;
     color: var(--Light-Yellow);
-    height: var(--Font-Size-Regular);
-    width: var(--Font-Size-Regular);
+    width: calc(var(--Font-Size-Regular) * 1.5);
+    aspect-ratio: 1;
     background-color: var(--Dark-Yellow);
 }
 
 .infoButton:hover {
-    height: var(--Font-Size-Regular);
-    width: var(--Font-Size-Regular);
-    background-color: var(--Dark-Yellow);
-}
-
-.infoButton:active {
-    height: var(--Font-Size-Regular);
-    width: var(--Font-Size-Regular);
     background-color: var(--Dark-Yellow);
 }
 
@@ -834,9 +846,18 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .downloadButton {
-    color: var(--Dark-Background);
+    color: var(--Normal-Text);
     padding: var(--Normal-Spacing);
     width: 100%;
+    background-color: var(--Normal-Accent);
+}
+
+.downloadButton:hover {
+    background-color: var(--Dark-Accent);
+}
+
+.downloadButton:active {
+    background-color: var(--Dark-Background);
 }
 
 /* Footer */

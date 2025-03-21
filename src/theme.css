@@ -28,7 +28,7 @@
 }
 
 .outlined {
-    outline: 1px solid var(--border-color);
+    outline: 2px solid var(--border-color);
 
 }
 
