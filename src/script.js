@@ -340,26 +340,32 @@ const hueTextOutput = document.getElementById("HueOutput");
 const vlTextOutput = document.getElementById("VLOutput");
 const satTextOutput = document.getElementById("SaturationOutput");
 
-hueTextOutput.value = Math.round(HueAngle);
-vlTextOutput.value = Math.round(ValueOrLightness * 100);
-satTextOutput.value = Math.round(Saturation * 100);
+function roundValue(_value) {
+  const _ROUNDING = 10;
+
+  return Math.round(_value * _ROUNDING) / _ROUNDING;
+}
+
+hueTextOutput.value = roundValue(HueAngle);
+vlTextOutput.value = roundValue(ValueOrLightness * 100);
+satTextOutput.value = roundValue(Saturation * 100);
 
 function UpdateSandVL() {
   const modifierBoundingBox = ModifierBox.getBoundingClientRect();
   let modifierBoxOneSide = ModifierBoxBorder / 2
 
-  Saturation = Math.round(clamp((Mouse.x - (modifierBoundingBox.x + modifierBoxOneSide)) / (modifierBoundingBox.width - ModifierBoxBorder), 0, 1) * 100) / 100;
-  ValueOrLightness = Math.round((1 - clamp((Mouse.y - (modifierBoundingBox.y + modifierBoxOneSide)) / (modifierBoundingBox.height - ModifierBoxBorder), 0, 1)) * 100) / 100;
+  Saturation = roundValue(clamp((Mouse.x - (modifierBoundingBox.x + modifierBoxOneSide)) / (modifierBoundingBox.width - ModifierBoxBorder), 0, 1) * 100) / 100;
+  ValueOrLightness = roundValue((1 - clamp((Mouse.y - (modifierBoundingBox.y + modifierBoxOneSide)) / (modifierBoundingBox.height - ModifierBoxBorder), 0, 1)) * 100) / 100;
 
-  vlTextOutput.value = Math.round(ValueOrLightness * 100);
-  satTextOutput.value = Math.round(Saturation * 100);
+  vlTextOutput.value = roundValue(ValueOrLightness * 100);
+  satTextOutput.value = roundValue(Saturation * 100);
 }
 
 function UpdateHue() {
-  HueAngle = Math.round((GetAngleCursorFromItem(ColorWheel) + 90) * 1) / 1;
+  HueAngle = roundValue((GetAngleCursorFromItem(ColorWheel) + 90) * 1) / 1;
   HueAngle = HueAngle < 0 ? HueAngle + 360 : HueAngle;
 
-  hueTextOutput.value = Math.round(HueAngle);
+  hueTextOutput.value = roundValue(HueAngle);
 }
 
 var MouseDownWheel = false;
@@ -566,9 +572,9 @@ HexOutput.addEventListener("change", function() {
 })
 
 function UpdateTextOutputs() {
-  hueTextOutput.value = Math.round(HueAngle);
-  vlTextOutput.value = Math.round(ValueOrLightness * 100);
-  satTextOutput.value = Math.round(Saturation * 100);
+  hueTextOutput.value = roundValue(HueAngle);
+  vlTextOutput.value = roundValue(ValueOrLightness * 100);
+  satTextOutput.value = roundValue(Saturation * 100);
 }
 
 document.querySelectorAll('input[name="ColorOption"]').forEach(option => {
@@ -623,7 +629,34 @@ onresize = () => {
   UpdatePaletteVisibilty();
 };
 
+const listButton = document.getElementById("list");
 
+const listPalette = document.getElementById("PaletteInputList");
+const gridPalette = document.getElementById("PaletteInputGrid");
+
+const colorPaletteInput = document.getElementById("ColorPaletteInput");
+
+function updateListButton() {
+  if (listButton.checked) {
+    listPalette.style.display = "flex";
+    gridPalette.style.display = "none";
+
+    colorPalette.style.display = "none";
+    colorPaletteInput.classList.add("ColorPaletteListInput");
+  } else {
+    listPalette.style.display = "none";
+    gridPalette.style.display = "flex";
+
+    colorPalette.style.display = "flex";
+    colorPaletteInput.classList.remove("ColorPaletteListInput");
+  }
+}
+
+updateListButton()
+
+document.getElementsByName("paletteType").forEach((e) => {
+  e.addEventListener('input', updateListButton);
+})
 
 document.addEventListener("DOMContentLoaded", function() {
   Update(0);
@@ -634,6 +667,251 @@ window.addEventListener("load", function() {
   requestAnimationFrame(Update);
 });
 
+var ListPaletteColors = {
+  ColorSpace: "OKHSL",
+  Colors: [
+    {
+      Name: "Greyish Blue",
+      Colors: [
+        {
+          Name: "Normal Blue",
+          ColorType: "HUE",
+          Color: [270, 70, 60]
+        },
+        {
+          Name: "Subnormal Blue",
+          ColorType: "HUE",
+          Color: [270, 100, 60]
+        }
+
+      ]
+    },
+    {
+      Name: "Greyish Blue",
+      Colors: []
+    }
+  ]
+}
+
+const PaletteListArea = document.getElementById("paletteList");
+
+function createHTMLElement(type, parent, classname) {
+  if ((type == undefined) || (parent == undefined)) {
+    return
+  }
+
+  var element = document.createElement(type);
+  parent.append(element);
+
+  if (classname != undefined) {
+    if (Array.isArray(classname)) {
+      classname.forEach(_classnametoadd => {
+        element.classList.add(_classnametoadd);
+      })
+    } else {
+      element.classList.add(classname);
+    }
+  }
+
+  return element;
+}
+
+function DrawColorItem(Item, colorGroup) {
+  var _color = document.createElement("div");
+
+  colorGroup.append(_color);
+  _color.classList.add("listColorItem");
+
+  _color.draggable = true;
+
+
+  var colorName = document.createElement("input");
+  colorName.value = Item.Name;
+  _color.append(colorName);
+
+  function update_color_name() {
+    Item.Name = colorName.value;
+  }
+
+  var _addItemAbove = createHTMLElement("button", _color, ["colorItemAddInput", "colorItemAddAbove"])
+  var _addItemBelow = createHTMLElement("button", _color, ["colorItemAddInput", "colorItemAddBelow"])
+
+  colorName.addEventListener("change", update_color_name);
+  colorName.addEventListener("blur", update_color_name);
+
+  var colorElements = document.createElement("div");
+  _color.append(colorElements);
+  colorElements.classList.add("listColorItemElements");
+
+  var colorValues = createHTMLElement("div", colorElements, "colorValuesBox")
+  var hueElement = createHTMLElement("input", colorValues, "colorItemElement")
+  var satElement = createHTMLElement("input", colorValues, "colorItemElement")
+  var valElement = createHTMLElement("input", colorValues, "colorItemElement")
+  var hexElement = createHTMLElement("input", colorValues, "colorItemHex")
+
+  function _fixDrag(element) {
+    element.onfocus = () => { _color.draggable = false };
+    element.onblur = () => { _color.draggable = true };
+  }
+
+  _fixDrag(hueElement);
+  _fixDrag(satElement);
+  _fixDrag(valElement);
+  _fixDrag(hexElement);
+  _fixDrag(colorName);
+
+  var selectionHueLabel = createHTMLElement("label", colorElements, "colorItemSelectionLabel")
+  var selectionHue = createHTMLElement("input", selectionHueLabel, "colorItemSelectionHue")
+
+  selectionHue.type = "checkbox";
+
+  selectionHue.name = "colorItemSelection";
+
+  if (Item.ColorType == "HUE") {
+    hueElement.value = Item.Color[0];
+    satElement.value = Item.Color[1];
+    valElement.value = Item.Color[2];
+
+    hexElement.value = arrayTohex(color.fromFunctions[CurrentColorSpace](Item.Color[0], Item.Color[1] / 100, Item.Color[2] / 100));
+
+    _color.style.backgroundColor = hexElement.value
+  } else if (Item.ColorType == "HEX") {
+    hexElement.value = Item.Color;
+
+    const _intended_color = hexToArray(Item.Color);
+
+    selectionHue.checked = true;
+
+    const _hsv_color = color.toFunctions[CurrentColorSpace](..._intended_color);
+
+    hueElement.value = roundValue(_hsv_color[0] * 360);
+    satElement.value = roundValue(_hsv_color[1] * 100);
+    valElement.value = roundValue(_hsv_color[2] * 100);
+
+    _color.style.backgroundColor = hexElement.value
+  }
+
+  selectionHue.addEventListener("change", () => {
+    if (Item.ColorType == "HUE") {
+      hexElement.value = arrayTohex(color.fromFunctions[CurrentColorSpace](hueElement.value, satElement.value / 100, valElement.value / 100));
+      Item.Color = hexElement.value;
+    } else if (Item.ColorType == "HEX") {
+      const _intended_color = hexToArray(hexElement.value);
+      const _hsv_color = color.toFunctions[CurrentColorSpace](..._intended_color);
+
+      hueElement.value = roundValue(_hsv_color[0] * 360);
+      satElement.value = roundValue(_hsv_color[1] * 100);
+      valElement.value = roundValue(_hsv_color[2] * 100);
+
+      Item.Color = [hueElement.value, satElement.value, valElement.value]
+
+      _color.style.backgroundColor = hexElement.value
+    }
+
+    Item.ColorType = selectionHue.checked ? "HEX" : "HUE";
+  })
+
+  function attachItem(_element, _indexToUpdate, _min, _max) {
+    function _updateColorOfItem() {
+      if (!(_indexToUpdate == undefined)) {
+        if (!Array.isArray(Item.Color)) {
+          Item.Color = [];
+          Item.Color[0] = hueElement.value;
+          Item.Color[1] = satElement.value;
+          Item.Color[2] = valElement.value;
+
+          return
+        }
+
+        Item.ColorType = "HUE"
+
+        Item.Color[_indexToUpdate] = clamp(_element.value, _min, _max);
+        _color.style.backgroundColor = arrayTohex(color.fromFunctions[CurrentColorSpace](Item.Color[0], Item.Color[1] / 100, Item.Color[2] / 100));
+      } else {
+        Item.ColorType = "HEX"
+
+        Item.Color = arrayTohex(hexToArray(_element.value));
+        _color.style.backgroundColor = Item.Color;
+      }
+    }
+
+    _element.addEventListener("change", _updateColorOfItem)
+    _element.addEventListener("blur", _updateColorOfItem)
+  }
+
+  attachItem(hueElement, 0, 0, 360);
+  attachItem(satElement, 1, 0, 100);
+  attachItem(valElement, 2, 0, 100);
+
+  attachItem(hexElement);
+}
+
+function DrawColorGroup(groupItem) {
+  var colorGroup = document.createElement("div");
+
+  PaletteListArea.append(colorGroup);
+  colorGroup.classList.add("listColorGroup");
+
+  var colorGroupName = document.createElement("input");
+  colorGroupName.value = groupItem.Name || `Group ${ListPaletteColors.Colors.indexOf(groupItem) + 1}`;
+  colorGroup.append(colorGroupName);
+
+  function update_colorgroup_name() {
+    groupItem.Name = colorGroupName.value;
+  }
+
+  colorGroupName.addEventListener("change", update_colorgroup_name);
+  colorGroupName.addEventListener("blur", update_colorgroup_name);
+
+  if ((groupItem.Colors == undefined) || groupItem.Colors.length <= 0) {
+    var colorGroupAddButton = createHTMLElement("button", colorGroup, "colorGroupAddButton");
+    colorGroupAddButton.addEventListener("click", () => {
+      SaveColorListGroup();
+      groupItem.Colors = [];
+      groupItem.Colors.push({});
+      DrawListPalette();
+    })
+    return
+  }
+
+  for (let colorIdx = 0; colorIdx < groupItem.Colors.length; colorIdx++) {
+    DrawColorItem(groupItem.Colors[colorIdx], colorGroup);
+  }
+}
+
+function DrawListPalette() {
+  PaletteListArea.innerHTML = ""
+  listPalette.ColorSpace = CurrentColorSpace;
+
+  if ((ListPaletteColors.Colors == undefined) || ListPaletteColors.Colors.length <= 0) {
+    return
+  }
+
+  for (let groupIdx = 0; groupIdx < ListPaletteColors.Colors.length; groupIdx++) {
+    DrawColorGroup(ListPaletteColors.Colors[groupIdx]);
+  }
+}
+
+DrawListPalette()
+
+var ColorListGroupUndoList = []
+
+function SaveColorListGroup() {
+  ColorListGroupUndoList.push(ListPaletteColors.Colors);
+}
+
+function UndoColorListGroup(table) {
+  if (ColorListGroupUndoList.length > 0) {
+    ListPaletteColors.Colors = ColorListGroupUndoList.pop();
+  }
+}
+
+const addGroup = document.getElementById("addColorGroupButton");
+addGroup.addEventListener("click", () => {
+  SaveColorListGroup();
+  ListPaletteColors.Colors.push({});
+  DrawListPalette();
+})
 
 const DownloadButton = document.getElementById("downloadButton");
 const IndexOrValueMode = document.getElementById("indexButton");
@@ -750,7 +1028,7 @@ function ProcessFile(json) {
 
   if (json["formatting"] == "index") {
     for (const s in json[hue[0]]) {
-      const requiredValue = Math.round(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][s][Object.keys(json[hue[0]][s])[0]]))[1] * 100);
+      const requiredValue = roundValue(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][s][Object.keys(json[hue[0]][s])[0]]))[1] * 100);
       if (requiredValue == 100) {
         continue
       }
@@ -760,7 +1038,7 @@ function ProcessFile(json) {
     let firstSatKey = Object.keys(json[hue[0]])[0]
 
     for (const vl in json[hue[0]][firstSatKey]) {
-      let requiredValue = Math.round(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][firstSatKey][vl]))[2] * 100);
+      let requiredValue = roundValue(color.toFunctions[CurrentColorSpace](...hexToArray(json[hue[0]][firstSatKey][vl]))[2] * 100);
 
       if (requiredValue == 100) {
         continue
@@ -799,3 +1077,9 @@ window.addEventListener("beforeunload", (event) => {
 });
 
 Update(0);
+
+// HTML Stuff
+
+function onclickchange(_output, _dif, _min, _max) {
+  _output.value = Math.max(Math.min(_output.value + _dif, _max), _min)
+}

@@ -34,8 +34,8 @@ body {
     background-color: var(--Normal-Background);
     touch-action: none;
 
-    min-height: 250px;
-    min-width: 300px;
+    min-height: 320px;
+    min-width: 568px;
 
     height: 100dvh;
     width: 100dvw;
@@ -157,6 +157,20 @@ main {
 }
 
 .ColorSpaces {
+    height: 100%;
+    display: flex;
+    width: fit-content;
+    box-sizing: border-box;
+
+    justify-content: space-between;
+    flex-grow: 1;
+
+    margin-right: calc(var(--Normal-Padding) * 4);
+
+    gap: calc(var(--Normal-Spacing) * 2);
+}
+
+.ColorOptionsBox {
     height: 100%;
     display: flex;
     width: fit-content;
@@ -373,7 +387,7 @@ input[type="number"] {
 
     font-size: var(--Font-Size-Regular);
     box-sizing: border-box;
-    width: calc(var(--Font-Size-Regular) * 2.5);
+    width: calc(var(--Font-Size-Regular) * 3.7);
     border: var(--Normal-Background) solid 2px;
     background: none;
     outline: none;
@@ -484,14 +498,63 @@ input[type=number]::-webkit-outer-spin-button {
     container-name: ColorPaletteWraper;
 }
 
+.paletteTypeBox {
+    display: flex;
+    align-items: start;
+    flex-direction: row;
+
+    align-items: center;
+    padding: calc(var(--Normal-Spacing)/2);
+    border: 2px solid var(--Light-Background);
+
+    border-radius: calc(var(--interactable-radius));
+}
+
+.paletteTypeBox p {
+    margin: 0;
+    padding-right: calc(var(--Normal-Spacing)/2);
+    margin-right: calc(var(--Normal-Spacing)/2);
+    border-right: 2px solid var(--Light-Background);
+}
+
+.paletteType input {
+    display: none;
+}
+
+.paletteType {
+    box-sizing: border-box;
+
+    display: flex;
+    color: var(--Dark-Text);
+    padding-left: calc(var(--Normal-Spacing) * 2);
+    padding-right: calc(var(--Normal-Spacing) * 2);
+    font-size: calc(var(--Font-Size-Regular));
+    height: 100%;
+    align-self: center;
+    align-items: center;
+}
+
+.paletteType:hover {
+    background: var(--Dark-Foreground);
+    color: var(--Normal-Text);
+}
+
+.paletteType:active {
+    background-color: var(--Dark-Background);
+    color: var(--Light-Background);
+}
+
+.paletteType:has(input:checked) {
+    background-color: var(--Light-Background);
+    color: var(--Normal-Text);
+}
+
 
 .PaletteHeader {
     color: var(--Dark-Text);
     font-size: var(--Font-Size-Regular);
     background: var(--Normal-Background);
     width: fit-content;
-    margin-bottom: calc(0px - (var(--Normal-Spacing) * 2));
-    margin-left: calc(var(--Normal-Spacing) * 2);
     padding: calc(var(--Normal-Spacing) / 2);
     line-height: 1;
     z-index: 1;
@@ -505,6 +568,15 @@ input[type=number]::-webkit-outer-spin-button {
 .ColorPaletteInput {
     height: 100%;
     width: min(var(--Color-Palette-Input-Size), 225px);
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.ColorPaletteInputGrid,
+.ColorPaletteInputList {
+    width: 100%;
+    height: 100%;
     display: flex;
     gap: var(--Normal-Spacing);
     box-sizing: border-box;
@@ -521,7 +593,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .PaletteInput {
+    display: flex;
+    flex-direction: row;
     appearance: none;
+
+    gap: var(--Normal-Spacing);
 
     resize: none;
     border: 2px solid var(--Light-Background);
@@ -537,6 +613,8 @@ input[type=number]::-webkit-outer-spin-button {
 
     height: calc(100% - var(--Font-Size-Regular));
     box-sizing: border-box;
+
+    overflow-y: auto;
 }
 
 .ColorPaletteOutput {
@@ -690,7 +768,11 @@ input[type=number]::-webkit-outer-spin-button {
     .ColorPaletteInput {
         width: 100%;
         height: min(var(--Color-Palette-Input-Size) / 2, 225px);
+    }
+
+    .ColorPaletteInputGrid {
         flex-direction: row;
+        height: 100%;
     }
 
     .ColorPaletteInputUnit {
@@ -862,6 +944,222 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: var(--Dark-Background);
 }
 
+/* List Palette Theming */
+
+.listColorGroup {
+    background-color: var(--Light-Background);
+    display: flex;
+
+    flex-direction: column;
+    padding: var(--Normal-Padding);
+
+    width: max(15%, 200px);
+    height: fit-content;
+
+    position: relative;
+}
+
+.colorGroupAddButton {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, calc(50% + var(--Normal-Padding)));
+
+    border: 1px solid var(--Light-Accent);
+    background-color: var(--Normal-Accent);
+
+    color: var(--Dark-Background);
+
+    width: 50px;
+    height: 20px;
+}
+
+.colorGroupAddButton::before {
+    content: "+";
+}
+
+.paletteListAddGroup {
+    color: var(--Dark-Background);
+    font-size: var(--Font-Size-Regular);
+    background: var(--Normal-Background);
+    width: fit-content;
+    padding: calc(var(--Normal-Spacing) / 2);
+    line-height: 1;
+    z-index: 1;
+    display: block;
+    border: 1px solid var(--Light-Accent);
+    background-color: var(--Normal-Accent);
+    width: 20px;
+    height: 20px;
+}
+
+.ColorPaletteInputUnitHeader {
+    margin-bottom: calc(0px - (var(--Normal-Spacing) * 2));
+    padding-right: calc(var(--Normal-Spacing) * 2);
+    padding-left: calc(var(--Normal-Spacing) * 2);
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.listColorGroup input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+    background: none;
+    border: none;
+    outline: none;
+
+    border-bottom: 1px var(--Dark-Text) solid;
+    font-size: var(--Font-Size-Regular);
+}
+
+.colorItemAddInput {
+    visibility: hidden;
+
+    position: absolute;
+    height: calc(var(--Normal-Padding) * 4);
+    width: 100%;
+    padding: 0;
+    display: flex;
+
+    left: 50%;
+
+
+    background: none;
+    border: none;
+    z-index: 2;
+}
+
+.colorItemAddInput::before {
+    width: calc(var(--Normal-Padding) * 4);
+    height: 100%;
+    background: var(--Light-Background);
+    content: "";
+
+    border: 1px solid var(--Normal-Background);
+    background: var(--Light-Background);
+    margin: auto;
+
+    font-size: calc((var(--Normal-Padding) * 8) - 6px);
+    text-align: center;
+    line-height: calc((var(--Normal-Padding) * 4) - 2px);
+
+    border-radius: 10000px;
+    box-sizing: border-box;
+
+    content: "+";
+}
+
+.listColorItem:hover {
+    border-color: var(--Normal-Background);
+    border-style: solid;
+    border-width: 1px 0px;
+}
+
+.colorItemAddAbove {
+    transform: translate(-50%, 50%);
+    bottom: 100%;
+}
+
+.colorItemAddBelow {
+    transform: translate(-50%, -50%);
+    top: 100%;
+}
+
+.listColorItem:hover .colorItemAddInput {
+    visibility: visible;
+}
+
+.listColorItem:hover .colorItemAddInput {
+    visibility: visible;
+}
+
+.listColorItem {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--Font-Size-Small);
+    padding: var(--Normal-Padding);
+    padding-left: calc(var(--Normal-Padding) * 6);
+    margin-top: var(--Normal-Padding);
+    position: relative;
+}
+
+.colorValuesBox {
+    flex-grow: 1;
+    display: flex;
+    margin-right: var(--Normal-Padding);
+}
+
+.listColorItemElements {
+    display: flex;
+}
+
+.listColorItem:has(.colorItemSelectionHue:checked) .colorItemElement {
+    display: none;
+}
+
+.colorItemHex {
+    display: none;
+}
+
+.listColorItem:has(.colorItemSelectionHue:checked) .colorItemHex {
+    display: unset;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.colorItemElement {
+    width: calc((100% / 3) - (var(--Normal-Padding) * 2 / 3));
+
+    box-sizing: border-box;
+
+    margin: 0;
+    margin-right: var(--Normal-Padding);
+}
+
+.colorItemElement:nth-last-child(1 of .colorItemElement) {
+    margin-right: 0;
+}
+
+.colorItemSelectionHue {
+    display: none;
+}
+
+.colorItemSelectionLabel {
+    display: flex;
+    min-width: 8px;
+    max-width: 8px;
+    width: 8px;
+    background-color: var(--Normal-Accent);
+    transition: background var(--Timing-Short) var(--Transition-Normal);
+}
+
+.colorItemSelectionLabel:has(input:checked) {
+    background-color: var(--Normal-Secondary);
+}
+
+.colorItemSelectionLabel:has(input:checked)::after {
+    color: var(--Normal-Background);
+    content: "|";
+}
+
+.colorItemSelectionLabel::after {
+    content: "#";
+    align-self: center;
+    margin: auto;
+    text-align: center;
+    font-size: 100%;
+    display: inline-block;
+}
+
+.ColorPaletteListInput {
+    height: 100%;
+    box-sizing: border-box;
+}
+
 /* Footer */
 
 footer {
@@ -876,6 +1174,8 @@ footer {
     padding-right: var(--Normal-Spacing);
     box-sizing: border-box;
 }
+
+
 
 footer a {
     text-decoration: none;

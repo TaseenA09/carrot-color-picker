@@ -35,16 +35,29 @@
 
     <main>
         <div class="ColorOptions">
-            <div class="ColorSpaces interactable">
-                <label class="ColorOption" for="okhsl"> <input type="radio" id="okhsl" name="ColorOption" value="okhsl">
-                    OKHSL</label>
-                <label class="ColorOption" for="okhsv"> <input checked type="radio" id="okhsv" name="ColorOption"
-                        value="okhsv">
-                    OKHSV</label>
-                <label class="ColorOption" for="hsv"> <input type="radio" id="hsv" name="ColorOption" value="hsv">
-                    HSV</label>
-                <label class="ColorOption" for="hsl"> <input type="radio" id="hsl" name="ColorOption" value="hsl">
-                    HSL</label>
+            <div class="ColorSpaces">
+                <div class="ColorOptionsBox">
+                    <label class="ColorOption" for="okhsl"> <input type="radio" id="okhsl" name="ColorOption"
+                            value="okhsl">
+                        OKHSL</label>
+                    <label class="ColorOption" for="okhsv"> <input checked type="radio" id="okhsv" name="ColorOption"
+                            value="okhsv">
+                        OKHSV</label>
+                    <label class="ColorOption" for="hsv"> <input type="radio" id="hsv" name="ColorOption" value="hsv">
+                        HSV</label>
+                    <label class="ColorOption" for="hsl"> <input type="radio" id="hsl" name="ColorOption" value="hsl">
+                        HSL</label>
+                </div>
+
+                <div class="paletteTypeBox">
+                    <p>Palette</p>
+                    <label class="paletteType" for="grid"> <input type="radio" id="grid" name="paletteType"
+                            value="grid">
+                        Grid</label>
+                    <label class="paletteType" for="list"> <input type="radio" id="list" name="paletteType"
+                            value="list">
+                        List</label>
+                </div>
             </div>
 
             <div class="OptionsBox">
@@ -146,13 +159,13 @@
                             <input name="SaturationOutput" type="number" min="0" max="100" id="SaturationOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
-                                    onclick="SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    onclick="SaturationOutput.value = Math.min(Number(SaturationOutput.value) + 1,100); SaturationOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepUp(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
                                     onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))"
+                                    onclick="SaturationOutput.value = Math.max(Number(SaturationOutput.value) - 1,0); SaturationOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { SaturationOutput.stepDown(); SaturationOutput.dispatchEvent(new Event('input'))},50)}, 200);"
                                     onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
@@ -166,13 +179,13 @@
                             <input name="VLOutput" type="number" min="0" max="100" id="VLOutput" />
                             <div class="ValueControlUnit">
                                 <input type="button"
-                                    onclick="VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))"
+                                    onclick="VLOutput.value = Math.min(Number(VLOutput.value) + 1,100); VLOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { VLOutput.stepUp(); VLOutput.dispatchEvent(new Event('input'))},50)}, 200);"
                                     onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     value="▲" class="ValueControl ValueControlUp" />
                                 <input type="button"
-                                    onclick="VLOutput.stepDown(); VLOutput.dispatchEvent(new Event('input'))"
+                                    onclick="VLOutput.value = Math.max(Number(VLOutput.value) - 1, 0); VLOutput.dispatchEvent(new Event('input'))"
                                     onmousedown="holdTimeout = setTimeout(() => {hold = setInterval(() => { VLOutput.stepDown(); VLOutput.dispatchEvent(new Event('input'))},50)}, 200);"
                                     onmouseup="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
                                     onmouseleave="if (typeof hold != 'undefined') clearInterval(hold); if (typeof holdTimeout != 'undefined') clearTimeout(holdTimeout);"
@@ -184,25 +197,37 @@
             </div>
             <div class="ColorPaletteWraper">
                 <div class="ColorPalette">
-                    <div class="ColorPaletteInput">
-                        <div class="ColorPaletteInputUnit">
-                            <label for="huePalette" class="PaletteHeader">Hue</label>
-                            <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
-                                type="text"></textarea>
+                    <div class="ColorPaletteInput" id="ColorPaletteInput">
+                        <div class="ColorPaletteInputGrid" id="PaletteInputGrid">
+                            <div class="ColorPaletteInputUnit">
+                                <label for="huePalette" class="PaletteHeader">Hue</label>
+                                <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
+                                    type="text"></textarea>
+                            </div>
+
+                            <div class="ColorPaletteInputUnit">
+                                <label for="satPalette" class="PaletteHeader">Saturation</label>
+                                <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
+                                    type="text"></textarea>
+                            </div>
+
+                            <div class="ColorPaletteInputUnit">
+                                <label for="VLPalette" class="PaletteHeader">Value</label>
+                                <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
+                            </div>
                         </div>
 
-                        <div class="ColorPaletteInputUnit">
-                            <label for="satPalette" class="PaletteHeader">Saturation</label>
-                            <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
-                                type="text"></textarea>
-                        </div>
-
-                        <div class="ColorPaletteInputUnit">
-                            <label for="VLPalette" class="PaletteHeader">Value</label>
-                            <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
+                        <div class="ColorPaletteInputList" id="PaletteInputList">
+                            <div class="ColorPaletteInputUnit">
+                                <div class="ColorPaletteInputUnitHeader">
+                                    <label for="paletteList" class="PaletteHeader">Palette</label>
+                                    <button class="paletteListAddGroup" id="addColorGroupButton">+</button>
+                                </div>
+                                <div class="PaletteInput interactable" name="paletteList" id="paletteList" type="text">
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                     <div id="colorPalette" class="ColorPaletteOutput rounded"> </div>
                 </div>
             </div>
