@@ -632,7 +632,7 @@ onresize = () => {
 const listButton = document.getElementById("list");
 
 const listPalette = document.getElementById("PaletteInputList");
-const gridPalette = document.getElementById("PaletteInputGrid");
+const gridPalette = document.getElementById("ColorPaletteGrid");
 
 const colorPaletteInput = document.getElementById("ColorPaletteInput");
 

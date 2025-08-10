@@ -760,10 +760,25 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+#ColorPaletteGrid {
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    box-sizing: border-box;
+    gap: var(--Normal-Spacing);
+
+}
+
 @container ColorPaletteWraper (max-aspect-ratio: 1/1) or (max-width: 110vh) or (max-height: 400px) {
     .ColorPalette {
         flex-direction: column;
     }
+
+    #ColorPaletteGrid {
+        flex-direction: column;
+    }
+
 
     .ColorPaletteInput {
         width: 100%;

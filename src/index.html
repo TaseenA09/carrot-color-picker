@@ -197,38 +197,40 @@
             </div>
             <div class="ColorPaletteWraper">
                 <div class="ColorPalette">
-                    <div class="ColorPaletteInput" id="ColorPaletteInput">
-                        <div class="ColorPaletteInputGrid" id="PaletteInputGrid">
-                            <div class="ColorPaletteInputUnit">
-                                <label for="huePalette" class="PaletteHeader">Hue</label>
-                                <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
-                                    type="text"></textarea>
-                            </div>
+                    <div id="ColorPaletteGrid">
+                        <div class="ColorPaletteInput" id="ColorPaletteInput">
+                            <div class="ColorPaletteInputGrid" id="PaletteInputGrid">
+                                <div class="ColorPaletteInputUnit">
+                                    <label for="huePalette" class="PaletteHeader">Hue</label>
+                                    <textarea class="PaletteInput interactable" name="huePalette" id="huePalette"
+                                        type="text"></textarea>
+                                </div>
 
-                            <div class="ColorPaletteInputUnit">
-                                <label for="satPalette" class="PaletteHeader">Saturation</label>
-                                <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
-                                    type="text"></textarea>
-                            </div>
+                                <div class="ColorPaletteInputUnit">
+                                    <label for="satPalette" class="PaletteHeader">Saturation</label>
+                                    <textarea class="PaletteInput interactable" name="satPalette" id="satPalette"
+                                        type="text"></textarea>
+                                </div>
 
-                            <div class="ColorPaletteInputUnit">
-                                <label for="VLPalette" class="PaletteHeader">Value</label>
-                                <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
+                                <div class="ColorPaletteInputUnit">
+                                    <label for="VLPalette" class="PaletteHeader">Value</label>
+                                    <textarea class="PaletteInput interactable" type="text" id="VLPalette"></textarea>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="ColorPaletteInputList" id="PaletteInputList">
-                            <div class="ColorPaletteInputUnit">
-                                <div class="ColorPaletteInputUnitHeader">
-                                    <label for="paletteList" class="PaletteHeader">Palette</label>
-                                    <button class="paletteListAddGroup" id="addColorGroupButton">+</button>
-                                </div>
-                                <div class="PaletteInput interactable" name="paletteList" id="paletteList" type="text">
-                                </div>
-                            </div>
+                        <div id="colorPalette" class="ColorPaletteOutput rounded"> </div>
+                    </div>
+
+                    <div class="ColorPaletteInputList" id="PaletteInputList">
+                        <div class="ColorPaletteInputUnitHeader">
+                            <label for="paletteList" class="PaletteHeader">Palette</label>
+                            <button class="paletteListAddGroup" id="addColorGroupButton">+</button>
+                        </div>
+                        <div class="PaletteInput interactable" name="paletteList" id="paletteList" type="text">
                         </div>
                     </div>
-                    <div id="colorPalette" class="ColorPaletteOutput rounded"> </div>
+
                 </div>
             </div>
         </div>
