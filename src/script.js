@@ -1,372 +1,17 @@
 import { color, arrayTohex, clamp, hexToArray } from "./colorFunctions/main.js";
-
-let CurrentColorSpace = (document.querySelector('input[name="ColorOption"]:checked') || { value: "okhsv" }).value;
-
-function UpdateButtonsFromColorSpace() {
-  document.querySelectorAll('input[name="ColorOption"]').forEach(option => {
-    option.checked = option.value == CurrentColorSpace;
-  })
-}
-
-UpdateButtonsFromColorSpace();
-
-let startingValue = color.toFunctions[CurrentColorSpace](...hexToArray(window.location.hash));
-
-const ColorWheel = document.getElementById("ColorWheel");
-const ctxColorWheel = ColorWheel.getContext("2d");
-
-ctxColorWheel.imageSmoothingEnabled = true;
-ctxColorWheel.imageSmoothingQuality = 'high';
-
-const ColorWheelWidth = 0.055;
-
-const ModifierBox = document.getElementById("ModifierBox");
-const ModifierBoxCursor = document.getElementById("ModifierBoxCursor");
-
-const CursorCanvas = document.getElementById("ColorWheelCursor");
-
-const ColorOutput = document.getElementById("ColorDisplay");
+import { DoTimeout } from "./scripts/helperFunctions/main.js";
 
 const PaletteButton = document.getElementById("PaletteButton");
-const ColorSelector = document.getElementsByClassName("ColorSelector")[0];
 const ColorPalette = document.getElementsByClassName("ColorPaletteWraper")[0];
-
-const HexOutput = document.getElementById("HexOutput");
-
-var HueAngle = startingValue[0] * 360 || Math.random() * 360;
-var HueAngleCache = -1;
-
-var Saturation = startingValue[1] || Math.random();
-var ValueOrLightness = startingValue[2] || Math.random();
-
-var SaturationCache = Saturation;
-var ValueOrLightnessCache = ValueOrLightness;
-
-const ColorWheelMaxSize = 500;
-
-const DrawTimeOut = 5;
-
-ColorWheel.style.maxWidth = ColorWheelMaxSize + "px";
-ColorWheel.style.maxHeight = ColorWheelMaxSize + "px";
-
-CursorCanvas.style.maxWidth = ColorWheel.style.maxWidth;
-CursorCanvas.style.maxHeight = ColorWheel.style.maxHeight;
-
-function DrawColorWheel(timeoutTime) {
-  timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
-  DoTimeout("ColorWheel", () => {
-    if (ColorSelector.style.display == "none") {
-      return
-    }
-
-    ctxColorWheel.clearRect(0, 0, ColorWheel.width, ColorWheel.height);
-
-    const dpr = window.devicePixelRatio || 1;
-
-    const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
-    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20;
-
-    ColorWheel.height = colorWheelBoundingBox.height * dpr;
-    ColorWheel.width = colorWheelBoundingBox.width * dpr;
-
-    ctxColorWheel.scale(dpr, dpr);
-
-    const colorWheelCenter = {
-      x: colorWheelBoundingBox.width / 2,
-      y: colorWheelBoundingBox.height / 2
-    };
-
-    const colorWheelGradient = ctxColorWheel.createConicGradient(-Math.PI * 0.5, colorWheelCenter.x, colorWheelCenter.y);
-
-    for (let angle = 0; angle <= 360; angle++) {
-      colorWheelGradient.addColorStop(angle / 360, arrayTohex(color.fromFunctions[CurrentColorSpace](angle, Saturation, ValueOrLightness)));
-    }
-
-    ctxColorWheel.beginPath();
-    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize, 0, Math.PI * 2);
-
-    const colorWidth = ColorWheelWidth * Math.min(colorWheelBoundingBox.height, colorWheelBoundingBox.width);
-
-    ctxColorWheel.strokeStyle = "#00000030";
-    ctxColorWheel.lineWidth = colorWidth + 3;
-    ctxColorWheel.stroke()
-
-    ctxColorWheel.strokeStyle = colorWheelGradient;
-    ctxColorWheel.lineWidth = colorWidth;
-    ctxColorWheel.stroke();
-
-    ctxColorWheel.beginPath();
-    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), 0, Math.PI * 2);
-    ctxColorWheel.strokeStyle = "#ffffff30";
-    ctxColorWheel.lineWidth = 2;
-    ctxColorWheel.stroke();
-
-    ctxColorWheel.beginPath();
-    ctxColorWheel.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), 0, Math.PI * 2);
-    ctxColorWheel.strokeStyle = "#ffffff30";
-    ctxColorWheel.lineWidth = 2;
-
-    ctxColorWheel.stroke();
-
-    HueAngleCache = HueAngle;
-  }, timeoutTime);
-}
-
-const WheelCursorSize = 2;
-
-function DrawCursor() {
-  if (ColorSelector.style.display == "none") {
-    return
-  }
-
-  const ctxCursor = CursorCanvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-
-  ctxCursor.clearRect(0, 0, CursorCanvas.width, CursorCanvas.height);
-
-  ctxCursor.beginPath();
-
-  const colorWheelBoundingBox = CursorCanvas.getBoundingClientRect();
-  const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20;
-  const colorWheelCenter = {
-    x: colorWheelBoundingBox.width / 2,
-    y: colorWheelBoundingBox.height / 2
-  };
-
-  CursorCanvas.height = colorWheelBoundingBox.height * dpr;
-  CursorCanvas.width = colorWheelBoundingBox.width * dpr;
-
-  ctxCursor.scale(dpr, dpr);
-
-  const colorWidth = ColorWheelWidth * Math.min(colorWheelBoundingBox.height, colorWheelBoundingBox.width);
-  const wheelSize = WheelCursorSize
-  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize - ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), true)
-  ctxCursor.arc(colorWheelCenter.x, colorWheelCenter.y, colorWheelSize + ((colorWidth / 2) - 1), ((Math.PI / 180) * (HueAngle - 90 - wheelSize)), ((Math.PI / 180) * (HueAngle - 90 + wheelSize)), false)
-  ctxCursor.closePath();
-
-  ctxCursor.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace.slice(0, -1) + "v"](HueAngle, 1, 1));
-
-
-  ctxCursor.lineWidth = 6 / dpr;
-  ctxCursor.strokeStyle = "#000000a0";
-
-  ctxCursor.stroke();
-
-  ctxCursor.strokeStyle = "#ffffffa0";
-
-  ctxCursor.lineWidth = 4 / dpr;
-
-  ctxCursor.stroke();
-
-  ctxCursor.fill();
-
-
-}
-
-const ModifierBoxPadding = 8;
-const ModifierBoxBorder = 4;
-
-function DrawModifierBox(timeoutTime) {
-  timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
-  DoTimeout("ModifierBox", () => {
-    const dpr = window.devicePixelRatio || 1;
-
-    const ctxModifierBox = ModifierBox.getContext("2d");
-    ctxModifierBox.clearRect(0, 0, ModifierBox.width, ModifierBox.height);
-
-    const colorWheelBoundingBox = ColorWheel.getBoundingClientRect();
-    const colorWheelSize = (Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2) - 20 - (ColorWheelWidth * Math.min(colorWheelBoundingBox.width, colorWheelBoundingBox.height) / 2);
-
-    const largestSize = (colorWheelSize * Math.sqrt(2)) - ModifierBoxBorder;
-
-    ModifierBox.height = (largestSize - ModifierBoxPadding);
-    ModifierBox.width = (largestSize - ModifierBoxPadding);
-
-    ModifierBox.style.height = ModifierBox.height + "px";
-    ModifierBox.style.width = ModifierBox.width + "px";
-
-    ctxModifierBox.scale(dpr, dpr);
-
-    ctxModifierBox.fillStyle = "#00000030";
-    ctxModifierBox.fillRect(0, 0, ModifierBox.height, ModifierBox.width);
-
-    const colorArea = {
-      height: ModifierBox.height - ModifierBoxBorder,
-      width: ModifierBox.width - ModifierBoxBorder
-    }
-
-    const imageData = ctxModifierBox.createImageData(colorArea.width, colorArea.height);
-    const data = imageData.data;
-
-    for (let y = 0; y <= colorArea.height; y++) {
-      for (let x = 0; x < colorArea.width; x++) {
-        var colorRequired = color.fromFunctions[CurrentColorSpace](HueAngle, x / colorArea.width, 1 - y / colorArea.height);
-        var pixelIndex = ((y * colorArea.width) + x) * 4;
-
-        data[pixelIndex] = colorRequired[0];
-        data[pixelIndex + 1] = colorRequired[1];
-        data[pixelIndex + 2] = colorRequired[2];
-        data[pixelIndex + 3] = 255;
-      }
-    }
-
-    ctxModifierBox.putImageData(imageData, ModifierBoxBorder / 2, ModifierBoxBorder / 2);
-  }, timeoutTime);
-}
-
-const ModifierBoxCursorWidth = 0.1;
-const ModifierBoxCursorStroke = 4;
-
-function DrawModifierBoxCursor() {
-  const dpr = window.devicePixelRatio || 1;
-
-  const ctxCursorBox = ModifierBoxCursor.getContext("2d");
-
-  ModifierBoxCursor.height = ModifierBox.height;
-  ModifierBoxCursor.width = ModifierBox.width;
-
-  ModifierBoxCursor.style.height = ModifierBox.height + "px";
-  ModifierBoxCursor.style.width = ModifierBox.width + "px";
-
-  ModifierBoxCursor.getContext("2d").scale(dpr, dpr);
-
-  ctxCursorBox.clearRect(0, 0, ModifierBoxCursor.width / dpr, ModifierBoxCursor.height / dpr);
-
-  ctxCursorBox.beginPath();
-
-  let border = ModifierBoxBorder / 2
-
-  const cursorWidth = ModifierBoxCursorWidth * ModifierBoxCursor.width;
-
-  ctxCursorBox.rect(
-    (((ModifierBoxCursor.width - ModifierBoxBorder - cursorWidth) * Saturation) + border + ModifierBoxCursorStroke / 2) / dpr,
-    (((ModifierBoxCursor.height - ModifierBoxBorder - cursorWidth) * (1 - ValueOrLightness)) + border + ModifierBoxCursorStroke / 2) / dpr,
-    (cursorWidth - (ModifierBoxCursorStroke)) / dpr,
-    (cursorWidth - (ModifierBoxCursorStroke)) / dpr,
-  );
-
-  ctxCursorBox.strokeStyle = "#000000a0";
-  ctxCursorBox.lineWidth = 6 / dpr;
-  ctxCursorBox.stroke();
-
-  ctxCursorBox.strokeStyle = "#ffffffa0";
-  ctxCursorBox.lineWidth = 3 / dpr;
-  ctxCursorBox.stroke();
-
-  ctxCursorBox.fillStyle = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, Saturation, ValueOrLightness));
-
-  ctxCursorBox.fill();
-}
-
-let TimeoutsArray = []
-let TimeoutOverflowArray = []
-
-const TimeoutOverflowMax = 15;
-
-function DoTimeout(TimeoutId, funtionToDo, timeToWait) {
-  TimeoutOverflowArray[TimeoutId] = isNaN(TimeoutOverflowArray[TimeoutId]) ? 0 : TimeoutOverflowArray[TimeoutId];
-
-  clearTimeout(TimeoutsArray[TimeoutId]);
-
-  if (TimeoutOverflowArray[TimeoutId] >= TimeoutOverflowMax || timeToWait == 0) {
-    funtionToDo();
-    TimeoutOverflowArray[TimeoutId] = 0;
-  } else {
-    TimeoutsArray[TimeoutId] = setTimeout(() => { funtionToDo(); TimeoutOverflowArray[TimeoutId] = 0; }, timeToWait);
-  }
-
-  TimeoutOverflowArray[TimeoutId] += 1;
-}
-
-
-const VLOutputLabel = document.querySelector('label[for="VLOutput"]');
-const VLPaletteLabel = document.querySelector('label[for="VLPalette"]');
-
-let outputTick = 0;
-let hashTimeout;
-
-function UpdateColorOutput() {
-  const requiredColor = arrayTohex(color.fromFunctions[CurrentColorSpace](HueAngle, Saturation, ValueOrLightness));
-
-  clearTimeout(hashTimeout);
-  hashTimeout = setTimeout(() => {
-    history.replaceState(null, null, `${requiredColor}`);
-    outputTick = 0;
-  }, 20);
-
-  outputTick += 1;
-
-  if (outputTick > 15000) {
-    history.replaceState(null, null, `${requiredColor}`);
-    outputTick = 0;
-  }
-
-  ColorOutput.style.backgroundColor = requiredColor;
-  HexOutput.value = requiredColor;
-
-
-  if (CurrentColorSpace == "hsl" || CurrentColorSpace == "okhsl") {
-    VLOutputLabel.innerHTML = "Lightness";
-    VLPaletteLabel.innerHTML = "Lightness";
-  } else {
-    VLOutputLabel.innerHTML = "Value";
-    VLPaletteLabel.innerHTML = "Value";
-  }
-}
-
 
 function Update(timeoutTime) {
   timeoutTime = isNaN(timeoutTime) ? DrawTimeOut : timeoutTime;
   DoTimeout("UniversalUpdate", () => {
-    DrawColorWheel(timeoutTime);
-    DrawCursor();
-    DrawModifierBox(timeoutTime);
-    DrawModifierBoxCursor();
+    DrawListPalette();
     UpdateColorOutput();
   }, timeoutTime);
 }
 
-var Mouse = { x: null, y: null }
-
-function GetAngleCursorFromItem(item) {
-  const itemBox = item.getBoundingClientRect();
-  const itemCenter = { x: itemBox.left + itemBox.width / 2, y: itemBox.top + itemBox.height / 2 };
-
-  return Math.atan2(Mouse.y - itemCenter.y, Mouse.x - itemCenter.x) * (180 / Math.PI);
-}
-
-
-const hueTextOutput = document.getElementById("HueOutput");
-const vlTextOutput = document.getElementById("VLOutput");
-const satTextOutput = document.getElementById("SaturationOutput");
-
-function roundValue(_value) {
-  const _ROUNDING = 10;
-
-  return Math.round(_value * _ROUNDING) / _ROUNDING;
-}
-
-hueTextOutput.value = roundValue(HueAngle);
-vlTextOutput.value = roundValue(ValueOrLightness * 100);
-satTextOutput.value = roundValue(Saturation * 100);
-
-function UpdateSandVL() {
-  const modifierBoundingBox = ModifierBox.getBoundingClientRect();
-  let modifierBoxOneSide = ModifierBoxBorder / 2
-
-  Saturation = roundValue(clamp((Mouse.x - (modifierBoundingBox.x + modifierBoxOneSide)) / (modifierBoundingBox.width - ModifierBoxBorder), 0, 1) * 100) / 100;
-  ValueOrLightness = roundValue((1 - clamp((Mouse.y - (modifierBoundingBox.y + modifierBoxOneSide)) / (modifierBoundingBox.height - ModifierBoxBorder), 0, 1)) * 100) / 100;
-
-  vlTextOutput.value = roundValue(ValueOrLightness * 100);
-  satTextOutput.value = roundValue(Saturation * 100);
-}
-
-function UpdateHue() {
-  HueAngle = roundValue((GetAngleCursorFromItem(ColorWheel) + 90) * 1) / 1;
-  HueAngle = HueAngle < 0 ? HueAngle + 360 : HueAngle;
-
-  hueTextOutput.value = roundValue(HueAngle);
-}
 
 var MouseDownWheel = false;
 
@@ -427,8 +72,6 @@ ColorWheel.onmousedown = function(event) {
 ColorWheel.addEventListener("touchstart", ColorWheel.onmousedown)
 
 ModifierBox.onmousedown = function(event) {
-  Mouse.x = event.clientX ?? event.touches[0].clientX;
-  Mouse.y = event.clientY ?? event.touches[0].clientY;
 
   MouseDownBox = true;
   ModifierBoxUpdate();
@@ -716,7 +359,7 @@ function createHTMLElement(type, parent, classname) {
   return element;
 }
 
-function DrawColorItem(Item, colorGroup) {
+function DrawColorItem(_idx, colorGroup, groupColors) {
   var _color = document.createElement("div");
 
   colorGroup.append(_color);
@@ -724,6 +367,20 @@ function DrawColorItem(Item, colorGroup) {
 
   _color.draggable = true;
 
+  let Item = groupColors[_idx];
+
+  if (Item.Name == undefined) {
+    Item.Name = "Color"
+  }
+
+  if (Item.Color == undefined) {
+    Item.Color = [roundValue(Math.random() * 360), roundValue(Math.random() * 100), roundValue(Math.random() * 100)]
+    Item.ColorType = "HUE"
+  }
+
+  if (Item.ColorType == undefined) {
+    Item.ColorType = "HUE"
+  }
 
   var colorName = document.createElement("input");
   colorName.value = Item.Name;
@@ -735,6 +392,36 @@ function DrawColorItem(Item, colorGroup) {
 
   var _addItemAbove = createHTMLElement("button", _color, ["colorItemAddInput", "colorItemAddAbove"])
   var _addItemBelow = createHTMLElement("button", _color, ["colorItemAddInput", "colorItemAddBelow"])
+
+  function addItemToWithOffset(_offset) {
+    let color = {};
+    color.ColorType = "HUE";
+    if ((_idx == 0 && _offset == 0) || (_idx == groupColors.length - 1 && _offset == 1)) {
+      color.Color = [
+        (Item.Color[0] + 36) % 360,
+        Item.Color[1],
+        Item.Color[2]
+      ]
+    } else {
+      let itemOffsetSize = -1 + (_offset * 2)
+
+      function lerp(a, b, t) {
+        return roundValue(a + (t * (b - a)))
+      }
+
+      color.Color = []
+
+      for (let colori = 0; colori < Item.Color.length; colori++) {
+        console.log(_idx + itemOffsetSize, _offset)
+        color.Color[colori] = lerp(Item.Color[colori], groupColors[_idx + itemOffsetSize].Color[colori], 0.5)
+      }
+    }
+    groupColors.splice(_idx + _offset, 0, color);
+    DrawListPalette();
+  }
+
+  _addItemAbove.addEventListener("click", () => addItemToWithOffset(0));
+  _addItemBelow.addEventListener("click", () => addItemToWithOffset(1));
 
   colorName.addEventListener("change", update_color_name);
   colorName.addEventListener("blur", update_color_name);
@@ -844,6 +531,66 @@ function DrawColorItem(Item, colorGroup) {
   attachItem(valElement, 2, 0, 100);
 
   attachItem(hexElement);
+
+  let _moveHighlight = createHTMLElement("div", _color, "colorItemSelectionHighlight")
+
+  let addAbove = false;
+  let addMiddle = false;
+
+  function updateDrag(ev) {
+    let selfBoudingBox = _color.getBoundingClientRect();
+    let yPos = (ev.clientY - selfBoudingBox.y) / selfBoudingBox.height
+
+    _moveHighlight.style.display = "block";
+
+    addMiddle = false;
+    _moveHighlight.style.transform = ""
+    _moveHighlight.style.width = "100%";
+    _moveHighlight.style.height = "45%";
+    _moveHighlight.style.left = "";
+    _moveHighlight.style.top = "";
+
+    if (yPos < 0.33) {
+      _moveHighlight.style.top = 0;
+      addAbove = true;
+    } else if (yPos > (1 - 0.33)) {
+      _moveHighlight.style.top = "100%";
+      _moveHighlight.style.transform = "translateY(-100%)"
+      addAbove = false;
+    } else {
+      addMiddle = true;
+      _moveHighlight.style.top = "50%";
+      _moveHighlight.style.left = "50%";
+      _moveHighlight.style.transform = "translate(-50%,-50%)"
+      _moveHighlight.style.width = "90%";
+      _moveHighlight.style.height = "75%";
+    }
+  }
+
+  let dragged = false;
+  _color.addEventListener('dragstart', (e) => {
+    dragged = true;
+  });
+
+  _color.addEventListener("dragover", (ev) => {
+
+    if (dragged == true) {
+      return
+    }
+
+    ev.preventDefault();
+
+    updateDrag(ev);
+  })
+
+  _color.addEventListener("dragleave", (ev) => {
+    _moveHighlight.style.display = "none"
+  })
+
+  document.addEventListener('dragend', (ev) => {
+    _moveHighlight.style.display = "none";
+    dragged = false;
+  })
 }
 
 function DrawColorGroup(groupItem) {
@@ -875,7 +622,7 @@ function DrawColorGroup(groupItem) {
   }
 
   for (let colorIdx = 0; colorIdx < groupItem.Colors.length; colorIdx++) {
-    DrawColorItem(groupItem.Colors[colorIdx], colorGroup);
+    DrawColorItem(colorIdx, colorGroup, groupItem.Colors);
   }
 }
 

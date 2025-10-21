@@ -1213,3 +1213,20 @@ footer a:hover {
 footer a img {
     height: 100%;
 }
+
+/* I have lost the plot, imma fix this later for now just getting all the features in here*/
+
+.colorItemSelectionHighlight {
+    position: absolute;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    width: 100%;
+    height: 50%;
+    background-color: color-mix(in srgb, var(--Normal-Accent) 80%, transparent);
+    outline: 2px solid var(--Normal-Background);
+    border-radius: 1px;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    display: none;
+}
