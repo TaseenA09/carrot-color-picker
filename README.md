@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository has been moved to <a href="https://gitlab.com/TaseenA09/carrot-color-picker">gitlab</a>.
+
 # carrot-color-picker
 <div align="center" style="margin-top: 20px;margin-bottom: 30px">
 <img style="height:256px;" src="https://github.com/TaseenA09/carrot-color-picker/blob/main/icons/iconcolor.svg"/>
